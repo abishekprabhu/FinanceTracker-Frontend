@@ -1,0 +1,44 @@
+<nz-layout>
+  <nz-sider nzCollapsible [(nzCollapsed)]="isCollapsed" [nzTrigger]="null">
+      <div class="logo">
+          <img src="../assets/img/image.png" alt="Avatar" class="avatar">
+      </div>
+      <ul nz-menu nzTheme="dark" nzMode="inline">
+      <li nz-menu-item 
+      routerLink="/login">
+        <span nz-icon nzType="login"></span>
+        <span>login</span>
+      </li>
+      <li nz-menu-item 
+      routerLink="/signup">
+        <span nz-icon nzType="link" nzTheme="outline"></span>
+        <span>signup</span>
+      </li>
+    </ul>
+  </nz-sider>
+  <nz-layout>
+    <!-- header -->
+    <nz-header>
+      <span
+        class="trigger"
+        nz-icon
+        [nzType]="isCollapsed ? 'menu-unfold' : 'menu-fold'"
+        (click)="isCollapsed = !isCollapsed"
+      ></span>
+      <div class="user-info link--kale" routerLink="/home">
+          <strong>FINANCE TRACKER</strong>
+        </div>
+    </nz-header>
+    <!-- body -->
+    <nz-content>
+      <!-- <nz-breadcrumb>
+        <nz-breadcrumb-item>User</nz-breadcrumb-item>
+      </nz-breadcrumb> -->
+      <div class="inner-content">
+          <router-outlet></router-outlet>
+      </div>
+    </nz-content>
+    <!-- footer -->
+    <nz-footer></nz-footer>
+  </nz-layout>
+ </nz-layout>
