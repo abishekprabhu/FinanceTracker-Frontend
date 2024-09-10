@@ -6,11 +6,14 @@
 }
 .bg{
     background-image: url(../img/layered-waves-haikei.png);
+    background-size: cover; /* Cover the entire background */
+    background-position: center;
     width: 100%;
     height: 100vh;
-    
-    overflow : auto;
+    overflow: auto;
+    position: relative;
 }
+
 .child {
     padding: 50px;
     position: absolute;

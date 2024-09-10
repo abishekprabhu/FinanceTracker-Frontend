@@ -38,7 +38,7 @@ function confirmPasswordValidator(control: AbstractControl): { [key: string]: bo
 export class SignupComponent implements OnInit {
   signupForm: FormGroup;
   passwordVisible = false;
-
+  isSpinning : boolean = false; 
   constructor(private fb: FormBuilder) {
     this.signupForm = this.fb.group({
       name: ['', [Validators.required, Validators.maxLength(15), Validators.minLength(6), Validators.pattern(/^[a-zA-Z ]*$/)]],
@@ -64,6 +64,7 @@ validateNumber(event: KeyboardEvent): boolean {
   onSubmit(): void {
     if (this.signupForm.valid) {
       // Handle form submission here
+      this.isSpinning = true;
       console.log('Form Submitted', this.signupForm.value);
     }
   }

@@ -7,12 +7,12 @@
       <li nz-menu-item 
       routerLink="/login">
         <span nz-icon nzType="login"></span>
-        <span>login</span>
+        <span>Login</span>
       </li>
       <li nz-menu-item 
       routerLink="/signup">
-        <span nz-icon nzType="link" nzTheme="outline"></span>
-        <span>signup</span>
+      <span nz-icon nzType="logout"></span>
+        <span>Signup</span>
       </li>
     </ul>
   </nz-sider>
@@ -25,6 +25,11 @@
         [nzType]="isCollapsed ? 'menu-unfold' : 'menu-fold'"
         (click)="isCollapsed = !isCollapsed"
       ></span>
+      <span>
+      <img src="https://cdn-icons-png.flaticon.com/128/781/781760.png"
+               alt="img" style="width: 60px;"
+               class="logo">
+        </span>
       <div class="user-info link--kale" routerLink="/home">
           <strong>FINANCE TRACKER</strong>
         </div>

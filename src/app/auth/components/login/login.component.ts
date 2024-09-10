@@ -9,6 +9,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 export class LoginComponent implements OnInit{
   loginForm: FormGroup;
   passwordVisible = false;
+  isSpinning : boolean = false;
 
   constructor(private fb: FormBuilder) {
     this.loginForm = this.fb.group({      
@@ -24,6 +25,7 @@ export class LoginComponent implements OnInit{
   onSubmit(): void {
     if (this.loginForm.valid) {
       // Handle form submission here
+      this.isSpinning = true;
       console.log('Form Submitted', this.loginForm.value);
     }
   }
