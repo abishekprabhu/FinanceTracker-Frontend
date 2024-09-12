@@ -16,6 +16,7 @@ import { DemoNgZorroAntdModule } from './DemoNgZorroAntdModule';
 import { SiderComponent } from './sider/sider/sider.component';
 import { HomeComponent } from './sider/home/home.component';
 import { LoginComponent } from './auth/components/login/login.component';
+import { UserComponent } from './modules/User/component/user/user.component';
 
 registerLocaleData(en);
 
@@ -25,7 +26,8 @@ registerLocaleData(en);
     SignupComponent,
     SiderComponent,
     HomeComponent,
-    LoginComponent
+    LoginComponent,
+    UserComponent
   ],
   imports: [
     BrowserModule,
