@@ -14,9 +14,10 @@
   display: flex;
   align-items: center;
   height: 60;
+  cursor: pointer;
   /* background: rgba(255, 255, 255, 0.2); */
   margin: 16px;
-  padding: 0 16px;
+  padding: 0 8px;
   color: white;
 }
 
@@ -87,14 +88,17 @@ nz-header {
 }
 
 nz-content {
-  padding-top: 70px;
+  position: relative;
+  padding-top: 65px;
   margin: 0 16px;
 }
 
 .inner-content {
   padding: 24px;
   background: #fff;
-  height: 100vh;
+  width: auto;
+  margin-left: 60px;
+  /* height: 100vh; */
 }
 
 nz-footer {
@@ -121,4 +125,20 @@ ul[nz-menu] li[nz-menu-item] span {
 /* Text color change on hover */
 ul[nz-menu] li[nz-menu-item]:hover span {
   color: white;
+}
+
+nz-sider {
+  margin-top: 65px;
+  position: fixed;
+  overflow: auto;
+  z-index: 1;
+  /* width: auto; */
+  height: 100vh;
+}
+
+/* Position the logout button at the bottom */
+.logout-button {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
 }

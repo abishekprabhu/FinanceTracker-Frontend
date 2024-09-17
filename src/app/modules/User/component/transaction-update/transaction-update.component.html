@@ -1,0 +1,42 @@
+<nz-card nzType="inner" style="margin-top: 16px;" nzTitle="Post new transaction">
+    <form nz-form [formGroup]="transactionUpdateForm" (ngSubmit)="updateTransaction()" class="custom-form">
+        <nz-form-item>
+            <nz-form-control>
+                <textarea nz-input placeholder="Enter description" [nzAutosize]="{minRows: 2 , maxRows: 6}"
+                formControlName="description" ></textarea>
+            </nz-form-control>
+        </nz-form-item>
+        <nz-form-item>
+            <nz-form-control nzErrorTip="Please input the amount!">
+                <input type="number" nz-input formControlName="amount" placeholder="Enter amount">
+            </nz-form-control>
+        </nz-form-item>
+        <nz-form-item>
+            <nz-form-control nzErrorTip="Please input the date!">
+                <nz-date-picker style="width: 100%;" formControlName="date"></nz-date-picker>
+            </nz-form-control>
+        </nz-form-item>
+        <nz-form-item nzErrorTip="Please input the category!">
+                <nz-form-control>
+                    <nz-select nzAllowClear  nzPlaceHolder="select the category" formControlName="categoryId">
+                        <nz-option *ngFor="let category of categories" 
+                        [nzLabel]="category.name"
+                        [nzValue]="category.id">
+                    </nz-option>
+                    </nz-select>
+                </nz-form-control>
+        </nz-form-item>
+        <nz-form-item nzErrorTip="Please input the Transaction Type 'transaction OR EXPENSE' !">
+            <nz-form-control>
+                <nz-select nzAllowClear  nzPlaceHolder="select the Transaction Type" formControlName="type">
+                    <nz-option *ngFor="let transaction of listOfTransaction" [nzLabel]="transaction"
+                    [nzValue]="transaction">
+                </nz-option>
+                </nz-select>
+            </nz-form-control>
+    </nz-form-item>
+            <button nz-button nzType="primary" nzBlock [disabled]="transactionUpdateForm.invalid" class="w-100">
+                Post Transaction
+            </button>
+    </form>
+</nz-card>

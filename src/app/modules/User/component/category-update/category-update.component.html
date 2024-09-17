@@ -1,0 +1,13 @@
+
+<div class="container mt-5 col-md-6">
+    <h2 class="text-center">Update Category</h2>
+    <form [formGroup]="updateForm" (ngSubmit)="onSubmit()">
+      <div class="mb-4">
+        <label for="name" class="form-label">Name</label>
+        <input type="name" id="name" class="form-control" formControlName="name">
+      </div>
+        
+      <button type="submit" class="btn btn-success p-2" style="margin-right: 10px;">Update<span class="p-2" nz-icon nzType="send" nzTheme="outline"></span></button>
+      <button type="submit" class="btn btn-warning p-2" routerLink="/user/category"><span class="p-2" nz-icon nzType="close" nzTheme="outline"></span>Cancel</button>
+    </form>
+  </div>

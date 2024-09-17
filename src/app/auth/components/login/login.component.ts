@@ -3,6 +3,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { AuthService } from '../../services/auth/auth.service';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { Router } from '@angular/router';
+import { StorageService } from '../../services/storage/storage.service';
 
 @Component({
   selector: 'app-login',
@@ -31,21 +32,29 @@ export class LoginComponent implements OnInit{
 
   onSubmit(): void {
     if (this.loginForm.valid) {
-      // Handle form login here
       this.isSpinning = true;
-      console.log('Form Submitted', this.loginForm.value);
       this.authService.login(this.loginForm.value).subscribe({
-        next:(res)=> {
-          this.message.success("Sign up Successful!",{nzDuration:5000});
-          console.log(res);
-          this.router.navigateByUrl("/user/dashboard");
+        next: (res) => {
+          if (res.id != null) {
+            const user = res;
+            StorageService.saveUser(user);
+            this.message.success("Login Successful!", { nzDuration: 5000 });
+          }
+          if (StorageService.isCustomerLoggedIn()) {
+            console.log("Navigating to dashboard"); // Debugging line
+            this.router.navigateByUrl("/user/dashboard");
+          }
         },
-        error:(err) => {
+        error: (err) => {
           this.message.error(`Login Unsuccessful.\n ${err.message}`, { nzDuration: 5000 });
+          this.isSpinning = false; 
+        },
+        complete: () => {
+          this.isSpinning = false;  // Ensure spinner stops after completion
         }
-      })
-      this. isSpinning = false;
+      });
     }
   }
+  
 
 }

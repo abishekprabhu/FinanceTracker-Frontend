@@ -1,5 +1,5 @@
 <nz-layout>
-  <nz-sider nzCollapsible [(nzCollapsed)]="isCollapsed" [nzTrigger]="null">
+  <!-- <nz-sider nzCollapsible [(nzCollapsed)]="isCollapsed" [nzTrigger]="null">
       <div class="logo">
           <img src="../assets/img/image.png" alt="Avatar" class="avatar">
       </div>
@@ -7,12 +7,74 @@
       <li nz-menu-item 
       routerLink="/login">
         <span nz-icon nzType="login"></span>
-        <span>Login</span>
+        <span class="text-uppercase" style="font-weight: bold;">Login</span>
+      </li>
+      <li nz-menu-item 
+      routerLink="/signup">
+      <span nz-icon nzType="logout"></span>
+        <span class="text-uppercase" style="font-weight: bold;" >Signup</span>
+      </li>
+    </ul>
+
+    <ul nz-menu nzTheme="dark" nzMode="inline">
+      <li nz-menu-item 
+      routerLink="/user/category">
+      <span class="material-symbols-outlined p-1 mr-2">
+        category_search
+        </span>
+        <span class="text-uppercase" style="font-weight: bold;">Category</span>
       </li>
       <li nz-menu-item 
       routerLink="/signup">
       <span nz-icon nzType="logout"></span>
         <span>Signup</span>
+      </li>
+    </ul>
+  </nz-sider> -->
+      <!-- <div class="logo">
+        <img src="../assets/img/image.png" alt="Avatar" class="avatar">
+    </div> -->
+  <nz-sider nzCollapsible [(nzCollapsed)]="isCollapsed" [nzTrigger]="null">
+    <ul nz-menu nzTheme="dark" nzMode="inline">
+      <!-- Show Login and Signup if user is not logged in -->
+      <li *ngIf="!isLoggedIn" nz-menu-item routerLink="/login">
+        <span nz-icon nzType="login"></span>
+        <span>Login</span>
+      </li>
+      <li *ngIf="!isLoggedIn" nz-menu-item routerLink="/signup">
+        <span nz-icon nzType="user-add"></span>
+        <span>Signup</span>
+      </li>
+
+      <!-- Show Dashboard, Category, Expense, etc. if user is logged in -->
+      <li *ngIf="isLoggedIn" nz-menu-item routerLink="/user/dashboard">
+        <span nz-icon nzType="dashboard"></span>
+        <span>Dashboard</span>
+      </li>
+      <li *ngIf="isLoggedIn" nz-menu-item routerLink="/user/category">
+        <span nz-icon nzType="appstore-add"></span>
+        <span>Category</span>
+      </li>
+      <li *ngIf="isLoggedIn" nz-menu-item routerLink="/user/expense">
+        <span nz-icon nzType="minus-circle"></span>
+        <span>Expense</span>
+      </li>
+      <li *ngIf="isLoggedIn" nz-menu-item routerLink="/user/income">
+        <span nz-icon nzType="plus-circle"></span>
+        <span>Income</span>
+      </li>
+      <li *ngIf="isLoggedIn" nz-menu-item routerLink="/user/transaction">
+        <span nz-icon nzType="transaction"></span>
+        <span>Transaction</span>
+      </li>
+      <li style="margin-top: 220px;" *ngIf="isLoggedIn"
+       class="logo" routerLink="/user/settings/{{user.id}}/edit">
+          <img src="../assets/img/image.png" alt="Avatar" class="avatar">
+      </li>
+      <!-- Logout button when user is logged in -->
+      <li *ngIf="isLoggedIn" nz-menu-item (click)="signout()">
+        <span nz-icon nzType="logout"></span>
+        <span>Logout</span>
       </li>
     </ul>
   </nz-sider>

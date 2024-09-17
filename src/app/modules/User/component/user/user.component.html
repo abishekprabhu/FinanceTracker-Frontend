@@ -1,1 +1,51 @@
-<p>user works!</p>
+<div>
+    <div nz-row>
+        <h6 nz-card-grid nzSpan="8" nz-col [ngStyle]="gridStyle">Balance:
+            <span style="color:slateblue;">${{stats?.balance}}</span>
+        </h6>
+        <h6 nz-card-grid nzSpan="8" nz-col [ngStyle]="gridStyle">Total Income:
+            <span style="color:green;">${{stats?.income}}</span>
+        </h6>
+        <h6 nz-card-grid nzSpan="8" nz-col [ngStyle]="gridStyle">Expense:
+            <span style="color:red;">${{stats?.expense}}</span>
+        </h6>        
+    </div>
+    <div nz-row style="margin-top: 20px;">
+        <div nz-col nzFlex="1 1 200px">
+            <nz-card nzType="inner" nzTitle="Income Charts">
+               <canvas *ngIf="isBrowser" #incomeLineChartRef></canvas>
+            </nz-card>
+        </div>
+        <div nz-col nzFlex="0 1 300px" style="margin-left:15px">
+            <nz-card nzType="inner" nzTitle="Recent History">
+                <div nz-card-grid style="width:100%;">
+                    <span style="color: green;">+{{stats?.latestIncome?.amount}} {{stats?.latestIncome?.description}}</span>
+                </div>
+                <div nz-card-grid style="width:100%;">
+                    <span style="color: red;">+{{stats?.latestExpense?.amount}} {{stats?.latestExpense?.description}}</span>
+                </div>
+            </nz-card>
+            <nz-card nzType="inner" nzTitle="Income">
+                <div nz-row>
+                    <div nz-col nzXs="2" nzSm="4" nzMd="6" nzLg="8" nzXl="10">Minimum: {{stats?.minIncome}}</div>
+                    <div nz-col nzXs="20" nzSm="16" nzMd="12" nzLg="8" nzXl="4"></div>
+                    <div nz-col nzXs="2" nzSm="4" nzMd="6" nzLg="8" nzXl="10">Maximum: {{stats?.maxIncome}}</div>
+                </div>
+            </nz-card>
+            <nz-card nzType="inner" nzTitle="Expense">
+                <div nz-row>
+                    <div nz-col nzXs="2" nzSm="4" nzMd="6" nzLg="8" nzXl="10">Minimum: {{stats?.minExpense}}</div>
+                    <div nz-col nzXs="20" nzSm="16" nzMd="12" nzLg="8" nzXl="4"></div>
+                    <div nz-col nzXs="2" nzSm="4" nzMd="6" nzLg="8" nzXl="10">Maximum: {{stats?.maxExpense}}</div>
+                </div>
+            </nz-card>
+        </div>
+    </div>
+    <div nz-row style="margin-top: 20px;">
+        <div nz-col nzFlex="1 1 200px">
+            <nz-card nzType="inner" nzTitle="Expense Chart">
+                <canvas *ngIf="isBrowser" #expenseLineChartRef></canvas>    
+            </nz-card>
+        </div>
+    </div>
+</div>

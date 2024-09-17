@@ -1,0 +1,45 @@
+/* unauthorized.component.css */
+.unauthorized-container {
+    position: relative;
+    text-align: center;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-image: url('https://img.freepik.com/free-vector/401-error-unauthorized-concept-illustration_114360-5531.jpg?size=626&ext=jpg&ga=GA1.1.1142739255.1724906127&semt=ais_hybrid');
+    /* background-size: cover; */
+    background-repeat: no-repeat;
+    background-position: center;
+  }
+  
+  .unauthorized-content {
+    position: relative;
+    background-color: rgba(255, 255, 255, 0.6); /* Add slight transparency */
+    padding: 20px;
+    border-radius: 10px;
+  }
+  
+  .unauthorized-container h1 {
+    font-size: 3rem;
+    color: #ff4d4f;
+  }
+  
+  .unauthorized-container p {
+    font-size: 1.5rem;
+    color: #333;
+  }
+  
+  .unauthorized-container a {
+    font-size: 1.5rem;
+    color: red; 
+    /* color: #1890ff; */
+    /* font-weight: bold; */
+    padding-left: 25px;
+    text-decoration: underline;
+    transition: color 0.3s ease-in-out; /* Smooth transition effect */
+  }
+  
+  .unauthorized-container a:hover {
+    color: rgb(15, 29, 184); /* Color change on hover */
+  }
+  
