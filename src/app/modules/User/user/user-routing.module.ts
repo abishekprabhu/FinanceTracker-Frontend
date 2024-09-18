@@ -51,7 +51,7 @@ const routes: Routes = [
     component:TransactionUpdateComponent
   },
   {
-    path:"settings/:id/edit",
+    path:"settings",
     component:SettingsComponent
   },
   

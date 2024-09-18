@@ -46,26 +46,30 @@
         </div>
         <div nz-col nzFlex="3" style="margin-left: 20px;">
             <nz-card nzType="inner" style="margin-top: 16px;" nzTitle="Past transactions">
-                <div nz-card-grid style="width: 100%;" *ngFor="let transaction of transactions">
-                    <div nz-row>
-                        <div nz-col nzSpan="18">
-                            <span nz-icon nzType="message" nzTheme="outline"></span> {{transaction.description}}
-                            -
-                            <span nz-icon nzType="dollar" nzTheme="outline"></span> {{transaction.amount}}
-                            -
-                            <span nz-icon nzType="clock-circle" nzTheme="outline"></span> {{transaction.date}}
-                            -
-                            <span nz-icon nzType="comment" nzTheme="outline"></span> {{transaction.categoryName}}
-                            -
-                            <span nz-icon nzType="comment" nzTheme="outline"></span> {{transaction.type}}
-                        </div>
-                        <div nz-col nzSpan="6" style="font-size: 15px;">
-                            <span nz-icon nzType="edit" nzTheme="fill" style="color: blue;" routerLink="/user/transaction/{{transaction.id}}/edit" ></span>
-                            <span nz-icon nzType="delete" nzTheme="fill" style="color: red; margin-left: 10px;" (click)="deleteTransaction(transaction.id)"></span>
-                        </div>
-                    </div>
-                </div>         
+              <div nz-card-grid style="width: 100%;" *ngFor="let transaction of paginatedTransactions">
+                <div nz-row>
+                  <div nz-col nzSpan="18">
+                    <span nz-icon nzType="message" nzTheme="outline"></span> {{transaction.description}} -
+                    <span nz-icon nzType="dollar" nzTheme="outline"></span> {{transaction.amount}} -
+                    <span nz-icon nzType="clock-circle" nzTheme="outline"></span> {{transaction.date}} -
+                    <span nz-icon nzType="comment" nzTheme="outline"></span> {{transaction.categoryName}} -
+                    <span nz-icon nzType="comment" nzTheme="outline"></span> {{transaction.type}}
+                  </div>
+                  <div nz-col nzSpan="6" style="font-size: 15px;">
+                    <span nz-icon nzType="edit" nzTheme="fill" style="color: blue;" routerLink="/user/transaction/{{transaction.id}}/edit"></span>
+                    <span nz-icon nzType="delete" nzTheme="fill" style="color: red; margin-left: 10px;" (click)="deleteTransaction(transaction.id)"></span>
+                  </div>
+                </div>
+              </div>
+              
+              <!-- Pagination -->
+              <nz-pagination 
+                [nzPageIndex]="pageIndex" 
+                [nzPageSize]="pageSize" 
+                [nzTotal]="transactions.length" 
+                (nzPageIndexChange)="onPageChange($event)">
+              </nz-pagination>
             </nz-card>
-        </div>
+          </div>
     </div>
 </div>

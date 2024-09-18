@@ -46,7 +46,7 @@ export class SignupComponent implements OnInit {
     mobile: ['', [Validators.required, Validators.pattern(/^\d{10}$/), Validators.maxLength(10)]],
     password: ['', [Validators.required, Validators.minLength(8), passwordValidator]],
     confirmPassword: ['', [Validators.required, confirmPasswordValidator]]
-  });;
+  });
   passwordVisible = false;
   isSpinning : boolean = false; 
   

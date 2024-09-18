@@ -1,1 +1,17 @@
-<p>settings works!</p>
+<div class="profile-container">
+    <h2>Profile Picture</h2>
+  
+    <!-- Display the profile picture or a message if no picture is available -->
+    <div class="preview-container" *ngIf="previewUrl; else noPicture">
+      <img [src]="previewUrl" alt="Profile Picture" class="profile-preview"/>
+    </div>
+  
+    <ng-template #noPicture>
+      <p>No profile picture available.</p>
+    </ng-template>
+  
+    <!-- File input for uploading a new profile picture -->
+    <input type="file" (change)="onFileSelected($event)" accept="image/*"/>
+    <button (click)="uploadProfilePicture()">Upload</button>
+  </div>
+  

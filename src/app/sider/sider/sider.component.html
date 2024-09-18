@@ -67,10 +67,132 @@
         <span nz-icon nzType="transaction"></span>
         <span>Transaction</span>
       </li>
-      <li style="margin-top: 220px;" *ngIf="isLoggedIn"
+      <!-- user options -->
+      <li nz-submenu nzPlacement="topLeft" nzIcon="user"nzTitle="User" *ngIf="isLoggedIn"
+       >     
+        <ul>  
+          <!-- image url  -->
+          <li nz-menu-item *ngIf="isLoggedIn && previewUrl ; else noPicture" class="logo"routerLink="/user/settings" >
+            <img [src]="previewUrl" alt="Profile Picture" class="avatar"/>
+          </li>
+          <ng-template #noPicture>
+              <li nz-menu-item *ngIf="isLoggedIn"
+          class="logo" routerLink="/user/settings">
+              <img src="../assets/img/image.png" alt="Avatar" class="avatar">
+            </li>
+        </ng-template>
+        <!-- reset password module -->
+          <li nz-menu-item (click)="showModalMiddle()">Reset Password</li>
+                <nz-modal
+                [(nzVisible)]="isVisibleMiddle"
+                nzTitle="Vertically centered modal dialog"
+                nzCentered
+                (nzOnCancel)="handleCancelMiddle()"
+                (nzOnOk)="handleOkMiddle()"
+              >
+                <ng-container *nzModalContent>
+                  <form nz-form [formGroup]="resetPasswordForm" (ngSubmit)="onSubmit()">
+
+                    <!-- email field -->
+                    <nz-form-item>
+                      <nz-form-control nzHasFeedback>
+                      <nz-input-group [nzPrefix]="prefixTemplateEmail">
+                        <input
+                          nz-input
+                          placeholder="E-mail"
+                          id="email"
+                          formControlName="email"
+                        />
+                        </nz-input-group>
+                        <ng-container *ngIf="resetPasswordForm.get('email')?.invalid && (resetPasswordForm.get('email')?.dirty || resetPasswordForm.get('email')?.touched)">
+                          <div *ngIf="resetPasswordForm.get('email')?.errors?.['required']">
+                              <span nz-typography nzType="danger">E-mail is required!</span>
+                          </div>
+                          <div *ngIf="resetPasswordForm.get('email')?.errors?.['email']">
+                              <span nz-typography nzType="danger">Invalid e-mail format!</span>
+                          </div>
+                        </ng-container>
+                        <ng-template #prefixTemplateEmail>
+                          <span nz-icon nzType="mail" style="margin-right: 10px;"></span>
+                        </ng-template>
+                      </nz-form-control>
+                    </nz-form-item>
+            
+                    <!-- old password -->
+                    <nz-form-item>
+                      <nz-form-control nzHasFeedback>
+                        <nz-input-group [nzSuffix]="suffixTemplate">
+                          <input
+                            [type]="passwordVisible ? 'text' : 'password'"
+                            nz-input
+                            placeholder="old password"
+                            formControlName="oldPassword"
+                          />
+                        </nz-input-group>
+                        <ng-container *ngIf="resetPasswordForm.get('oldPassword')?.invalid && (resetPasswordForm.get('oldPassword')?.dirty || resetPasswordForm.get('oldPassword')?.touched)">
+                          <div *ngIf="resetPasswordForm.get('oldPassword')?.errors?.['required']">
+                              <span nz-typography nzType="danger">Password is required!</span>
+                          </div>
+                        </ng-container>
+                        <ng-template #suffixTemplate>
+                          <span
+                            nz-icon style="margin-left: 10px;"
+                            [nzType]="passwordVisible ? 'eye-invisible' : 'eye'"
+                            (click)="passwordVisible = !passwordVisible"
+                          ></span>
+                        </ng-template>
+                      </nz-form-control>
+                    </nz-form-item>
+                    <!-- new password -->
+                    <nz-form-item>
+                      <nz-form-control nzHasFeedback>
+                        <nz-input-group [nzSuffix]="suffixTemplate">
+                          <input
+                            [type]="passwordVisible ? 'text' : 'password'"
+                            nz-input
+                            placeholder="new password"
+                            formControlName="newPassword"
+                          />
+                        </nz-input-group>
+                        <ng-container *ngIf="resetPasswordForm.get('newPassword')?.invalid && (resetPasswordForm.get('newPassword')?.dirty || resetPasswordForm.get('newPassword')?.touched)">
+                          <div *ngIf="resetPasswordForm.get('newPassword')?.errors?.['required']">
+                              <span nz-typography nzType="danger">New Password is required!</span>
+                          </div>
+                          <div *ngIf="resetPasswordForm.get('newPassword')?.errors?.['pattern']">
+                              <span nz-typography nzType="danger">Password must contain 8 characters, 1 lowercase, 1 uppercase, 1 number, and 1 special character.</span>
+                          </div>
+                        </ng-container>
+                        <ng-template #suffixTemplate>
+                          <span
+                            nz-icon style="margin-left: 10px;"
+                            [nzType]="passwordVisible ? 'eye-invisible' : 'eye'"
+                            (click)="passwordVisible = !passwordVisible"
+                          ></span>
+                        </ng-template>
+                      </nz-form-control>
+                    </nz-form-item>
+
+                    <button
+                    nz-button
+                    class="login-form-button login-form-margin"
+                    [nzType]="'primary'"
+                    nzSuccess=""
+                    [disabled]="resetPasswordForm.invalid"
+                  >
+                    Reset Password
+                  </button>
+                  
+                </form>
+                </ng-container>
+              </nz-modal>
+              
+          <li ></li>
+        </ul>
+      </li>
+      <!-- <li style="margin-top: 220px;" *ngIf="isLoggedIn"
        class="logo" routerLink="/user/settings/{{user.id}}/edit">
           <img src="../assets/img/image.png" alt="Avatar" class="avatar">
-      </li>
+      </li> -->
       <!-- Logout button when user is logged in -->
       <li *ngIf="isLoggedIn" nz-menu-item (click)="signout()">
         <span nz-icon nzType="logout"></span>

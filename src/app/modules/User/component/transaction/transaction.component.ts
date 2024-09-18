@@ -21,6 +21,9 @@ export class TransactionComponent implements OnInit{
   ];
   categories : CategoryDTO[] = [];
   transactions : any;
+  paginatedTransactions: any;
+  pageIndex: number = 1;
+  pageSize: number = 5; // Customize the number of transactions per page
   constructor(private fb : FormBuilder,
     private transactionService : TransactionService,
     private categoryService:CategoryService,
@@ -79,6 +82,7 @@ export class TransactionComponent implements OnInit{
           };
         });
         console.log(this.transactions); // Check the modified transaction objects
+        this.updatePaginatedTransactions();
       },
       error: (e) => this.message.error("Error Fetching transaction." + e, { nzDuration: 5000 })
     });
@@ -91,6 +95,16 @@ export class TransactionComponent implements OnInit{
       error:()=>this.message.error("Error while deleteing Transaction.",{nzDuration:5000}),
       complete:()=> this.getAllTransaction()                
     })
+  }
+
+  onPageChange(page: number): void {
+    this.pageIndex = page;
+    this.updatePaginatedTransactions();
+  }
+
+  updatePaginatedTransactions(): void {
+    const startIndex = (this.pageIndex - 1) * this.pageSize;
+    this.paginatedTransactions = this.transactions.slice(startIndex, startIndex + this.pageSize);
   }
 
 }

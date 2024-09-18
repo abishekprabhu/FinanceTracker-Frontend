@@ -24,6 +24,29 @@ export class AuthService {
     );
    }
 
+   resetPassword(resetPasswordDTO:any):Observable<string>{
+    return this.http.post(BASE_URL+"/reset-password",resetPasswordDTO ,{responseType:'text'}).pipe(
+      catchError(this.handleError)
+    );
+   }
+
+    // Upload profile picture
+  uploadProfilePicture(userId: number, file: File): Observable<any> {
+    const formData = new FormData();
+    formData.append('profilePicture', file);
+
+    return this.http.post(BASE_URL+`/${userId}/uploadProfilePicture`, formData, { responseType: 'text' }).pipe(
+      catchError(this.handleError)
+    );
+  }
+
+  // Get profile picture
+  getProfilePicture(userId: number): Observable<Blob> {
+    return this.http.get(BASE_URL+`/${userId}/profilePicture`, { responseType: 'blob' }).pipe(
+      catchError(this.handleError)
+    );
+  }
+
    private handleError(error: HttpErrorResponse) {
     let errorMessage = '';
     if (error.error instanceof ErrorEvent) {
