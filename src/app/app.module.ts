@@ -27,6 +27,11 @@ import { TransactionComponent } from './modules/User/component/transaction/trans
 import { TransactionUpdateComponent } from './modules/User/component/transaction-update/transaction-update.component';
 import { UnauthorizedComponent } from './auth/components/unauthorized/unauthorized.component';
 import { SettingsComponent } from './modules/User/component/settings/settings.component';
+import { BudgetComponent } from './modules/User/component/budget/budget.component';
+import { BaseChartDirective } from 'ng2-charts';
+import { provideCharts, withDefaultRegisterables } from 'ng2-charts';
+import { BudgetUpdateComponent } from './modules/User/component/budget-update/budget-update.component';
+import { StatsComponent } from './modules/User/component/stats/stats.component';
 
 registerLocaleData(en);
 
@@ -47,7 +52,10 @@ registerLocaleData(en);
     TransactionComponent,
     TransactionUpdateComponent,
     UnauthorizedComponent,
-    SettingsComponent
+    SettingsComponent,
+    BudgetComponent,
+    BudgetUpdateComponent,
+    StatsComponent
   ],
   imports: [
     BrowserModule,
@@ -56,13 +64,15 @@ registerLocaleData(en);
     HttpClientModule,
     BrowserAnimationsModule,
     DemoNgZorroAntdModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    BaseChartDirective
   ],
   providers: [
     provideClientHydration(),
     { provide: NZ_I18N, useValue: en_US },
     provideAnimationsAsync(),
-    provideHttpClient()
+    provideHttpClient(),
+    provideCharts(withDefaultRegisterables())
   ],
   bootstrap: [AppComponent]
 })

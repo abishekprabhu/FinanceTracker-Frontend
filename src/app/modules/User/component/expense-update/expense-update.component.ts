@@ -56,7 +56,7 @@ export class ExpenseUpdateComponent implements OnInit{
   getExpenseById():void{
     console.log(this.user);
     this.expenseService.getExpenseById(this.id).subscribe({
-      next: (expense: any) => {
+      next: (expense) => {
         // Find the category by id and set categoryName
         const category = this.categories.find(cat => cat.id === expense.categoryId);
         expense.categoryName = category ? category.name : 'Unknown';

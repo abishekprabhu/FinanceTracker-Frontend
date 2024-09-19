@@ -11,6 +11,9 @@ import { TransactionComponent } from '../component/transaction/transaction.compo
 import { TransactionUpdateComponent } from '../component/transaction-update/transaction-update.component';
 import { LoginComponent } from '../../../auth/components/login/login.component';
 import { SettingsComponent } from '../component/settings/settings.component';
+import { BudgetComponent } from '../component/budget/budget.component';
+import { BudgetUpdateComponent } from '../component/budget-update/budget-update.component';
+import { StatsComponent } from '../component/stats/stats.component';
 
 
 const routes: Routes = [
@@ -53,6 +56,18 @@ const routes: Routes = [
   {
     path:"settings",
     component:SettingsComponent
+  },
+  {
+    path:"budget",
+    component:BudgetComponent
+  },
+  {
+    path:"budget/:id/edit",
+    component:BudgetUpdateComponent
+  },
+  {
+    path:"stats",
+    component:StatsComponent
   },
   
 ];

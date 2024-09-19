@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CategoryDTO } from '../../../../model/Category/category-dto';
 import { TransactionService } from '../../Service/Transaction/transaction.service';
-import { Router } from '@angular/router';
 import { FormBuilder, Validators } from '@angular/forms';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { CategoryService } from '../../Service/Category/category.service';
@@ -20,15 +19,14 @@ export class TransactionComponent implements OnInit{
     "EXPENSE"
   ];
   categories : CategoryDTO[] = [];
-  transactions : any;
-  paginatedTransactions: any;
+  transactions : TransactionDTO[] = [];
+  paginatedTransactions: TransactionDTO[] = [];
   pageIndex: number = 1;
   pageSize: number = 5; // Customize the number of transactions per page
   constructor(private fb : FormBuilder,
     private transactionService : TransactionService,
     private categoryService:CategoryService,
     private message : NzMessageService,
-    private router : Router
   ) { }
 
   ngOnInit(): void {
@@ -89,7 +87,7 @@ export class TransactionComponent implements OnInit{
   }
 
   deleteTransaction(id:number){
-    console.log(id);
+    console.log("transaction Delete id: " + id);
     this.transactionService.DeleteTransaction(id).subscribe({
       next:()=> this.message.success("Transaction deleted Successfully",{nzDuration:5000}),
       error:()=>this.message.error("Error while deleteing Transaction.",{nzDuration:5000}),

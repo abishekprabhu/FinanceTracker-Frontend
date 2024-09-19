@@ -24,6 +24,12 @@ export class ExpenseService {
     );
   }
 
+  getAllExpenseByUserId(id:number): Observable<ExpenseDTO[]>{
+    return this.http.get<ExpenseDTO[]>(BASE_URL+`/user/${id}`).pipe(
+      catchError(this.handleError)
+    );
+  }
+
   getExpenseById(id:number): Observable<ExpenseDTO>{
     return this.http.get<ExpenseDTO>(BASE_URL+`/${id}`);
   }

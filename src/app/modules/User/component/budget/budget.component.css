@@ -1,0 +1,52 @@
+form {
+    display: flex;
+    flex-direction: column;
+    width: 300px;
+    margin: auto;
+  }
+
+.btn {
+    margin-right: 8px;
+    margin-bottom: 12px;
+  }
+
+  [nz-button] {
+    width: 200px;
+    height: 180px;
+  }
+
+  .progress-bar {
+    width: 100%;
+    height: 20px;
+    background-color: #f3f3f3;
+    border: 1px solid #ccc;
+    margin-bottom: 10px;
+  }
+  
+  .filled {
+    height: 100%;
+    background-color: #4CAF50;
+  }
+  
+  .exceeded-alert {
+    color: red;
+    font-weight: bold;
+  }
+
+  .vertical-center {
+    margin-top: 100px;
+    position: relative;
+    padding-left: 41%;
+    -ms-transform: translateY(-50%);
+    transform: translateY(-50%);
+  }
+  .exceeded-alert {
+    color: red;
+    font-weight: bold;
+  }
+  
+  .nz-progress {
+    margin: 10px 0;
+    display: block;
+  }
+  

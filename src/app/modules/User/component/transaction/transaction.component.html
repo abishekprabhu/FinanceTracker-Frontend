@@ -1,75 +1,73 @@
-<div>
-    <div nz-row>
-        <div nz-col nzFlex="2">
-            <nz-card nzType="inner" style="margin-top: 16px;" nzTitle="Post new transaction">
-                <form nz-form [formGroup]="transactionForm" (ngSubmit)="submitForm()" class="custom-form">
-                    <nz-form-item>
+<div nz-row>
+    <div nz-col nzFlex="2">
+        <nz-card nzType="inner" style="margin-top: 16px;" nzTitle="Post new transaction">
+            <form nz-form [formGroup]="transactionForm" (ngSubmit)="submitForm()" class="custom-form">
+                <nz-form-item>
+                    <nz-form-control>
+                        <textarea nz-input placeholder="Enter description" [nzAutosize]="{minRows: 2 , maxRows: 6}"
+                        formControlName="description" ></textarea>
+                    </nz-form-control>
+                </nz-form-item>
+                <nz-form-item>
+                    <nz-form-control nzErrorTip="Please input the amount!">
+                        <input type="number" nz-input formControlName="amount" placeholder="Enter amount">
+                    </nz-form-control>
+                </nz-form-item>
+                <nz-form-item>
+                    <nz-form-control nzErrorTip="Please input the date!">
+                        <nz-date-picker style="width: 100%;" formControlName="date"></nz-date-picker>
+                    </nz-form-control>
+                </nz-form-item>
+                <nz-form-item nzErrorTip="Please input the category!">
                         <nz-form-control>
-                            <textarea nz-input placeholder="Enter description" [nzAutosize]="{minRows: 2 , maxRows: 6}"
-                            formControlName="description" ></textarea>
-                        </nz-form-control>
-                    </nz-form-item>
-                    <nz-form-item>
-                        <nz-form-control nzErrorTip="Please input the amount!">
-                            <input type="number" nz-input formControlName="amount" placeholder="Enter amount">
-                        </nz-form-control>
-                    </nz-form-item>
-                    <nz-form-item>
-                        <nz-form-control nzErrorTip="Please input the date!">
-                            <nz-date-picker style="width: 100%;" formControlName="date"></nz-date-picker>
-                        </nz-form-control>
-                    </nz-form-item>
-                    <nz-form-item nzErrorTip="Please input the category!">
-                            <nz-form-control>
-                                <nz-select nzAllowClear  nzPlaceHolder="select the category" formControlName="categoryId">
-                                    <nz-option *ngFor="let category of categories" 
-                                    [nzLabel]="category.name"
-                                    [nzValue]="category.id">
-                                </nz-option>
-                                </nz-select>
-                            </nz-form-control>
-                    </nz-form-item>
-                    <nz-form-item nzErrorTip="Please input the Transaction Type 'transaction OR EXPENSE' !">
-                        <nz-form-control>
-                            <nz-select nzAllowClear  nzPlaceHolder="select the Transaction Type" formControlName="type">
-                                <nz-option *ngFor="let transaction of listOfTransaction" [nzLabel]="transaction"
-                                [nzValue]="transaction">
+                            <nz-select nzAllowClear  nzPlaceHolder="select the category" formControlName="categoryId">
+                                <nz-option *ngFor="let category of categories" 
+                                [nzLabel]="category.name"
+                                [nzValue]="category.id">
                             </nz-option>
                             </nz-select>
                         </nz-form-control>
                 </nz-form-item>
-                        <button nz-button nzType="primary" nzBlock [disabled]="transactionForm.invalid" class="w-100">
-                            Post Transaction
-                        </button>
-                </form>
-            </nz-card>
-        </div>
-        <div nz-col nzFlex="3" style="margin-left: 20px;">
-            <nz-card nzType="inner" style="margin-top: 16px;" nzTitle="Past transactions">
-              <div nz-card-grid style="width: 100%;" *ngFor="let transaction of paginatedTransactions">
-                <div nz-row>
-                  <div nz-col nzSpan="18">
-                    <span nz-icon nzType="message" nzTheme="outline"></span> {{transaction.description}} -
-                    <span nz-icon nzType="dollar" nzTheme="outline"></span> {{transaction.amount}} -
-                    <span nz-icon nzType="clock-circle" nzTheme="outline"></span> {{transaction.date}} -
-                    <span nz-icon nzType="comment" nzTheme="outline"></span> {{transaction.categoryName}} -
-                    <span nz-icon nzType="comment" nzTheme="outline"></span> {{transaction.type}}
-                  </div>
-                  <div nz-col nzSpan="6" style="font-size: 15px;">
-                    <span nz-icon nzType="edit" nzTheme="fill" style="color: blue;" routerLink="/user/transaction/{{transaction.id}}/edit"></span>
-                    <span nz-icon nzType="delete" nzTheme="fill" style="color: red; margin-left: 10px;" (click)="deleteTransaction(transaction.id)"></span>
-                  </div>
-                </div>
-              </div>
-              
-              <!-- Pagination -->
-              <nz-pagination 
-                [nzPageIndex]="pageIndex" 
-                [nzPageSize]="pageSize" 
-                [nzTotal]="transactions.length" 
-                (nzPageIndexChange)="onPageChange($event)">
-              </nz-pagination>
-            </nz-card>
-          </div>
+                <nz-form-item nzErrorTip="Please input the Transaction Type 'transaction OR EXPENSE' !">
+                    <nz-form-control>
+                        <nz-select nzAllowClear  nzPlaceHolder="select the Transaction Type" formControlName="type">
+                            <nz-option *ngFor="let transaction of listOfTransaction" [nzLabel]="transaction"
+                            [nzValue]="transaction">
+                        </nz-option>
+                        </nz-select>
+                    </nz-form-control>
+            </nz-form-item>
+                    <button nz-button nzType="primary" nzBlock [disabled]="transactionForm.invalid" class="w-100">
+                        Post Transaction
+                    </button>
+            </form>
+        </nz-card>
     </div>
+    <div nz-col nzFlex="3" style="margin-left: 20px;">
+        <nz-card nzType="inner" style="margin-top: 16px;" nzTitle="Past transactions">
+          <div nz-card-grid style="width: 100%;" *ngFor="let transaction of paginatedTransactions">
+            <div nz-row>
+              <div nz-col nzSpan="18">
+                <span nz-icon nzType="message" nzTheme="outline"></span> {{transaction.description}} -
+                <span nz-icon nzType="dollar" nzTheme="outline"></span> {{transaction.amount}} -
+                <span nz-icon nzType="clock-circle" nzTheme="outline"></span> {{transaction.date}} -
+                <span nz-icon nzType="comment" nzTheme="outline"></span> {{transaction.categoryName}} -
+                <span nz-icon nzType="comment" nzTheme="outline"></span> {{transaction.type}}
+              </div>
+              <div nz-col nzSpan="6" style="font-size: 15px;">
+                <span nz-icon nzType="edit" nzTheme="fill" style="color: blue;" routerLink="/user/transaction/{{transaction.id}}/edit"></span>
+                <span nz-icon nzType="delete" nzTheme="fill" style="color: red; margin-left: 10px;" (click)="deleteTransaction(transaction.id)"></span>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Pagination -->
+          <nz-pagination 
+            [nzPageIndex]="pageIndex" 
+            [nzPageSize]="pageSize" 
+            [nzTotal]="transactions.length" 
+            (nzPageIndexChange)="onPageChange($event)">
+          </nz-pagination>
+        </nz-card>
+      </div>
 </div>

@@ -70,6 +70,8 @@ import { NzResizableModule } from 'ng-zorro-antd/resizable';
 import { NzPipesModule } from 'ng-zorro-antd/pipes';
 import { IconDefinition } from '@ant-design/icons-angular';
 import { MessageOutline, DollarOutline, EditFill, DeleteFill } from '@ant-design/icons-angular/icons';
+import { NzSegmentedModule } from 'ng-zorro-antd/segmented';
+import { NzSpaceModule } from 'ng-zorro-antd/space';
 // import { IconDefinition } from '@ant-design/icons-angular';
 import * as AllIcons from '@ant-design/icons-angular/icons';
 
@@ -154,7 +156,9 @@ const icons: IconDefinition[] = Object.keys(antDesignIcons).map(key => {
     NzWaveModule,
     NzResizableModule,
     NzPipesModule,
-    NzIconModule
+    NzIconModule,
+    NzSegmentedModule,
+    NzSpaceModule
   ],
   providers: [
     {

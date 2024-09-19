@@ -18,7 +18,7 @@ export class IncomeComponent {
 
 categories : CategoryDTO[] = [];
     
-  incomes:any;
+  incomes: IncomeDTO[] = [];
   // incomes: IncomeDTO[] = [];
   // incomes : any;
   constructor(private fb : FormBuilder,
@@ -82,7 +82,7 @@ categories : CategoryDTO[] = [];
     }
 
     getAllIncome(): void {
-      this.incomeService.getIncomeAll().subscribe({
+      this.incomeService.getAllExpenseByUserId(this.user.id).subscribe({
         next: (incomes) => {
           // Map incomes to include category name instead of categoryId
           this.incomes = incomes.map((income: IncomeDTO) => {

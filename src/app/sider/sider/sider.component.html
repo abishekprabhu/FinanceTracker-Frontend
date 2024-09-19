@@ -1,39 +1,4 @@
 <nz-layout>
-  <!-- <nz-sider nzCollapsible [(nzCollapsed)]="isCollapsed" [nzTrigger]="null">
-      <div class="logo">
-          <img src="../assets/img/image.png" alt="Avatar" class="avatar">
-      </div>
-      <ul nz-menu nzTheme="dark" nzMode="inline">
-      <li nz-menu-item 
-      routerLink="/login">
-        <span nz-icon nzType="login"></span>
-        <span class="text-uppercase" style="font-weight: bold;">Login</span>
-      </li>
-      <li nz-menu-item 
-      routerLink="/signup">
-      <span nz-icon nzType="logout"></span>
-        <span class="text-uppercase" style="font-weight: bold;" >Signup</span>
-      </li>
-    </ul>
-
-    <ul nz-menu nzTheme="dark" nzMode="inline">
-      <li nz-menu-item 
-      routerLink="/user/category">
-      <span class="material-symbols-outlined p-1 mr-2">
-        category_search
-        </span>
-        <span class="text-uppercase" style="font-weight: bold;">Category</span>
-      </li>
-      <li nz-menu-item 
-      routerLink="/signup">
-      <span nz-icon nzType="logout"></span>
-        <span>Signup</span>
-      </li>
-    </ul>
-  </nz-sider> -->
-      <!-- <div class="logo">
-        <img src="../assets/img/image.png" alt="Avatar" class="avatar">
-    </div> -->
   <nz-sider nzCollapsible [(nzCollapsed)]="isCollapsed" [nzTrigger]="null">
     <ul nz-menu nzTheme="dark" nzMode="inline">
       <!-- Show Login and Signup if user is not logged in -->
@@ -66,6 +31,14 @@
       <li *ngIf="isLoggedIn" nz-menu-item routerLink="/user/transaction">
         <span nz-icon nzType="transaction"></span>
         <span>Transaction</span>
+      </li>
+      <li *ngIf="isLoggedIn" nz-menu-item routerLink="/user/budget">
+        <span nz-icon nzType="reconciliation" nzTheme="outline"></span>
+        <span>Budget</span>
+      </li>
+      <li *ngIf="isLoggedIn" nz-menu-item routerLink="/user/stats">
+        <span nz-icon nzType="area-chart" nzTheme="outline"></span>
+        <span>Analytics</span>
       </li>
       <!-- user options -->
       <li nz-submenu nzPlacement="topLeft" nzIcon="user"nzTitle="User" *ngIf="isLoggedIn"

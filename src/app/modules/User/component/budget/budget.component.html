@@ -1,0 +1,158 @@
+    <!-- add button -->
+    <div class="vertical-center">
+    <button nz-button nzType="primary" [nzSize]="size" nzShape="circle" (click)="showModal()">
+      <span style="font-weight: bold;">ADD BUDGET + </span>
+    </button>
+    <!-- budget add modal -->
+    <nz-modal
+      [(nzVisible)]="isVisible"
+      nzTitle="BUDGET"
+      (nzOnCancel)="handleCancel()"
+      (nzOnOk)="handleOk()"
+      [nzOkLoading]="isOkLoading"
+    >
+    <!-- budget add container -->
+      <ng-container *nzModalContent>  
+        <div class="p-3 mb-2 bg-secondary text-white">
+        <nz-card nzType="inner" style="margin-top: 16px;" nzTitle="Post new Budget">
+            <form nz-form [formGroup]="budgetForm" (ngSubmit)="onSubmit()">
+                <nz-form-item>
+                    <nz-form-control nzErrorTip="Please input the amount!">
+                        <input type="text" nz-input formControlName="amount" placeholder="Budget Amount (₹)">
+                    </nz-form-control>
+                </nz-form-item>
+                <nz-form-item>
+                    <nz-form-control nzErrorTip="Please input the Start date!">
+                        <nz-date-picker style="width: 100%;" formControlName="startDate" nzPlaceHolder="Start Date"></nz-date-picker>
+                    </nz-form-control>
+                </nz-form-item>  
+            
+                <nz-form-item>
+                    <nz-form-control nzErrorTip="Please input the End date!">
+                        <nz-date-picker style="width: 100%;" formControlName="endDate" nzPlaceHolder="End Date"></nz-date-picker>
+                    </nz-form-control>
+                </nz-form-item>  
+            
+                <nz-form-item nzErrorTip="Please input the category!">
+                    <nz-form-control>
+                        <nz-select nzAllowClear  nzPlaceHolder="select the category" formControlName="categoryId">
+                            <nz-option *ngFor="let category of categories" 
+                            [nzLabel]="category.name"
+                            [nzValue]="category.id">
+                        </nz-option>
+                        </nz-select>
+                    </nz-form-control>
+                </nz-form-item>
+                <div class="mx-auto pl-4 text-center" style="width: 200px;">
+                <button type="submit" class="btn btn-success"> Post Budget</button>
+                </div>
+                <!-- <button nz-button nz nzBlock [disabled]="budgetForm.invalid" class="w-100"> -->
+                   
+                <!-- </button> -->
+              </form>
+        </nz-card>
+            </div>
+
+      </ng-container>
+    </nz-modal>
+    </div>
+
+    <!-- view summary budget -->
+
+    <div *ngIf="budgets.length > 0; else noBudgets">
+        <div *ngFor="let budget of budgets; let i = index">
+          <h3>Budget for {{ budget.categoryName }}</h3>
+          <p>Total Budget: ₹{{ budget.amount }}</p>
+          <p>Total Spent: ₹{{ budget.totalSpent }}</p>
+          <p>Remaining: ₹{{ budget.amount - budget.totalSpent }}</p>
+          <p *ngIf="budget.exceeded" class="exceeded-alert">You have exceeded your budget!</p>
+          <button class="btn btn-primary btn-sm" style="margin-right: 10px;" routerLink="/user/budget/{{budget.id}}/edit" >
+            <span class="material-symbols-outlined">
+              edit
+              </span>
+          </button>
+          <button class="btn btn-danger btn-sm px-2" style="padding-left: 5px; " (click)="deleteBudget(budget.id)">
+            <i class="material-icons">delete</i>
+          </button>
+            <!-- Show warning alert if usage is between 75% and 100% -->
+            <nz-alert style="width: 50%;"
+            *ngIf="getBudgetUsage(budget) > 75 && getBudgetUsage(budget) <= 99"
+            nzType="warning"
+            nzMessage="Warning: You are nearing your budget limit."
+            nzShowIcon
+            nzCloseable
+            nzSize="large"
+          ></nz-alert>
+
+          <!-- Show error alert if usage exceeds 100% -->
+          <nz-alert 
+            *ngIf="budget.exceeded"
+            nzType="error"
+            nzMessage="Error: You have exceeded your budget!"
+            nzShowIcon
+            nzCloseable
+          ></nz-alert>
+          <!-- Render Pie Chart for each budget -->
+          <div class="pie-chart">
+            <canvas baseChart
+              [data]="pieChartDataList[i]"
+              [type]="pieChartType"
+              [options]="pieChartOptions">
+            </canvas>
+          </div>
+        </div>
+      </div>
+      
+      <ng-template #noBudgets>
+        <p>No budgets available.</p>
+      </ng-template>
+      <br>
+
+                <!-- Progress bar for budget usage -->
+          <!-- <div class="progress-bar">
+            <div class="filled" [style.width]="getBudgetUsage(budget) + '%'"></div>
+          </div> -->
+      
+      
+
+
+      <!-- pie -->
+      <!-- <div class="budget-summary-container">
+        <h2>Budget Summary</h2>
+        <div class="summary">
+          <p><strong>Total Budget:</strong> ₹{{ budgets.length > 0 ? budgets[0].amount : 0 }}</p>
+          <p><strong>Total Spent:</strong> ₹{{ totalSpent }}</p>
+          <p><strong>Remaining Budget:</strong> ₹{{ remainingBudget }}</p>
+        </div> -->
+      
+        <!-- Pie Chart -->
+        <!-- <div class="pie-chart">
+            <canvas baseChart
+            [data]="pieChartData"
+            [type]="pieChartType"
+            [options]="pieChartOptions">
+          </canvas>                   
+        </div>
+      </div> -->
+     
+      <div *ngIf="budgets.length > 0; else noBudgets">
+        <div *ngFor="let budget of budgets">
+          <h3>Budget for {{ budget.categoryName }}</h3>
+          <p>Total Budget: ₹{{ budget.amount }}</p>
+          <p>Total Spent: ₹{{ budget.totalSpent }}</p>
+          <p>Remaining: ₹{{ budget.amount - budget.totalSpent }}</p>
+          <p *ngIf="budget.exceeded" class="exceeded-alert">You have exceeded your budget!</p>
+      
+          <!-- Circular Progress Indicator for budget usage -->
+          <nz-progress
+            nzType="circle"
+            [nzPercent]="getBudgetUsage(budget)"
+            [nzStrokeColor]="getBudgetStrokeColor(budget)"
+          ></nz-progress>
+        </div>
+      </div>
+      
+      <ng-template #noBudgets>
+        <p>No budgets available.</p>
+      </ng-template>
+      

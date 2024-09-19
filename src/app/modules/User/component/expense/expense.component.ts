@@ -7,6 +7,7 @@ import { StorageService } from '../../../../auth/services/storage/storage.servic
 import { CategoryDTO } from '../../../../model/Category/category-dto';
 import { IncomeDTO } from '../../../../model/Income/income-dto';
 import { CategoryService } from '../../Service/Category/category.service';
+import { ExpenseDTO } from '../../../../model/Expense/expense-dto';
 
 @Component({
   selector: 'app-expense',
@@ -16,7 +17,7 @@ import { CategoryService } from '../../Service/Category/category.service';
 export class ExpenseComponent {
   categories : CategoryDTO[] = [];
     
-  expenses:any;
+  expenses : ExpenseDTO[] = [];
   // expenses: IncomeDTO[] = [];
   // expenses : any;
   constructor(private fb : FormBuilder,
@@ -77,7 +78,7 @@ export class ExpenseComponent {
     }
 
     getAllExpense(): void {
-      this.expenseService.getExpenseAll().subscribe({
+      this.expenseService.getAllExpenseByUserId(this.user.id).subscribe({
         next: (expenses) => {
           // Map expenses to include category name instead of categoryId
           this.expenses = expenses.map((income: IncomeDTO) => {

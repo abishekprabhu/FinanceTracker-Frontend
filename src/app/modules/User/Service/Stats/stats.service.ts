@@ -17,8 +17,29 @@ export class StatsService {
     );
   }
 
-  getChart():Observable<any>{
-    return this.http.get(BASE_URL+"api/stats/chart")
+  getChartMonthly():Observable<any>{
+    return this.http.get(BASE_URL+"api/stats/chart/monthly")
+    .pipe(
+      catchError(this.handleError)
+    );
+  }
+
+  getChartWeekly():Observable<any>{
+    return this.http.get(BASE_URL+"api/stats/chart/weekly")
+    .pipe(
+      catchError(this.handleError)
+    );
+  }
+  
+  getChartQuartarly():Observable<any>{
+    return this.http.get(BASE_URL+"api/stats/chart/quartarly")
+    .pipe(
+      catchError(this.handleError)
+    );
+  }
+
+  getChartYearly():Observable<any>{
+    return this.http.get(BASE_URL+"api/stats/chart/yearly")
     .pipe(
       catchError(this.handleError)
     );

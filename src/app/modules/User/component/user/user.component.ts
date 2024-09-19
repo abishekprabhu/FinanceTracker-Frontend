@@ -129,7 +129,7 @@ export class UserComponent implements AfterViewInit {
   }
 
   getChartData(): void {
-    this.statsService.getChart().subscribe({
+    this.statsService.getChartMonthly().subscribe({
       next: (v) => {
         if (v.expenseList && v.incomeList) {
           this.Incomes = v.incomeList;
@@ -142,4 +142,6 @@ export class UserComponent implements AfterViewInit {
       }
     });
   }
+
+  
 }

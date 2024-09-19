@@ -30,6 +30,8 @@ export class SiderComponent implements OnInit{
   isVisibleMiddle = false;
   passwordVisible = false;
   isSpinning : boolean = false; 
+  isReaderBusy = false; // Add a flag to track if FileReader is busy
+
   constructor(
     private router: Router,
     private fb: FormBuilder,
@@ -126,20 +128,37 @@ export class SiderComponent implements OnInit{
   }
 
   previewUrl: string | ArrayBuffer | null = null;
-    // Fetch and display the profile picture
-    getProfilePicture(): void {
-      this.authService.getProfilePicture(this.user.id)
-        .subscribe({
-          next: (blob) => {
-            const reader = new FileReader();
-            reader.onload = () => this.previewUrl = reader.result;
-            reader.readAsDataURL(blob);
-            console.log(reader.readAsDataURL(blob));
-          },
-          error: (error) => {
-            // console.error('Error fetching profile picture:', error);
-            this.message.error(`Error fetching profile picture ${error.message}`);
-          }
-        });
+  // Fetch and display the profile picture
+  getProfilePicture(): void {
+    if (this.isReaderBusy) {
+      console.log("Reader is busy, wait for the previous operation to complete.");
+      return;
     }
+    this.authService.getProfilePicture(this.user.id)
+      .subscribe({
+        next: (blob) => {
+          const reader = new FileReader();
+
+          // Set the flag to true when starting the read operation
+          this.isReaderBusy = true;
+
+          reader.onload = () => {
+            this.previewUrl = reader.result;
+            // Set the flag back to false when reading is done
+            this.isReaderBusy = false;
+          };
+
+          // Handle error case if the reader fails
+          reader.onerror = () => {
+            console.error("Error reading the blob.");
+            this.isReaderBusy = false;
+          };
+
+          reader.readAsDataURL(blob); // Read the blob
+        },
+        error: (error) => {
+          this.message.error(`Error fetching profile picture: ${error.message}`);
+        }
+      });
+  }
 }
