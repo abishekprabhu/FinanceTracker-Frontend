@@ -8,6 +8,8 @@ import { CategoryDTO } from '../../../../model/Category/category-dto';
 import { IncomeDTO } from '../../../../model/Income/income-dto';
 import { CategoryService } from '../../Service/Category/category.service';
 import { ExpenseDTO } from '../../../../model/Expense/expense-dto';
+import { StatsService } from '../../Service/Stats/stats.service';
+import { ChartType } from 'chart.js';
 
 @Component({
   selector: 'app-expense',
@@ -24,7 +26,8 @@ export class ExpenseComponent {
     private expenseService : ExpenseService,
     private categoryService:CategoryService,
     private message : NzMessageService,
-    private router : Router
+    private router : Router,
+    private statsService : StatsService
   ) { }
 
    user = StorageService.getUser();
@@ -32,6 +35,8 @@ export class ExpenseComponent {
     ngOnInit(){   
       this.getCategories(); 
       this.user;
+      this.getBarData();
+      this.getlineData();
       // console.log(this.getCategories());
       // console.log(this.expenseForm);
       // console.log(this.getAllExpense());
@@ -102,4 +107,76 @@ export class ExpenseComponent {
         complete:()=> this.getAllExpense()                
       })
     }
+
+  // Bar chart data
+  public barChartOptions = {
+    responsive: true,
+    maintainAspectRatio: false
+    };
+  
+    barChartType: ChartType = 'bar';
+    public barChartLegend = true;
+    public barChartLabels: string[] = [];
+    public barChartData: any[] = [
+      // { data: [], label: 'Income' },
+      { data: [], label: 'Expense',      borderColor: '#FF6384',
+        backgroundColor: '#FFB1C1', }
+    ];
+    private monthNames: string[] = [
+      'January', 'February', 'March', 'April', 'May', 'June',
+      'July', 'August', 'September', 'October', 'November', 'December'
+    ];
+    getBarData() {
+      this.statsService.getMonthlyData().subscribe(data => {
+        // const incomeData = data.incomeData; // Assuming incomeData is a map
+        const expenseData = data.expenseData; // Assuming expenseData is a map
+  
+        // Map month numbers to month names
+        this.barChartLabels = Object.keys(expenseData).map(month => this.monthNames[+month]);
+        // this.barChartData[0].data = Object.values(incomeData);
+        this.barChartData[0].data = Object.values(expenseData);
+      });
+    }
+
+
+    // Bar chart data
+    public lineChartOptions = {
+      responsive: true,
+      maintainAspectRatio: false
+      };
+  
+      lineChartType: ChartType = 'line';
+      public lineChartLegend = true;
+      public lineChartLabels: string[] = [];
+      public lineChartData: any[] = [
+        { data: [], label: 'Expense' ,  borderWidth: 1,
+          backgroundColor: 'rgba(255, 0, 0, 0.2)',
+          borderColor: 'rgb(255, 0, 0)',
+          fill: true, }
+      ];
+
+      getlineData() {
+        this.statsService.getChartMonthly().subscribe(data => {
+          // const incomeData = data.incomeList; // Ensure this is an array
+          const expenseData = data.expenseList; // Ensure this is an array
+      
+          // Map month numbers to month names
+          this.lineChartLabels = expenseData.map((income: any) => {
+            const date = new Date(income.date);
+            return isNaN(date.getTime()) ? income.date : date.toLocaleDateString();
+          });
+      
+          // Populate the data arrays for both income and expenses
+          // this.lineChartData[0].data = incomeData.map((income: any) => income.amount);
+          this.lineChartData[0].data = expenseData.map((expense: any) => expense.amount);
+      
+          // Log data for debugging
+          console.log('Line Chart Labels:', this.lineChartLabels);
+          // console.log('Income Data:', this.lineChartData[0].data);
+          console.log('Expense Data:', this.lineChartData[0].data);
+          console.log('Combined Data:', this.lineChartData);
+          console.log('Combined Labels:', this.lineChartLabels);
+
+        });
+      }
 }

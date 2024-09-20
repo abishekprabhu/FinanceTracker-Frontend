@@ -1,8 +1,10 @@
 import { Component, ElementRef, ViewChild, AfterViewInit } from '@angular/core';
 import { Inject, PLATFORM_ID } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
-import Chart from 'chart.js/auto';
+import Chart, { ChartType } from 'chart.js/auto';
 import { StatsService } from '../../Service/Stats/stats.service';
+import { StorageService } from '../../../../auth/services/storage/storage.service';
+import { PercentageDTO } from '../../../../model/Percentage/percentage-dto';
 
 @Component({
   selector: 'app-user',
@@ -12,8 +14,8 @@ import { StatsService } from '../../Service/Stats/stats.service';
 export class UserComponent implements AfterViewInit {
 
   gridStyle = {
-    width: '25%',
-    textAlign: 'center'
+    width: '50%',
+    textAlign: 'center',
   };
   
   @ViewChild('incomeLineChartRef') private incomeLineChartRef!: ElementRef;
@@ -36,6 +38,8 @@ export class UserComponent implements AfterViewInit {
     if (this.isBrowser) {
       this.getChartData();
     }
+    this.getlineData();
+    this.percentageCal();
   }
 
   createLineChart(): void {
@@ -134,6 +138,13 @@ export class UserComponent implements AfterViewInit {
         if (v.expenseList && v.incomeList) {
           this.Incomes = v.incomeList;
           this.expenses = v.expenseList;
+
+          // Calculate current month's income and expense
+          this.currentMonthIncome = this.getCurrentMonthData(this.Incomes, true);
+          this.currentMonthExpense = this.getCurrentMonthData(this.expenses, false);
+                    // Optionally log current month income/expense
+          console.log('Current Month Income:', this.currentMonthIncome);
+          console.log('Current Month Expense:', this.currentMonthExpense);
           this.createLineChart();
         }
       },
@@ -143,5 +154,85 @@ export class UserComponent implements AfterViewInit {
     });
   }
 
+      // Bar chart data
+      public lineChartOptions = {
+        responsive: true,
+        maintainAspectRatio: false
+        };
+    
+        lineChartType: ChartType = 'line';
+        public lineChartLegend = true;
+        public lineChartLabels: string[] = [];
+        public lineChartData: any[] = [
+          { data: [], label: 'Income' ,  borderWidth: 1,
+            backgroundColor: 'rgba(80, 200, 120, 0.2)',
+            borderColor: 'rgb(0, 100, 0)',
+            fill: true,},
+          { data: [], label: 'Expense' ,  borderWidth: 1,
+            backgroundColor: 'rgba(255, 0, 0, 0.2)',
+            borderColor: 'rgb(255, 0, 0)',
+            fill: true, }
+        ];
+
+        getlineData() {
+          this.statsService.getChartMonthly().subscribe(data => {
+            const incomeData = data.incomeList; // Ensure this is an array
+            const expenseData = data.expenseList; // Ensure this is an array
+        
+            // Map month numbers to month names
+            this.lineChartLabels = incomeData.map((income: any) => {
+              const date = new Date(income.date);
+              return isNaN(date.getTime()) ? income.date : date.toLocaleDateString();
+            });
+        
+            // Populate the data arrays for both income and expenses
+            this.lineChartData[0].data = incomeData.map((income: any) => income.amount);
+            this.lineChartData[1].data = expenseData.map((expense: any) => expense.amount);
+        
+            // Log data for debugging
+            console.log('Line Chart Labels:', this.lineChartLabels);
+            console.log('Income Data:', this.lineChartData[0].data);
+            console.log('Expense Data:', this.lineChartData[1].data);
+            console.log('Combined Data:', this.lineChartData);
+            console.log('Combined Labels:', this.lineChartLabels);
+
+          });
+        }
+        incomePercentage: number = 0;
+        expensePercentage: number = 0;
+        balancePercentage: number = 0;
+        percentage:PercentageDTO [] = [];
+        user = StorageService.getUser();
+
+        percentageCal():void{
+          this.statsService.getTransactionSummary(this.user.id).subscribe({
+            next:(data)=> {
+              this.percentage = data;
+              console.log(data);
+              this.incomePercentage = data.incomePercentage;
+              this.expensePercentage = data.expensePercentage;
+              this.balancePercentage = data.balancePercentage;
+            },
+            error:(e)=> {
+              console.error(`Error fetching summary: ${e.message}`);
+            }
+        });
+        }
+
+        currentMonthIncome: number = 0;
+        currentMonthExpense: number = 0;
+
+            // Method to get current month data and sum
+      getCurrentMonthData(dataList: any[], isIncome: boolean): number {
+        const currentMonth = new Date().getMonth(); // Current month (0 = January, 11 = December)
+        const currentYear = new Date().getFullYear(); // Current year
+
+        return dataList
+          .filter((data: any) => {
+            const date = new Date(data.date);
+            return date.getMonth() === currentMonth && date.getFullYear() === currentYear;
+          })
+          .reduce((total: number, data: any) => total + data.amount, 0);
+      }
   
 }

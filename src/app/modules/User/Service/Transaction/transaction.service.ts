@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
 import { TransactionDTO } from '../../../../model/Transaction/transaction-dto';
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpParams } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators'; 
 
- const BASE_URL = "http://localhost:8080/api/transaction"
+ const BASE_URL = "http://localhost:8080/api/transaction";
+ const PDF_URL = "http://localhost:8080/api/pdf";
 @Injectable({
   providedIn: 'root'
 })
@@ -42,6 +43,22 @@ export class TransactionService {
     .pipe(
       catchError(this.handleError)
     );
+  }
+
+  // getTransactionsPdf(startDate: string, endDate: string): Observable<any> {
+  //   const params = new HttpParams()
+  //     .set('startDate', startDate)
+  //     .set('endDate', endDate);
+      
+  //   return this.http.get(PDF_URL+"/transactions", { params: params, responseType: 'blob' }).pipe(
+  //     catchError(this.handleError)
+  //   );
+  // }
+
+
+  DownloadMonthlyReport():Observable<any>{
+    return this.http.get(PDF_URL+"/monthly-report", { responseType: 'blob' })
+    .pipe(catchError(this.handleError))
   }
 
   private handleError(error: HttpErrorResponse) {

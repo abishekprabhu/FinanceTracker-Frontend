@@ -7,7 +7,8 @@ import { IncomeDTO } from '../../../../model/Income/income-dto';
 import { CategoryDTO } from '../../../../model/Category/category-dto';
 import { CategoryService } from '../../Service/Category/category.service';
 import { StorageService } from '../../../../auth/services/storage/storage.service';
-
+import { ChartData, ChartOptions, ChartType } from 'chart.js';
+import { StatsService } from '../../Service/Stats/stats.service';
 @Component({
   selector: 'app-income',
   templateUrl: './income.component.html',
@@ -25,13 +26,16 @@ categories : CategoryDTO[] = [];
     private incomeService : IncomeService,
     private categoryService:CategoryService,
     private message : NzMessageService,
-    private router : Router
+    private router : Router,
+    private statsService : StatsService
   ) { }
 
    user = StorageService.getUser();
 
     ngOnInit(){   
       this.getCategories(); 
+      this.getBarData();
+      this.getlineData();
       // if (!this.user || !this.user.id) {
       //   this.message.error("User not logged in or missing user ID.", { nzDuration: 5000 });
       //   return; // Stop further execution if user or id is missing
@@ -107,5 +111,74 @@ categories : CategoryDTO[] = [];
         complete:()=> this.getAllIncome()                
       })
     }
+
+     // Bar chart data
+  public barChartOptions = {
+    responsive: true,
+    maintainAspectRatio: false
+  };
+
+  
+  barChartType: ChartType = 'bar';
+  public barChartLegend = true;
+  public barChartLabels: string[] = [];
+  public barChartData: any[] = [
+    { data: [], label: 'Income' },
+    // { data: [], label: 'Expense' }
+  ];
+  private monthNames: string[] = [
+    'January', 'February', 'March', 'April', 'May', 'June',
+    'July', 'August', 'September', 'October', 'November', 'December'
+  ];
+  getBarData() {
+    this.statsService.getMonthlyData().subscribe(data => {
+      const incomeData = data.incomeData; 
+      this.barChartLabels = Object.keys(incomeData).map(month => this.monthNames[+month]);
+      this.barChartData[0].data = Object.values(data.incomeData);
+      // this.barChartData[1].data = Object.values(data.expenseData);
+    });
+  }
+
+
+    // line chart data
+    public lineChartOptions = {
+      responsive: true,
+      maintainAspectRatio: false
+      };
+  
+      lineChartType: ChartType = 'line';
+      public lineChartLegend = true;
+      public lineChartLabels: string[] = [];
+      public lineChartData: any[] = [
+        { data: [], label: 'Income' ,  borderWidth: 1,
+          backgroundColor: 'rgba(80, 200, 120, 0.2)',
+          borderColor: 'rgb(0, 100, 0)',
+          fill: true,}
+      ];
+
+      getlineData() {
+        this.statsService.getChartMonthly().subscribe(data => {
+          const incomeData = data.incomeList; // Ensure this is an array
+          // const expenseData = data.expenseList; // Ensure this is an array
+      
+          // Map month numbers to month names
+          this.lineChartLabels = incomeData.map((income: any) => {
+            const date = new Date(income.date);
+            return isNaN(date.getTime()) ? income.date : date.toLocaleDateString();
+          });
+      
+          // Populate the data arrays for both income and expenses
+          this.lineChartData[0].data = incomeData.map((income: any) => income.amount);
+          // this.lineChartData[1].data = expenseData.map((expense: any) => expense.amount);
+      
+          // Log data for debugging
+          console.log('Line Chart Labels:', this.lineChartLabels);
+          console.log('Income Data:', this.lineChartData[0].data);
+          // console.log('Expense Data:', this.lineChartData[1].data);
+          console.log('Combined Data:', this.lineChartData);
+          console.log('Combined Labels:', this.lineChartLabels);
+
+        });
+      }
 
 }

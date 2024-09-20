@@ -1,15 +1,80 @@
-<div>
-    <div nz-row>
-        <h6 nz-card-grid nzSpan="8" nz-col [ngStyle]="gridStyle">Balance:
-            <span style="color:slateblue;">${{stats?.balance}}</span>
-        </h6>
-        <h6 nz-card-grid nzSpan="8" nz-col [ngStyle]="gridStyle">Total Income:
-            <span style="color:green;">${{stats?.income}}</span>
-        </h6>
-        <h6 nz-card-grid nzSpan="8" nz-col [ngStyle]="gridStyle">Expense:
-            <span style="color:red;">${{stats?.expense}}</span>
-        </h6>        
-    </div>
+<div class="container">
+    <div nz-row style="display: flex;justify-content: space-evenly;">
+        <div nz-card-grid class="bg-primary"  nzSpan="7" nz-col [ngStyle]="gridStyle">
+            <div class="d-flex justify-content-between align-items-center mb-2">
+                <div class="me-2">
+                    <h4 class="display-5 text-white">${{stats?.balance}}</h4>
+                    <p class="card-text"><strong>Account Balance</strong></p>
+                </div>
+                <h1><span class="material-symbols-outlined">
+                    account_balance
+                    </span></h1>
+            </div>
+            <div class="card-text">
+                    <nz-statistic
+                    [nzValue]="balancePercentage"
+                    [nzPrefix]="prefixTplThree"
+                    [nzSuffix]="'%'"
+                    [nzValueStyle]="{ color: balancePercentage > 0 ? '#3F8600' : '#CF1322' }"
+                ></nz-statistic>
+                <ng-template #prefixTplThree>
+                    <span nz-icon [nzType]="balancePercentage > 0 ? 'arrow-up' : 'arrow-down'"></span>
+                </ng-template>
+                    <div class="caption">from last month</div>
+            </div>
+            </div>
+
+        <div nz-card-grid class="bg-white" nzSpan="7" nz-col [ngStyle]="gridStyle">
+            <div class="d-flex justify-content-between align-items-center mb-2">
+                <div class="me-2">
+                    <!-- <h4 class="display-5 text-success">${{stats?.income}}</h4> -->
+                    <h4 class="display-5 text-success">${{currentMonthIncome}}</h4>
+                    <p class="card-text"><strong>Current Month Income </strong></p>
+                </div>
+                <span class="material-symbols-outlined">
+                    payments
+                    </span>
+            </div>
+            <div class="card-text">
+                    <nz-statistic
+                    [nzValue]="incomePercentage"
+                    [nzPrefix]="prefixTplOne"
+                    [nzSuffix]="'%'"
+                    [nzValueStyle]="{ color: incomePercentage > 0 ? '#3F8600' : '#CF1322' }"
+                  ></nz-statistic>
+                  <ng-template #prefixTplOne>
+                    <span nz-icon [nzType]="incomePercentage > 0 ? 'arrow-up' : 'arrow-down'"></span>
+                  </ng-template>
+                <div class="caption">from last month</div>
+                </div>
+            </div>
+        
+        <div nz-card-grid class="bg-info " nzSpan="7" nz-col [ngStyle]="gridStyle">
+            <div class="d-flex justify-content-between align-items-center mb-2">
+                <div class="me-2">
+                    <!-- <h4 class="display-5 text-success">${{stats?.expense}}</h4> -->
+                    <h4 class="display-5 text-danger">${{currentMonthExpense}}</h4>
+                    <p class="card-text"><strong>Current Month Expense </strong></p>
+                </div>
+                <span class="material-symbols-outlined">
+                    payments
+                    </span>
+            </div>
+            <div class="card-text">                
+                    <nz-statistic
+                    [nzValue]="expensePercentage"
+                    [nzPrefix]="prefixTplTwo"
+                    [nzSuffix]="'%'"
+                    [nzValueStyle]="{ color: expensePercentage > 0 ? '#CF1322' : '#3F8600' }"
+                  ></nz-statistic>
+                  <ng-template #prefixTplTwo>
+                    <span nz-icon [nzType]="expensePercentage > 0 ? 'arrow-up' : 'arrow-down'"></span>
+                  </ng-template>
+                <div class="caption">from last month</div>
+                </div>
+            </div>        
+        </div>
+</div>
     <div nz-row style="margin-top: 20px;">
         <div nz-col nzFlex="1 1 200px">
             <nz-card nzType="inner" nzTitle="Income Charts">
@@ -48,4 +113,65 @@
             </nz-card>
         </div>
     </div>
-</div>
+
+
+<div style="width: 100%; height: 60vh; position: relative;">
+    <h2>Transaction Details of Both Income And Expense Line Chart</h2>
+    <canvas baseChart
+            [datasets]="lineChartData"
+            [labels]="lineChartLabels"
+            [options]="lineChartOptions"
+            [legend]="lineChartLegend"
+            [type]="lineChartType">
+    </canvas>
+  </div>
+
+  <!-- <div style="background: #ECECEC; padding: 30px;">
+    <nz-row [nzGutter]="16">
+      <nz-col [nzSpan]="12">
+        <nz-card>
+          <nz-statistic
+            [nzValue]="incomePercentage"
+            [nzTitle]="'Income Change'"
+            [nzPrefix]="prefixTplOne"
+            [nzSuffix]="'%'"
+            [nzValueStyle]="{ color: incomePercentage > 0 ? '#3F8600' : '#CF1322' }"
+          ></nz-statistic>
+          <ng-template #prefixTplOne>
+            <span nz-icon [nzType]="incomePercentage > 0 ? 'arrow-up' : 'arrow-down'"></span>
+          </ng-template>
+        </nz-card>
+      </nz-col>
+      <nz-col [nzSpan]="12">
+        <nz-card>
+          <nz-statistic
+            [nzValue]="expensePercentage"
+            [nzTitle]="'Expense Change'"
+            [nzPrefix]="prefixTplTwo"
+            [nzSuffix]="'%'"
+            [nzValueStyle]="{ color: expensePercentage > 0 ? '#CF1322' : '#3F8600' }"
+          ></nz-statistic>
+          <ng-template #prefixTplTwo>
+            <span nz-icon [nzType]="expensePercentage > 0 ? 'arrow-up' : 'arrow-down'"></span>
+          </ng-template>
+        </nz-card>
+      </nz-col>
+    </nz-row>
+    <nz-row [nzGutter]="16" style="margin-top: 16px;">
+      <nz-col [nzSpan]="24">
+        <nz-card>
+          <nz-statistic
+            [nzValue]="balancePercentage"
+            [nzTitle]="'Balance Change'"
+            [nzPrefix]="prefixTplThree"
+            [nzSuffix]="'%'"
+            [nzValueStyle]="{ color: balancePercentage > 0 ? '#3F8600' : '#CF1322' }"
+          ></nz-statistic>
+          <ng-template #prefixTplThree>
+            <span nz-icon [nzType]="balancePercentage > 0 ? 'arrow-up' : 'arrow-down'"></span>
+          </ng-template>
+        </nz-card>
+      </nz-col>
+    </nz-row>
+  </div> -->
+  

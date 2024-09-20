@@ -4,6 +4,8 @@ import { Observable, pipe, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators'; 
 
 const BASE_URL = "http://localhost:8080/";
+
+const apiUrl = 'http://localhost:8080/api/transaction/summary';
 @Injectable({
   providedIn: 'root'
 })
@@ -44,6 +46,19 @@ export class StatsService {
       catchError(this.handleError)
     );
   }
+  //bar chart
+  getMonthlyData(): Observable<any> {
+    return this.http.get(BASE_URL+`api/stats/monthly-data`)
+    .pipe(catchError(this.handleError)); 
+  }
+
+  getTransactionSummary(userId: number): Observable<any> {
+    return this.http.get<any>(BASE_URL+`api/stats/summary/${userId}`).pipe(
+      catchError(this.handleError)
+    );
+  }
+
+
 
   private handleError(error: HttpErrorResponse) {
     let errorMessage = '';

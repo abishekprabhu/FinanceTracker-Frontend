@@ -6,7 +6,10 @@ import { NzMessageService } from 'ng-zorro-antd/message';
 import { CategoryService } from '../../Service/Category/category.service';
 import { StorageService } from '../../../../auth/services/storage/storage.service';
 import { TransactionDTO } from '../../../../model/Transaction/transaction-dto';
-
+import { saveAs } from 'file-saver';
+import { error } from 'console';
+import { StatsService } from '../../Service/Stats/stats.service';
+import { ChartType } from 'chart.js';
 @Component({
   selector: 'app-transaction',
   templateUrl: './transaction.component.html',
@@ -23,15 +26,19 @@ export class TransactionComponent implements OnInit{
   paginatedTransactions: TransactionDTO[] = [];
   pageIndex: number = 1;
   pageSize: number = 5; // Customize the number of transactions per page
+
+
   constructor(private fb : FormBuilder,
     private transactionService : TransactionService,
     private categoryService:CategoryService,
     private message : NzMessageService,
+    private statsService :StatsService
   ) { }
 
   ngOnInit(): void {
     this.getCategories(); 
     this.getAllTransaction();
+    this.getBarData();
   }
   
   user = StorageService.getUser();
@@ -95,14 +102,83 @@ export class TransactionComponent implements OnInit{
     })
   }
 
-  onPageChange(page: number): void {
-    this.pageIndex = page;
-    this.updatePaginatedTransactions();
+  downloadMonthlyReport(): void {
+    this.transactionService.DownloadMonthlyReport().subscribe({
+      next:(response: Blob) => {
+      const file = new Blob([response], { type: 'application/pdf' });
+      saveAs(file, 'monthly-transaction-report.pdf');
+      this.message.success(`PDF Created Successful.`,{nzDuration:5000});
+    },error:(err)=>{
+      this.message.error(`error while extracting pdf ${err.message}`, {nzDuration:5000})
+    }});
   }
 
-  updatePaginatedTransactions(): void {
-    const startIndex = (this.pageIndex - 1) * this.pageSize;
-    this.paginatedTransactions = this.transactions.slice(startIndex, startIndex + this.pageSize);
+  // dateForm = this.fb.group({
+  //   startDate: ['', Validators.required],
+  //   endDate: ['', Validators.required]
+  // });
+  // downloadPdf() {
+  //   const { startDate, endDate } = this.dateForm.value;
+  
+  //   // Ensure startDate and endDate are not undefined or null
+  //   const validStartDate = startDate ?? '';// Nullish Coalescing Operator (??)
+  //   const validEndDate = endDate ?? '';
+
+  //   console.log("Valid: "+validStartDate,validEndDate);
+  //   if (validStartDate && validEndDate) {
+  //     this.transactionService.getTransactionsPdf(validStartDate, validEndDate).subscribe({
+  //       next:(response: Blob) => {
+  //         saveAs(response, 'transactions.pdf');
+  //         this.message.success('PDF Created Successfully', { nzDuration: 5000 });
+  //       },
+  //       error:(error) => {
+  //         // console.error('Error downloading the PDF', error);
+  //         this.message.error(`Error downloading the PDF ${error.message}`, { nzDuration: 5000 });
+  //       }
+  //   });
+  //   } else {
+  //     this.message.error('Please provide valid start and end dates', { nzDuration: 5000 });
+  //   }
+  // }
+  
+
+    onPageChange(page: number): void {
+      this.pageIndex = page;
+      this.updatePaginatedTransactions();
+    }
+
+    updatePaginatedTransactions(): void {
+      const startIndex = (this.pageIndex - 1) * this.pageSize;
+      this.paginatedTransactions = this.transactions.slice(startIndex, startIndex + this.pageSize);
+    }
+
+    // Bar chart data
+    public barChartOptions = {
+    responsive: true,
+    maintainAspectRatio: false
+    };
+
+    barChartType: ChartType = 'bar';
+    public barChartLegend = true;
+    public barChartLabels: string[] = [];
+    public barChartData: any[] = [
+      { data: [], label: 'Income' },
+      { data: [], label: 'Expense' }
+    ];
+    private monthNames: string[] = [
+      'January', 'February', 'March', 'April', 'May', 'June',
+      'July', 'August', 'September', 'October', 'November', 'December'
+    ];
+    getBarData() {
+      this.statsService.getMonthlyData().subscribe(data => {
+        const incomeData = data.incomeData; // Assuming incomeData is a map
+        const expenseData = data.expenseData; // Assuming expenseData is a map
+
+        // Map month numbers to month names
+        this.barChartLabels = Object.keys(incomeData).map(month => this.monthNames[+month]);
+        this.barChartData[0].data = Object.values(incomeData);
+        this.barChartData[1].data = Object.values(expenseData);
+      });
   }
 
 }

@@ -1,3 +1,31 @@
+
+<!-- <form [formGroup]="dateForm" (ngSubmit)="downloadPdf()">
+    <div>
+      <label for="startDate">Start Date:</label>
+      <input id="startDate" type="date" formControlName="startDate" required />
+    </div>
+    
+    <div>
+      <label for="endDate">End Date:</label>
+      <input id="endDate" type="date" formControlName="endDate" required />
+    </div>
+    
+    <button type="submit">Download PDF</button>
+  </form> -->
+  <div style="width: 100%; height: 60vh; position: relative;">
+    <h2>Transaction Details of Both Income And Expense Bar Chart</h2>
+    <canvas baseChart
+            [datasets]="barChartData"
+            [labels]="barChartLabels"
+            [options]="barChartOptions"
+            [legend]="barChartLegend"
+            [type]="barChartType">
+    </canvas>
+  </div>
+
+
+  
+<div style="position: relative; margin-top: 50px;">
 <div nz-row>
     <div nz-col nzFlex="2">
         <nz-card nzType="inner" style="margin-top: 16px;" nzTitle="Post new transaction">
@@ -70,4 +98,6 @@
           </nz-pagination>
         </nz-card>
       </div>
+</div>
+<button nz-button nzType="primary" (click)="downloadMonthlyReport()">Download Monthly Report</button>
 </div>
