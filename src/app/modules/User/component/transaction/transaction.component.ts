@@ -10,6 +10,7 @@ import { saveAs } from 'file-saver';
 import { error } from 'console';
 import { StatsService } from '../../Service/Stats/stats.service';
 import { ChartType } from 'chart.js';
+import { NzButtonSize } from 'ng-zorro-antd/button';
 @Component({
   selector: 'app-transaction',
   templateUrl: './transaction.component.html',
@@ -21,12 +22,18 @@ export class TransactionComponent implements OnInit{
     "INCOME",
     "EXPENSE"
   ];
-  categories : CategoryDTO[] = [];
-  transactions : TransactionDTO[] = [];
+  categories: CategoryDTO[] = [];
+  transactions: TransactionDTO[] = [];
   paginatedTransactions: TransactionDTO[] = [];
+  filteredTransactions: TransactionDTO[] = []; // For filtered results
   pageIndex: number = 1;
-  pageSize: number = 5; // Customize the number of transactions per page
-
+  pageSize: number = 5;
+  searchTerm: string = '';
+  amountSearchTerm: number | null = null; // Search by amount
+  selectedCategory: string = '';
+  selectedType: string = ''; // Search by income/expense type
+  dateOrder: string = ''; // For sorting
+  size: NzButtonSize = 'large';
 
   constructor(private fb : FormBuilder,
     private transactionService : TransactionService,
@@ -86,6 +93,7 @@ export class TransactionComponent implements OnInit{
             categoryName: category ? category.name : 'Unknown'
           };
         });
+        this.applyFilters(); // Apply filters after loading transactions
         console.log(this.transactions); // Check the modified transaction objects
         this.updatePaginatedTransactions();
       },
@@ -142,16 +150,58 @@ export class TransactionComponent implements OnInit{
   // }
   
 
-    onPageChange(page: number): void {
-      this.pageIndex = page;
-      this.updatePaginatedTransactions();
+  applyFilters(): void {
+    let filtered = [...this.transactions];
+
+    // Apply search filter by description
+    if (this.searchTerm) {
+      filtered = filtered.filter(transaction =>
+        transaction.description.toLowerCase().includes(this.searchTerm.toLowerCase())
+      );
     }
 
-    updatePaginatedTransactions(): void {
-      const startIndex = (this.pageIndex - 1) * this.pageSize;
-      this.paginatedTransactions = this.transactions.slice(startIndex, startIndex + this.pageSize);
+    // Apply search filter by amount
+    if (this.amountSearchTerm !== null) {
+      filtered = filtered.filter(transaction => transaction.amount === this.amountSearchTerm);
     }
 
+    // Apply category filter
+    if (this.selectedCategory) {
+      filtered = filtered.filter(transaction => transaction.categoryName === this.selectedCategory);
+    }
+
+    // Apply income/expense type filter
+    if (this.selectedType) {
+      filtered = filtered.filter(transaction => transaction.type === this.selectedType);
+    }
+
+    // Apply date sorting
+    if (this.dateOrder === 'asc') {
+      filtered.sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
+    } else if (this.dateOrder === 'desc') {
+      filtered.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+    }
+
+    this.filteredTransactions = filtered;
+    this.updatePaginatedTransactions();
+  }
+
+  updatePaginatedTransactions(): void {
+    const startIndex = (this.pageIndex - 1) * this.pageSize;
+    const endIndex = this.pageIndex * this.pageSize;
+    this.paginatedTransactions = this.filteredTransactions.slice(startIndex, endIndex);
+  }
+
+  onPageChange(page: number): void {
+    this.pageIndex = page;
+    this.updatePaginatedTransactions();
+  }
+
+    // updatePaginatedTransactions(): void {
+    //   const startIndex = (this.pageIndex - 1) * this.pageSize;
+    //   this.paginatedTransactions = this.transactions.slice(startIndex, startIndex + this.pageSize);
+    // }
+  
     // Bar chart data
     public barChartOptions = {
     responsive: true,

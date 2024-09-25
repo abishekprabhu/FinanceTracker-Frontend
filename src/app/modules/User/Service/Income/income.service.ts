@@ -31,7 +31,7 @@ export class IncomeService {
     return this.http.get<IncomeDTO>(BASE_URL+`/${id}`);
   }
 
-  getAllExpenseByUserId(id:number): Observable<IncomeDTO[]>{
+  getAllIncomeByUserId(id:number): Observable<IncomeDTO[]>{
     return this.http.get<IncomeDTO[]>(BASE_URL+`/user/${id}`).pipe(
       catchError(this.handleError)
     );

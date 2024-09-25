@@ -24,6 +24,14 @@ export class CategoryService {
     );
   }
 
+  getIncomeCategoryData(): Observable<any> {
+    return this.http.get(BASE_URL+`/income`);
+  }
+
+  getExpenseCategoryData(): Observable<any> {
+    return this.http.get(BASE_URL+`/expense`);
+  }
+
   getAllCategories():Observable<any>{
     return this.http.get(BASE_URL+"/all");
   }

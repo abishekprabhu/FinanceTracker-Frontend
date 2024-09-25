@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../../../auth/services/auth/auth.service';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { StorageService } from '../../../../auth/services/storage/storage.service';
+import { NavigationEnd, Router } from '@angular/router';
 
 @Component({
   selector: 'app-settings',
@@ -15,12 +16,18 @@ export class SettingsComponent implements OnInit{
 
   constructor(
     private authService: AuthService,
-    private message:NzMessageService
+    private message:NzMessageService,
+    private router: Router,
   ) { }
 
  ngOnInit(): void {
     // Fetch and display the profile picture on component initialization
     this.getProfilePicture();
+    this.router.events.subscribe((event) => {
+      if (event instanceof NavigationEnd) {
+        this.getProfilePicture();
+      }
+    });
   }
 
   // Handle file input change event

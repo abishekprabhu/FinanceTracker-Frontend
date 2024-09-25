@@ -11,7 +11,11 @@
     </ng-template>
   
     <!-- File input for uploading a new profile picture -->
-    <input type="file" (change)="onFileSelected($event)" accept="image/*"/>
-    <button (click)="uploadProfilePicture()">Upload</button>
+    <input class="btn btn-info" type="file" (change)="onFileSelected($event)" accept="image/*"/>
+    <button nz-button nzType="primary" [nzSize]="'large'" nzShape="round" (click)="uploadProfilePicture()">
+      <span nz-icon nzType="download"></span>
+      Upload
+    </button>
   </div>
-  
+
+  <h3 style="text-align: center; ">Email : {{user.email}}</h3>

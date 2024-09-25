@@ -4,7 +4,8 @@
     font-style: normal;
   }
   .bg {
-    background-image: url(../img/layered-waves-haikei.png);
+    background: rgb(2,0,36);
+    background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(33,33,125,1) 20%, rgba(0,212,255,1) 100%);
     background-size: cover; /* Cover the entire background */
     background-position: center;
     width: 100%;
@@ -17,18 +18,19 @@
   .bg::after {
     content: "";
     background-image: url(../img/icon-8418531_1920.png);
-    background-size: 250px; /* Adjust the size of the icon */
+    background-size: 450px; /* Adjust the size of the icon */
     background-repeat: no-repeat;
     position: absolute;
     bottom: 0px;
     right: 60px;
-    width: 250px;
+    width: 550px;
     height: 350px;
   }
 
 h1{
-    text-align: left;
+    /* text-align: left; */
     margin-top: 20px;
-    font-size: 80px;
+    font-size: 100px;
     width: 50%;    
+    color: aliceblue;
 }

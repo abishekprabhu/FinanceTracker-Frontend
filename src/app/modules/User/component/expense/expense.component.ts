@@ -20,8 +20,15 @@ export class ExpenseComponent {
   categories : CategoryDTO[] = [];
     
   expenses : ExpenseDTO[] = [];
-  // expenses: IncomeDTO[] = [];
-  // expenses : any;
+
+  paginatedExpenses: ExpenseDTO[] = [];
+  filteredExpenses: ExpenseDTO[] = []; 
+  pageIndex: number = 1;
+  pageSize: number = 5;
+  searchTerm: string = '';
+  selectedCategory: string = '';
+  dateOrder: string = ''; 
+
   constructor(private fb : FormBuilder,
     private expenseService : ExpenseService,
     private categoryService:CategoryService,
@@ -37,6 +44,7 @@ export class ExpenseComponent {
       this.user;
       this.getBarData();
       this.getlineData();
+      this.getAllStats();
       // console.log(this.getCategories());
       // console.log(this.expenseForm);
       // console.log(this.getAllExpense());
@@ -93,7 +101,9 @@ export class ExpenseComponent {
               categoryName: category ? category.name : 'Unknown'
             };
           });
+          this.applyFilters();
           console.log(this.expenses); // Check the modified income objects
+          this.updatePaginatedExpenses();
         },
         error: (e) => this.message.error("Error Fetching income." + e, { nzDuration: 5000 })
       });
@@ -179,4 +189,58 @@ export class ExpenseComponent {
 
         });
       }
+
+      stats: any;
+
+      gridStyle = {
+        width: '50%',
+        textAlign: 'center',
+      };
+      getAllStats(): void {
+        this.statsService.getStats().subscribe({
+          next: (v) => {this.stats = v
+            console.log(v.expenses);
+            console.log(this.stats);
+          },
+          error: (e) => console.error('Error fetching stats:', e)
+        });
+      }
+
+      applyFilters(): void {
+        let filtered = [...this.expenses];
+    
+        // Apply search filter by description
+        if (this.searchTerm) {
+          filtered = filtered.filter(expense =>
+            expense.description.toLowerCase().includes(this.searchTerm.toLowerCase())
+          );
+        }
+    
+        // Apply category filter
+        if (this.selectedCategory) {
+          filtered = filtered.filter(expense => expense.categoryName === this.selectedCategory);
+        }
+    
+        // Apply date sorting
+        if (this.dateOrder === 'asc') {
+          filtered.sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
+        } else if (this.dateOrder === 'desc') {
+          filtered.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+        }
+    
+        this.filteredExpenses = filtered;
+        this.updatePaginatedExpenses();
+      }
+    
+      updatePaginatedExpenses(): void {
+        const startIndex = (this.pageIndex - 1) * this.pageSize;
+        const endIndex = this.pageIndex * this.pageSize;
+        this.paginatedExpenses = this.filteredExpenses.slice(startIndex, endIndex);
+      }
+    
+      onPageChange(page: number): void {
+        this.pageIndex = page;
+        this.updatePaginatedExpenses();
+      }
+    
 }

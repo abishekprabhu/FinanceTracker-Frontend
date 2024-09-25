@@ -1,4 +1,6 @@
-<div style="width: 100%; height: 60vh; position: relative;">
+<h1 class="bg-success text-bold" style="text-align: center; font-weight: 900;"><img style="padding: 10px 5px; width:100px" src="https://cdn-icons-png.flaticon.com/128/10365/10365322.png" alt="income"> INCOME SECTION</h1>
+
+<div style="width: 100%; height: 60vh;margin-bottom: 10px; position: relative;">
     <h2>Income Monthly Bar Chart</h2>
     <canvas baseChart
             [datasets]="barChartData"
@@ -8,8 +10,8 @@
             [type]="barChartType">
     </canvas>
   </div>
-  <div style="width: 100%; height: 60vh; position: relative;">
-    <h2>Transaction Details of Both Income And Expense Line Chart</h2>
+  <div style="width: 100%; margin-top: 60px; height: 60vh; position: relative;">
+    <h2>current month data</h2>
     <canvas baseChart
             [datasets]="lineChartData"
             [labels]="lineChartLabels"
@@ -19,29 +21,42 @@
     </canvas>
   </div>
 
-  
+    <div nz-card-grid style="margin-top: 70px; position: relative; padding-left: 100px; align-content: center; width: 200%;" class="bg-gradient-success" nzSpan="7" nz-col [ngStyle]="gridStyle">
+        <div class="d-flex justify-content-between align-items-center mb-2">
+            <div class="me-2">
+                <h4 class="display-5 text-white">${{stats?.income}}</h4>
+                <!-- <h4 class="display-5 text-white">${{currentMonthIncome}}</h4> -->
+                <p class="card-text"><strong>total Income </strong></p>
+            </div>
+            <span class="material-symbols-outlined">
+                payments
+                </span>
+        </div>
+    </div>
+    
+
 <div style="position: relative; margin-top: 50px;">
     <div nz-row>
-        <div nz-col nzFlex="2">
+        <div nz-col nzFlex="2" class="form">
             <nz-card nzType="inner" style="margin-top: 16px;" nzTitle="Post new Income">
                 <form nz-form [formGroup]="incomeForm" (ngSubmit)="submitForm()" class="custom-form">
                     <nz-form-item>
-                        <nz-form-control nzErrorTip="Please input the amount!">
+                        <nz-form-control  class="form-control" nzErrorTip="Please input the amount!">
                             <input type="text" nz-input formControlName="amount" placeholder="Enter amount">
                         </nz-form-control>
                     </nz-form-item>
                     <nz-form-item>
-                        <nz-form-control nzErrorTip="Please input the date!">
+                        <nz-form-control class="form-control" nzErrorTip="Please input the date!">
                             <nz-date-picker style="width: 100%;" formControlName="date"></nz-date-picker>
                         </nz-form-control>
                     </nz-form-item>
                     <nz-form-item>
-                        <nz-form-control>
+                        <nz-form-control  class="form-control">
                             <textarea nz-input placeholder="Enter description" [nzAutosize]="{minRows: 2 , maxRows: 6}"
                             formControlName="description" ></textarea>
                         </nz-form-control>
                     </nz-form-item>
-                    <nz-form-item nzErrorTip="Please input the category!">
+                    <nz-form-item  class="form-control" nzErrorTip="Please input the category!">
                             <nz-form-control>
                                 <nz-select nzAllowClear  nzPlaceHolder="select the category" formControlName="categoryId">
                                     <nz-option *ngFor="let category of categories" 
@@ -51,32 +66,76 @@
                                 </nz-select>
                             </nz-form-control>
                     </nz-form-item>
-                        <button nz-button nzType="primary" nzBlock [disabled]="incomeForm.invalid" class="w-100">
+                        <button nz-button nzType="primary" class="bg-gradient-success w-100">
                             Post Income
                         </button>
                 </form>
             </nz-card>
         </div>
-        <div nz-col nzFlex="3" style="margin-left: 20px;">
+        <div nz-col nzSpan="14">
             <nz-card nzType="inner" style="margin-top: 16px;" nzTitle="Past Incomes">
-                <div nz-card-grid style="width: 100%;" *ngFor="let income of incomes">
-                    <div nz-row>
-                        <div nz-col nzSpan="18">
-                            <span nz-icon nzType="message" nzTheme="outline"></span> {{income.description}}
-                            -
-                            <span nz-icon nzType="dollar" nzTheme="outline"></span> {{income.amount}}
-                            -
-                            <span nz-icon nzType="clock-circle" nzTheme="outline"></span> {{income.date}}
-                            -
-                            <span nz-icon nzType="comment" nzTheme="outline"></span> {{income.categoryName}}
-                        </div>
-                        <div nz-col nzSpan="6" style="font-size: 15px;">
-                            <span nz-icon nzType="edit" nzTheme="fill" style="color: blue;" routerLink="/user/income/{{income.id}}/edit" ></span>
-                            <span nz-icon nzType="delete" nzTheme="fill" style="color: red; margin-left: 10px;" (click)="deleteIncome(income.id)"></span>
-                        </div>
-                    </div>
-                </div>         
+              
+                <div nz-col nzSpan="7">
+                    <input type="text" class="form-control mb-3" placeholder="Search by description" [(ngModel)]="searchTerm" (input)="applyFilters()">
+                </div>
+              <!-- Category filter -->
+              <select class="form-control mb-3" [(ngModel)]="selectedCategory" (change)="applyFilters()">
+                <option value="">All Categories</option>
+                <option *ngFor="let category of categories" [value]="category.name">{{category.name}}</option>
+              </select>
+        
+              <!-- Date Sorting -->
+              <select class="form-control mb-3" [(ngModel)]="dateOrder" (change)="applyFilters()">
+                <option value="">Sort by Date</option>
+                <option value="asc">Date Ascending</option>
+                <option value="desc">Date Descending</option>
+              </select>
+        
+              <!-- Adjustable Pagination -->
+              <select class="form-control mb-3" [(ngModel)]="pageSize" (change)="onPageChange(1)">
+                <option value="5">5/pages</option>
+                <option value="10">10/pages</option>
+                <option value="20">20/pages</option>
+                <option value="50">50/pages</option>
+              </select>
+        
+              <!-- Incomes Table with Single Pagination -->
+              <nz-table [nzData]="paginatedIncomes" [nzBordered]="true"  [nzFrontPagination]="false" >
+                <thead>
+                  <tr>
+                    <th nzWidth="35%">Description</th>
+                    <th nzWidth="15%">Amount</th>
+                    <th nzWidth="15%">Date</th>
+                    <th nzWidth="15%">Category</th>
+                    <th nzWidth="20%">Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let income of paginatedIncomes">
+                    <td>{{income.description}}</td>
+                    <td>{{income.amount}}</td>
+                    <td>{{income.date | date:'shortDate'}}</td>
+                    <td>{{income.categoryName}}</td>
+                    <td>
+                      <span nz-icon nzType="edit" nzTheme="fill" style="color: blue;" routerLink="/user/income/{{income.id}}/edit"></span>
+                      <span nz-icon nzType="delete" nzTheme="fill" style="color: red; margin-left: 10px;" (click)="deleteIncome(income.id)"></span>
+                    </td>
+                  </tr>
+                </tbody>
+              </nz-table>
+        
+              <!-- Pagination inside table -->
+              <div style="align-content: center; text-align: center;">
+              <nz-pagination 
+                style="align-items: center; justify-content: center; align-content: center;"
+                [nzPageIndex]="pageIndex" 
+                [nzPageSize]="pageSize" 
+                [nzTotal]="incomes.length" 
+                (nzPageIndexChange)="onPageChange($event)">
+              </nz-pagination>
+              </div>
             </nz-card>
-        </div>
+          </div>
     </div>
 </div>
+

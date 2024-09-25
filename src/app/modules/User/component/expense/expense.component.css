@@ -1,0 +1,51 @@
+.bg-gradient-danger {
+    /* background-color: #e74a3b; */
+    background: rgb(2,0,36);
+    background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(231,74,59,1) 0%, rgba(194,154,151,1) 100%);
+    background-size: cover;
+}
+
+.bg-gradient-pink{
+    background: rgb(255,177,193);
+background: linear-gradient(90deg, rgba(255,177,193,1) 39%, rgba(255,99,132,1) 100%);
+}
+
+::placeholder {
+    padding-left: 15px;
+    color: black;
+    opacity: 0.8; 
+  }
+
+
+.form-control {
+    box-shadow: 0px 0px 0px 0.5px rgba(0, 0, 0, 0.2);     
+    /* border-style: solid; */
+}
+
+
+button{
+    /* background-color: #C62368; */
+    border-radius: 20px;
+    
+}
+
+nz-form-control {   
+    min-width: 280px;
+}
+
+[nz-form] {
+    max-width: 600px;
+}
+
+.child {
+    padding: 50px;
+    position: absolute;
+    width: 380px;
+    background-color:white;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) ;
+    box-shadow: 5px 5px 25px 5px rgba(0, 0, 0, 0.5);
+    border-radius: 5px;
+    margin-bottom: 22px;
+}

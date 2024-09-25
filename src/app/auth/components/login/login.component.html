@@ -10,8 +10,8 @@
         <form nz-form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
           <!-- email field -->
           <nz-form-item>
-            <nz-form-control nzHasFeedback>
-            <nz-input-group [nzPrefix]="prefixTemplateEmail">
+            <nz-form-control  nzHasFeedback>
+            <nz-input-group class="form-control" [nzPrefix]="prefixTemplateEmail">
               <input
                 nz-input
                 placeholder="E-mail"
@@ -36,7 +36,7 @@
           <!-- password -->
           <nz-form-item>
             <nz-form-control nzHasFeedback>
-              <nz-input-group [nzSuffix]="suffixTemplate">
+              <nz-input-group class="form-control" [nzSuffix]="suffixTemplate">
                 <input
                   [type]="passwordVisible ? 'text' : 'password'"
                   nz-input
@@ -64,8 +64,7 @@
             nz-button
             class="login-form-button login-form-margin"
             [nzType]="'primary'"
-            nzDanger=""
-            [disabled]="loginForm.invalid"
+            
           >
             Login
           </button>

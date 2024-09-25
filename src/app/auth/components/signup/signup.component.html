@@ -11,7 +11,7 @@
         <!-- name field -->
         <nz-form-item>
           <nz-form-control nzHasFeedback>
-            <nz-input-group [nzPrefix]="prefixTemplateUser">
+            <nz-input-group class="form-control" [nzPrefix]="prefixTemplateUser">
               <input
                 type="text"
                 nz-input
@@ -40,7 +40,7 @@
         <!-- email field -->
         <nz-form-item>
           <nz-form-control nzHasFeedback>
-          <nz-input-group [nzPrefix]="prefixTemplateEmail">
+          <nz-input-group class="form-control" [nzPrefix]="prefixTemplateEmail">
             <input
               nz-input
               placeholder="E-mail"
@@ -64,7 +64,7 @@
         <!-- phone field -->
         <nz-form-item>
           <nz-form-control nzHasFeedback>
-            <nz-input-group [nzPrefix]="prefixTemplatePhone" >
+            <nz-input-group class="form-control" [nzPrefix]="prefixTemplatePhone" >
               <input
                 type="tel"
                 maxlength="10" 
@@ -93,11 +93,11 @@
 
         <nz-form-item>
           <nz-form-control nzHasFeedback>
-            <nz-input-group [nzSuffix]="suffixTemplate">
+            <nz-input-group class="form-control" [nzSuffix]="suffixTemplate">
               <input
                 [type]="passwordVisible ? 'text' : 'password'"
                 nz-input
-                placeholder="input password"
+                placeholder="password"
                 formControlName="password"
               />
             </nz-input-group>
@@ -121,7 +121,7 @@
 
         <nz-form-item>
           <nz-form-control nzHasFeedback>
-          <nz-input-group [nzSuffix]="suffixTemplate">
+          <nz-input-group class="form-control" [nzSuffix]="suffixTemplate">
             <input
               nz-input 
               placeholder="Confirm Password"
@@ -147,9 +147,9 @@
           nz-button
           class="login-form-button login-form-margin"
           [nzType]="'primary'"
-          nzDanger=""
-          [disabled]="signupForm.invalid"
+          
         >
+        <!-- [disabled]="signupForm.invalid" -->
           Register
         </button>
         Or <a routerLink="/login">login now!</a>

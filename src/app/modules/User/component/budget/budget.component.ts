@@ -8,7 +8,8 @@ import { CategoryService } from '../../Service/Category/category.service';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzButtonSize } from 'ng-zorro-antd/button';
 import { ChartData, ChartOptions, ChartType } from 'chart.js';
-import { BaseChartDirective } from 'ng2-charts';
+import { NavigationEnd, Router } from '@angular/router';
+// import { BaseChartDirective } from 'ng2-charts';
 
 @Component({
   selector: 'app-budget',
@@ -61,11 +62,16 @@ export class BudgetComponent implements OnInit {
     private budgetService: BudgetService,
     private categoryService:CategoryService,
     private message : NzMessageService,
+    private router : Router
   ) { }
 
   ngOnInit(): void {
     this.getCategories();
-    this.loadBudgets();
+
+        this.loadBudgets();
+        // this.createPieChartsForBudgets();
+    
+
   }
 
     isVisible = false;
@@ -120,15 +126,15 @@ export class BudgetComponent implements OnInit {
           // this.budgets = budgets;
           this.budgets = budgets.map((budget: BudgetDTO) => {
             const category = this.categories.find(cat => cat.id === budget.categoryId);
-            console.log(budget.exceeded);
+            // console.log(budget.exceeded);
             return {
               ...budget,
               categoryName: category ? category.name : 'Unknown'
             };
             
           });
-          
-          this.createPieChartsForBudgets();
+          console.log(budgets)
+          this.getbudgetData();
         },
         error: (error) => console.error('Error fetching budgets:', error)
       });
@@ -141,7 +147,7 @@ export class BudgetComponent implements OnInit {
         const remainingBudget = Math.max(0, budget.amount - totalSpent); // Clamp to avoid negative
         const spentPercentage = Math.min(100, (totalSpent / budget.amount) * 100); // Ensure it's not over 100%
         const remainingPercentage = 100 - spentPercentage;
-        
+        console.log(this.pieChartDataList);
         return {
           labels: ['Total Spent', 'Remaining'],
           datasets: [
@@ -166,26 +172,106 @@ export class BudgetComponent implements OnInit {
         });
       }
 
-      // Calculates the percentage of the budget used
-      getBudgetUsage(budget: BudgetDTO): number {
-        const usage = (budget.totalSpent / budget.amount) * 100;
-        return Math.min(usage, 100); // Ensure percentage doesn't exceed 100%
-      }
 
-      // Determines the stroke color based on the percentage used
-      getBudgetStrokeColor(budget: BudgetDTO): any {
-        const usage = this.getBudgetUsage(budget);
-        const category = this.categories.find(cat => cat.id === budget.categoryId);
-        budget.categoryName = category ? category.name : 'Unknown';
-        // Color transition from blue to green to red
-        if (usage <= 75) {
-          return { '0%': '#108ee9', '100%': '#87d068' }; // Blue to Green for under-budget
-        } else if (usage > 75 && usage <= 100) {
-          return { '0%': '#108ee9', '100%': '#ffcc00' }; // Blue to Yellow for nearing the limit
-        } else {
-          return { '0%': '#ff4d4f', '100%': '#ff0000' }; // Red for exceeding the budget
-        }
+       // pie chart data
+       public budgetChartOptions = {
+        responsive: true,
+        maintainAspectRatio: false
+        };
+    
+        budgetChartType: ChartType = 'pie';
+        public budgetChartLegend = true;
+        public budgetChartLabels: string[] = [];
+        public budgetChartData: any[] = [
+          { data: [],
+            label: 'Total Spent' ,
+            borderWidth: 1,
+            backgroundColor: '#FF6384',
+            // borderColor: 'rgb(0, 100, 0)',
+            hoverBackgroundColor: '#FF6384',
+            fill: true,},
+          { data: [],
+            label: 'Remaining' ,
+            borderWidth: 1,
+            backgroundColor: '#36A2EB',
+            // borderColor: '#36A2EB',
+            hoverBackgroundColor: '#36A2EB',
+            fill: true, }
+        ];
+
+        // getbudgetData() {
+        //   // Reset the chart data
+        //   this.budgetChartLabels = [];
+        //   this.budgetChartData[0].data = []; // Data for Spent Percentage
+        //   this.budgetChartData[1].data = []; // Data for Remaining Percentage
+        
+        //   this.budgets.forEach((budget) => {
+        //     const spent = budget.totalSpent;
+        //     const remaining = Math.max(0, budget.amount - spent);
+        
+        //     const spentPercentage = Math.min(100, (spent / budget.amount) * 100);
+        //     const remainingPercentage = 100 - spentPercentage;
+        
+        //     // Push the calculated percentages to the respective arrays
+        //     this.budgetChartData[0].data.push(spentPercentage); // Spent Percentage
+        //     this.budgetChartData[1].data.push(remainingPercentage); // Remaining Percentage
+        
+        //     // Push the budget label for each budget (or you can customize it as needed)
+        //     this.budgetChartLabels.push(`Budget ${budget.id}`); // Example label, change as needed
+        //   });
+        
+        //   // Log data for debugging
+        //   console.log('budget Chart Labels:', this.budgetChartLabels);
+        //   console.log('Spent Percentage Data:', this.budgetChartData[0].data);
+        //   console.log('Remaining Percentage Data:', this.budgetChartData[1].data);
+        // }
+
+    getbudgetData() {
+      // Resetting the data for the charts
+      this.budgetChartData = []; // Array to hold chart data for each budget
+    
+      this.budgets.forEach((budget) => {
+        const spent = budget.totalSpent;
+        const remaining = Math.max(0, budget.amount - spent);
+        
+        const spentPercentage = Math.min(100, (spent / budget.amount) * 100);
+        const remainingPercentage = 100 - spentPercentage;
+    
+        // Create a dataset for the current budget
+        const budgetChart = {
+          data: [spentPercentage, remainingPercentage],
+          label: budget.categoryName, // Use category name as the label
+        };
+    
+        // Add to the budget chart data array
+        this.budgetChartData.push(budgetChart);
+      });
+    
+      console.log('Budget Chart Data:', this.budgetChartData);
+    }
+    
+    // Calculates the percentage of the budget used
+    getBudgetUsage(budget: BudgetDTO): number {
+      let usage = (budget.totalSpent / budget.amount) * 100;
+      usage = Math.round(usage);
+      return Math.min(usage, 100); // Ensure percentage doesn't exceed 100%
+    }
+
+    // Determines the stroke color based on the percentage used
+    getBudgetStrokeColor(budget: BudgetDTO): any {
+      const usage = this.getBudgetUsage(budget);
+      const category = this.categories.find(cat => cat.id === budget.categoryId);
+      budget.categoryName = category ? category.name : 'Unknown';
+      // Color transition from blue to green to red
+      if (usage <= 75) {
+        return { '0%': '#108ee9', '100%': '#87d068' }; // Blue to Green for under-budget
+      } else if (usage > 75 && usage <= 100) {
+        return { '0%': '#108ee9', '100%': '#ffcc00' }; // Blue to Yellow for nearing the limit
+      } else {
+        return { '0%': '#ff4d4f', '100%': '#ff0000' }; // Red for exceeding the budget
       }
+    }
+
 
 
       

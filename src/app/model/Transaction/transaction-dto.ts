@@ -9,4 +9,5 @@ export interface TransactionDTO {
     incomeId:number;
     expenseId:number;
     categoryName:string;
+    [key: string]: any; // Index signature
 }

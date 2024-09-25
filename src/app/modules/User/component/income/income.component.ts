@@ -20,8 +20,14 @@ export class IncomeComponent {
 categories : CategoryDTO[] = [];
     
   incomes: IncomeDTO[] = [];
-  // incomes: IncomeDTO[] = [];
-  // incomes : any;
+  paginatedIncomes: IncomeDTO[] = [];
+  filteredIncomes: IncomeDTO[] = []; 
+  pageIndex: number = 1;
+  pageSize: number = 5;
+  searchTerm: string = '';
+  selectedCategory: string = '';
+  dateOrder: string = ''; 
+
   constructor(private fb : FormBuilder,
     private incomeService : IncomeService,
     private categoryService:CategoryService,
@@ -36,6 +42,7 @@ categories : CategoryDTO[] = [];
       this.getCategories(); 
       this.getBarData();
       this.getlineData();
+      this.getAllStats();
       // if (!this.user || !this.user.id) {
       //   this.message.error("User not logged in or missing user ID.", { nzDuration: 5000 });
       //   return; // Stop further execution if user or id is missing
@@ -65,14 +72,6 @@ categories : CategoryDTO[] = [];
       });
     }
 
-    // getCategoryById(){
-    //   console.log("id"+this.id);
-    //   this.categoryService.getCategoryById(this.id).subscribe({
-    //     next:(v) => this.categoryValue.patchValue(v),
-    //     error:(err)=> this.message.error(`Something Went Wrong ${err.message}`,{nzDuration:5000})
-    //   });
-    // }
-
     submitForm(){
       console.log(this.incomeForm.value);
       this.incomeService.postIncome(this.incomeForm.value).subscribe(
@@ -86,7 +85,7 @@ categories : CategoryDTO[] = [];
     }
 
     getAllIncome(): void {
-      this.incomeService.getAllExpenseByUserId(this.user.id).subscribe({
+      this.incomeService.getAllIncomeByUserId(this.user.id).subscribe({
         next: (incomes) => {
           // Map incomes to include category name instead of categoryId
           this.incomes = incomes.map((income: IncomeDTO) => {
@@ -96,7 +95,9 @@ categories : CategoryDTO[] = [];
               categoryName: category ? category.name : 'Unknown'
             };
           });
-          console.log(this.incomes); // Check the modified income objects
+          this.applyFilters();
+          console.log(this.incomes);
+          this.updatePaginatedIncomes(); // Check the modified income objects
         },
         error: (e) => this.message.error("Error Fetching income." + e, { nzDuration: 5000 })
       });
@@ -180,5 +181,59 @@ categories : CategoryDTO[] = [];
 
         });
       }
+
+      stats: any;
+
+      gridStyle = {
+        width: '50%',
+        textAlign: 'center',
+      };
+      getAllStats(): void {
+        this.statsService.getStats().subscribe({
+          next: (v) => {this.stats = v
+            console.log(v.totalIncome);
+            console.log(this.stats);
+          },
+          error: (e) => console.error('Error fetching stats:', e)
+        });
+      }
+
+      applyFilters(): void {
+        let filtered = [...this.incomes];
+    
+        // Apply search filter by description
+        if (this.searchTerm) {
+          filtered = filtered.filter(income =>
+            income.description.toLowerCase().includes(this.searchTerm.toLowerCase())
+          );
+        }
+    
+        // Apply category filter
+        if (this.selectedCategory) {
+          filtered = filtered.filter(income => income.categoryName === this.selectedCategory);
+        }
+    
+        // Apply date sorting
+        if (this.dateOrder === 'asc') {
+          filtered.sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
+        } else if (this.dateOrder === 'desc') {
+          filtered.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+        }
+    
+        this.filteredIncomes = filtered;
+        this.updatePaginatedIncomes();
+      }
+    
+      updatePaginatedIncomes(): void {
+        const startIndex = (this.pageIndex - 1) * this.pageSize;
+        const endIndex = this.pageIndex * this.pageSize;
+        this.paginatedIncomes = this.filteredIncomes.slice(startIndex, endIndex);
+      }
+    
+      onPageChange(page: number): void {
+        this.pageIndex = page;
+        this.updatePaginatedIncomes();
+      }
+    
 
 }
