@@ -1,183 +1,318 @@
-<h1 class="bg-info text-bold" style="text-align: center; font-weight: 900;"><img style="padding: 10px 5px; width:100px" src="https://cdn-icons-png.flaticon.com/128/10218/10218090.png" alt="expense"> DASHBOARD</h1>
+<h1 class="bg-info text-bold" style="text-align: center; font-weight: 900">
+  <img
+    style="padding: 10px 5px; width: 100px"
+    src="https://cdn-icons-png.flaticon.com/128/10218/10218090.png"
+    alt="expense"
+  />
+  DASHBOARD
+</h1>
 
-<div style="background: #ECECEC;padding:30px;">
-<div class="container" style="background: #ECECEC;padding:30px;">
-    <div nz-row style="display: flex;justify-content: space-evenly;">
-        <div nz-card-grid  class="bg-primary text-dark"  nzSpan="7" nz-col [ngStyle]="gridStyle" style="box-shadow: 5px 5px 25px 5px rgba(0, 0, 0, 0.5);">
-            <div class="d-flex justify-content-between align-items-center mb-2">
-                <div class="me-2">
-                    <h4 class="display-5 text-white">${{stats?.balance}}</h4>
-                    <p class="card-text"><strong>Account Balance</strong></p>
-                </div>
-                <h1><span class="material-symbols-outlined">
-                    account_balance
-                    </span></h1>
-            </div>
-            <div class="card-text">
-                    <nz-statistic
-                    [nzValue]="balancePercentage"
-                    [nzPrefix]="prefixTplThree"
-                    [nzSuffix]="'%'"
-                    [nzValueStyle]="{ color: balancePercentage > 0 ? '#FFFFFF' : '#CF1322' }"
-                ></nz-statistic>
-                <ng-template #prefixTplThree>
-                    <span nz-icon [nzType]="balancePercentage > 0 ? 'arrow-up' : 'arrow-down'"></span>
-                </ng-template>
-                    <div class="caption">from last month</div>
-            </div>
-            </div>
-
-        <div nz-card-grid class="bg-gradient-success" nzSpan="7" nz-col [ngStyle]="gridStyle" style="box-shadow: 5px 5px 25px 5px rgba(0, 0, 0, 0.5);">
-            <div class="d-flex justify-content-between align-items-center mb-2">
-                <div class="me-2">
-                    <!-- <h4 class="display-5 text-success">${{stats?.income}}</h4> -->
-                    <h4 class="display-5 text-white">${{currentMonthIncome}}</h4>
-                    <p class="card-text"><strong>Current Month Income </strong></p>
-                </div>
-                <span class="material-symbols-outlined">
-                    payments
-                    </span>
-            </div>
-            <div class="card-text">
-                    <nz-statistic
-                    [nzValue]="incomePercentage"
-                    [nzPrefix]="prefixTplOne"
-                    [nzSuffix]="'%'"
-                    [nzValueStyle]="{ color: incomePercentage > 0 ? '#3F8600' : '#CF1322' }"
-                  ></nz-statistic>
-                  <ng-template #prefixTplOne>
-                    <span nz-icon [nzType]="incomePercentage > 0 ? 'arrow-up' : 'arrow-down'"></span>
-                  </ng-template>
-                <div class="caption">from last month</div>
-                </div>
-            </div>
-        
-        <div nz-card-grid class="bg-gradient-danger text-dark" nzSpan="7" nz-col [ngStyle]="gridStyle" style="box-shadow: 5px 5px 25px 5px rgba(0, 0, 0, 0.5);">
-            <div class="d-flex justify-content-between align-items-center mb-2">
-                <div class="me-2">
-                    <!-- <h4 class="display-5 text-success">${{stats?.expense}}</h4> -->
-                    <h4 class="display-5 text-white">${{currentMonthExpense}}</h4>
-                    <p class="card-text text-dark"><strong>Current Month Expense </strong></p>
-                </div>
-                <span class="material-symbols-outlined text-dark">
-                    payments
-                    </span>
-            </div>
-            <div class="card-text text-white ">                
-                    <nz-statistic
-                    [nzValue]="expensePercentage"
-                    [nzPrefix]="prefixTplTwo"
-                    [nzSuffix]="'%'"
-                    [nzValueStyle]="{ color: expensePercentage > 0 ? ' #CF1322' : '#3F8600' }"
-                  ></nz-statistic>
-                  <ng-template #prefixTplTwo>
-                    <span nz-icon [nzType]="expensePercentage > 0 ? 'arrow-up' : 'arrow-down'"></span>
-                  </ng-template>
-                <div class="caption text-dark ">from last month</div>
-                </div>
-            </div>        
+<div style="background: #ececec; padding: 30px">
+  <!-- Section for Balance, Income, and Expense cards -->
+  <div class="container" style="background: #ececec; padding: 30px">
+    <div nz-row style="display: flex; justify-content: space-evenly">
+      <!-- Balance Card -->
+      <div
+        nz-card-grid
+        class="bg-primary text-dark"
+        nzSpan="7"
+        nz-col
+        [ngStyle]="gridStyle"
+        style="box-shadow: 5px 5px 25px 5px rgba(0, 0, 0, 0.5)"
+      >
+        <div class="d-flex justify-content-between align-items-center mb-2">
+          <div class="me-2">
+            <h4 class="display-5 text-white">₹{{ stats?.balance }}</h4>
+            <p class="card-text"><strong>Account Balance</strong></p>
+          </div>
+          <h1>
+            <span class="material-symbols-outlined"> account_balance </span>
+          </h1>
+          <!-- Statistic with screen reader support -->
         </div>
-</div>
-    <div nz-row style="margin-top: 20px;" nzJustify="space-between" style="background: #ECECEC;padding:30px;">
-        <div nz-col nzFlex="1 1 200px">
-            <nz-card nzType="inner" nzAlign="middle" nzTitle="Last 30 days Transaction" style="box-shadow: 5px 5px 25px 5px rgba(0, 0, 0, 0.5);">
-               <!-- <canvas *ngIf="isBrowser" #incomeLineChartRef></canvas> -->
-                <canvas baseChart
-                [datasets]="lineChartData"
-                [labels]="lineChartLabels"
-                [options]="lineChartOptions"
-                [legend]="lineChartLegend"
-                [type]="lineChartType">
-                </canvas>
-            </nz-card>
+        <div class="card-text">
+          <nz-statistic
+            [nzValue]="balancePercentage"
+            [nzPrefix]="prefixTplThree"
+            [nzSuffix]="'%'"
+            [nzValueStyle]="{
+              color: balancePercentage > 0 ? '#FFFFFF' : '#CF1322'
+            }"
+          ></nz-statistic>
+          <ng-template #prefixTplThree>
+            <span
+              nz-icon
+              [nzType]="balancePercentage > 0 ? 'arrow-up' : 'arrow-down'"
+            ></span>
+          </ng-template>
+          <div class="caption">from last month</div>
         </div>
-        <div nz-col nzFlex="0 0 350px" style="margin-left:15px; margin-top: 0; padding-top: 0;" style="background: #ECECEC;padding:30px;">
-            <nz-card nzType="inner" nzTitle="Recent History"  style="margin-bottom: 10px; box-shadow: 5px 5px 25px 5px rgba(0, 0, 0, 0.5);">
-                <div nz-card-grid style="width:100%;"  class="border-left-success">
-                    <span style="color: green;">+{{stats?.latestIncome?.amount}} {{stats?.latestIncome?.description}}</span>
-                </div>
-                <div nz-card-grid style="width:100%;"class="border-left-danger" >
-                    <span style="color: red;">-{{stats?.latestExpense?.amount}} {{stats?.latestExpense?.description}}</span>
-                </div>
-            </nz-card>
-            <nz-card nzType="inner" nzTitle="Income" class="border-left-success" style="box-shadow: 5px 5px 25px 5px rgba(0, 0, 0, 0.5); margin-bottom: 5px;">
-                <div nz-row>
-                    <div nz-col  nz-card-grid  nzSpan="12" class="bg-info text-white">Minimum: {{stats?.minIncome}}</div>
-                    
-                    <div nz-col  nz-card-grid  nzSpan="12" class="bg-info text-white">Maximum: {{stats?.maxIncome}}</div>
-                </div>
-            </nz-card>
-            <nz-card nzType="inner" nzTitle="Expense" class="border-left-danger" style="box-shadow: 5px 5px 25px 5px rgba(0, 0, 0, 0.5);">
-                <div nz-row>
-                    <div nz-col  nz-card-grid  nzSpan="12" class="bg-info text-white">Minimum: {{stats?.minExpense}}</div>
-                    
-                    <div nz-col  nz-card-grid  nzSpan="12" class="bg-info text-white">Maximum: {{stats?.maxExpense}}</div>
-                </div>
-            </nz-card>
+      </div>
+      <!-- Income Card -->
+      <div
+        nz-card-grid
+        class="bg-gradient-success"
+        nzSpan="7"
+        nz-col
+        [ngStyle]="gridStyle"
+        style="box-shadow: 5px 5px 25px 5px rgba(0, 0, 0, 0.5)"
+      >
+        <div class="d-flex justify-content-between align-items-center mb-2">
+          <div class="me-2">
+            <!-- <h4 class="display-5 text-success">${{stats?.income}}</h4> -->
+            <h4 class="display-5 text-white">₹{{ currentMonthIncome }}</h4>
+            <p class="card-text"><strong>Current Month Income </strong></p>
+          </div>
+          <span class="material-symbols-outlined"> payments </span>
         </div>
+        <div class="card-text">
+          <nz-statistic
+            [nzValue]="incomePercentage"
+            [nzPrefix]="prefixTplOne"
+            [nzSuffix]="'%'"
+            [nzValueStyle]="{
+              color: incomePercentage > 0 ? '#3F8600' : '#CF1322'
+            }"
+          ></nz-statistic>
+          <ng-template #prefixTplOne>
+            <span
+              nz-icon
+              [nzType]="incomePercentage > 0 ? 'arrow-up' : 'arrow-down'"
+            ></span>
+          </ng-template>
+          <div class="caption">from last month</div>
+        </div>
+      </div>
+      <!-- Expense Card -->
+      <div
+        nz-card-grid
+        class="bg-gradient-danger text-dark"
+        nzSpan="7"
+        nz-col
+        [ngStyle]="gridStyle"
+        style="box-shadow: 5px 5px 25px 5px rgba(0, 0, 0, 0.5)"
+      >
+        <div class="d-flex justify-content-between align-items-center mb-2">
+          <div class="me-2">
+            <!-- <h4 class="display-5 text-success">${{stats?.expense}}</h4> -->
+            <h4 class="display-5 text-white">₹{{ currentMonthExpense }}</h4>
+            <p class="card-text text-dark">
+              <strong>Current Month Expense </strong>
+            </p>
+          </div>
+          <span class="material-symbols-outlined text-dark"> payments </span>
+        </div>
+        <div class="card-text text-white">
+          <nz-statistic
+            [nzValue]="expensePercentage"
+            [nzPrefix]="prefixTplTwo"
+            [nzSuffix]="'%'"
+            [nzValueStyle]="{
+              color: expensePercentage > 0 ? ' #CF1322' : '#3F8600'
+            }"
+          ></nz-statistic>
+          <ng-template #prefixTplTwo>
+            <span
+              nz-icon
+              [nzType]="expensePercentage > 0 ? 'arrow-up' : 'arrow-down'"
+            ></span>
+          </ng-template>
+          <div class="caption text-dark">from last month</div>
+        </div>
+      </div>
     </div>
-    <div nz-row style="margin-top: 20px;" style="background: #ECECEC;padding:30px; ">
-
-        <div nz-col nzSpan="17" nzOffset="1" style="align-items: center; justify-content: center;" >
-          <nz-card nzType="inner" nzTitle="ALL CATEGORY DATA:" style="width: 120%; box-shadow: 5px 5px 25px 5px rgba(0, 0, 0, 0.5);">
-              <canvas baseChart
-              [datasets]="polarChartData"
-              [labels]="polarChartLabels"
-              [options]="polarChartOptions"
-              [legend]="polarChartLegend"
-              [type]="polarChartType"
-              style="width: 100%; background-size: cover;">
-              </canvas>
-          </nz-card>
+  </div>
+  <!-- Section for Transaction History and Budget Data -->
+  <div
+    nz-row
+    style="margin-top: 20px"
+    nzJustify="space-between"
+    style="background: #ececec; padding: 30px"
+  >
+    <div nz-col nzFlex="1 1 200px">
+      <nz-card
+        nzType="inner"
+        nzAlign="middle"
+        nzTitle="Last 30 days Transaction"
+        style="box-shadow: 5px 5px 25px 5px rgba(0, 0, 0, 0.5)"
+      >
+        <!-- <canvas *ngIf="isBrowser" #incomeLineChartRef></canvas> -->
+        <canvas
+          baseChart
+          [datasets]="lineChartData"
+          [labels]="lineChartLabels"
+          [options]="lineChartOptions"
+          [legend]="lineChartLegend"
+          [type]="lineChartType"
+        >
+        </canvas>
+      </nz-card>
+    </div>
+    <div
+      nz-col
+      nzFlex="0 0 350px"
+      style="margin-left: 15px; margin-top: 0; padding-top: 0"
+      style="background: #ececec; padding: 30px"
+    >
+      <nz-card
+        nzType="inner"
+        nzTitle="Recent History"
+        style="
+          margin-bottom: 10px;
+          box-shadow: 5px 5px 25px 5px rgba(0, 0, 0, 0.5);
+        "
+      >
+        <div nz-card-grid style="width: 100%" class="border-left-success">
+          <span style="color: green"
+            >+{{ stats?.latestIncome?.amount }}
+            {{ stats?.latestIncome?.description }}</span
+          >
         </div>
-    </div> 
-    <div nz-row style="margin-top: 20px;"[nzGutter]="[ 16, 24 ]" style="background: #ECECEC;padding:30px;">
-    <div nz-col nzSpan="10" >
-      <nz-card nzType="inner" nzTitle="ALL  DATA:" style="text-align: center; align-items: center; justify-content: center; box-shadow: 5px 5px 25px 5px rgba(0, 0, 0, 0.5);">
+        <div nz-card-grid style="width: 100%" class="border-left-danger">
+          <span style="color: red"
+            >-{{ stats?.latestExpense?.amount }}
+            {{ stats?.latestExpense?.description }}</span
+          >
+        </div>
+      </nz-card>
+      <nz-card
+        nzType="inner"
+        nzTitle="Income"
+        class="border-left-success"
+        style="
+          box-shadow: 5px 5px 25px 5px rgba(0, 0, 0, 0.5);
+          margin-bottom: 5px;
+        "
+      >
+        <div nz-row>
+          <div nz-col nz-card-grid nzSpan="12" class="bg-info text-white">
+            Minimum: {{ stats?.minIncome }}
+          </div>
+
+          <div nz-col nz-card-grid nzSpan="12" class="bg-info text-white">
+            Maximum: {{ stats?.maxIncome }}
+          </div>
+        </div>
+      </nz-card>
+      <nz-card
+        nzType="inner"
+        nzTitle="Expense"
+        class="border-left-danger"
+        style="box-shadow: 5px 5px 25px 5px rgba(0, 0, 0, 0.5)"
+      >
+        <div nz-row>
+          <div nz-col nz-card-grid nzSpan="12" class="bg-info text-white">
+            Minimum: {{ stats?.minExpense }}
+          </div>
+
+          <div nz-col nz-card-grid nzSpan="12" class="bg-info text-white">
+            Maximum: {{ stats?.maxExpense }}
+          </div>
+        </div>
+      </nz-card>
+    </div>
+  </div>
+  <div
+    nz-row
+    style="margin-top: 20px"
+    style="background: #ececec; padding: 30px"
+  >
+    <div
+      nz-col
+      nzSpan="17"
+      nzOffset="1"
+      style="align-items: center; justify-content: center"
+    >
+      <nz-card
+        nzType="inner"
+        nzTitle="ALL CATEGORY DATA:"
+        style="width: 120%; box-shadow: 5px 5px 25px 5px rgba(0, 0, 0, 0.5)"
+      >
+        <canvas
+          baseChart
+          [datasets]="polarChartData"
+          [labels]="polarChartLabels"
+          [options]="polarChartOptions"
+          [legend]="polarChartLegend"
+          [type]="polarChartType"
+          style="width: 100%; background-size: cover"
+        >
+        </canvas>
+      </nz-card>
+    </div>
+  </div>
+  <div
+    nz-row
+    style="margin-top: 20px"
+    [nzGutter]="[16, 24]"
+    style="background: #ececec; padding: 30px"
+  >
+    <div nz-col nzSpan="10">
+      <nz-card
+        nzType="inner"
+        nzTitle="ALL BUDGET DATA:"
+        style="
+          text-align: center;
+          align-items: center;
+          justify-content: center;
+          box-shadow: 5px 5px 25px 5px rgba(0, 0, 0, 0.5);
+        "
+      >
         <div *ngIf="budgets.length > 0; else noBudgets">
           <div *ngFor="let budget of budgets">
-        <nz-card nzHoverable style="width:100%" [nzCover]="coverTemplate">
+            <nz-card nzHoverable style="width: 100%" [nzCover]="coverTemplate">
+              <!-- Show warning alert if usage is between 75% and 100% -->
+              <nz-alert
+                style="
+                  width: 100%;
+                  display: flex;
+                  align-items: center;
+                  justify-content: center;
+                "
+                *ngIf="
+                  getBudgetUsage(budget) > 75 && getBudgetUsage(budget) <= 99
+                "
+                nzType="warning"
+                nzMessage="Warning: You are nearing your budget limit."
+                nzShowIcon
+                nzCloseable
+                nzSize="large"
+              ></nz-alert>
 
-          <!-- Show warning alert if usage is between 75% and 100% -->
-            <nz-alert style="width: 100%; display: flex; align-items: center; justify-content: center;"
-            *ngIf="getBudgetUsage(budget) > 75 && getBudgetUsage(budget) <= 99"
-            nzType="warning"
-            nzMessage="Warning: You are nearing your budget limit."
-            nzShowIcon
-            nzCloseable
-            nzSize="large"
-          ></nz-alert>
+              <!-- Show error alert if usage exceeds 100% -->
+              <nz-alert
+                style="
+                  width: 100%;
+                  display: flex;
+                  align-items: center;
+                  justify-content: center;
+                "
+                *ngIf="getBudgetUsage(budget) == 100 || budget.exceeded"
+                nzType="error"
+                nzMessage="Error: You have exceeded your budget!"
+                nzShowIcon
+                nzCloseable
+              ></nz-alert>
 
-          <!-- Show error alert if usage exceeds 100% -->
-          <nz-alert 
-            style="width: 100%; display: flex; align-items: center; justify-content: center;"
-            *ngIf="budget.exceeded"
-            nzType="error"
-            nzMessage="Error: You have exceeded your budget!"
-            nzShowIcon
-            nzCloseable
-          ></nz-alert>
-
-          <nz-card-meta nzTitle="{{ budget.categoryName }} Budget"
-          nzDescription="
+              <nz-card-meta
+                nzTitle="{{ budget.categoryName }} Budget"
+                nzDescription="
           Total Budget: ₹{{ budget.amount }}
           Total Spent: ₹{{ budget.totalSpent }}
-          Remaining: ₹{{ budget.amount - budget.totalSpent }}">
+          Remaining: ₹{{ budget.amount - budget.totalSpent }}"
+              >
+              </nz-card-meta>
+            </nz-card>
 
-          </nz-card-meta>
-        </nz-card>
-        
-        <ng-template #coverTemplate>
+            <ng-template #coverTemplate>
               <!-- Circular Progress Indicator for budget usage -->
               <nz-progress
-              nzType="circle"
-              [nzPercent]="getBudgetUsage(budget)"
-              [nzStrokeColor]="getBudgetStrokeColor(budget)"
-            ></nz-progress>
-
-
-        </ng-template>
-        </div>
+                nzType="circle"
+                [nzPercent]="getBudgetUsage(budget)"
+                [nzStrokeColor]="getBudgetStrokeColor(budget)"
+              ></nz-progress>
+            </ng-template>
+          </div>
         </div>
         <ng-template #noBudgets>
           <p>No budgets available.</p>
@@ -205,132 +340,94 @@
       </nz-card>
     </div>
     <div nz-col nzSpan="14">
-      <nz-card nzType="inner" style="margin-top: 16px; box-shadow: 5px 5px 25px 5px rgba(0, 0, 0, 0.5);" nzTitle="Transaction History">
-        
-
+      <nz-card
+        nzType="inner"
+        style="
+          margin-top: 16px;
+          box-shadow: 5px 5px 25px 5px rgba(0, 0, 0, 0.5);
+        "
+        nzTitle="TRANSACTION HISTORY"
+      >
         <!-- Transactions Table with Single Pagination -->
-        <nz-table [nzData]="paginatedTransactions" [nzBordered]="true"  [nzFrontPagination]="false" nzTableLayout="fixed">
+        <nz-table
+          [nzData]="paginatedTransactions"
+          [nzBordered]="true"
+          [nzFrontPagination]="false"
+          nzTableLayout="fixed"
+        >
           <thead>
             <tr>
               <th nzWidth="30%">Description</th>
               <th nzWidth="15%">Amount</th>
               <!-- Sort by Date -->
-              <th nzWidth="15%" [nzSortFn]="sortByDate" nzSortOrder="ascend" (nzSortOrderChange)="onSortChange('date', $event)">Date</th>
+              <th
+                nzWidth="15%"
+                [nzSortFn]="sortByDate"
+                nzSortOrder="ascend"
+                (nzSortOrderChange)="onSortChange('date', $event)"
+              >
+                Date
+              </th>
               <!-- Sort by Category -->
-              <th nzWidth="15%" [nzSortFn]="sortByCategory" nzSortOrder="ascend" (nzSortOrderChange)="onSortChange('categoryName', $event)">Category</th>
+              <th
+                nzWidth="15%"
+                [nzSortFn]="sortByCategory"
+                nzSortOrder="ascend"
+                (nzSortOrderChange)="onSortChange('categoryName', $event)"
+              >
+                Category
+              </th>
               <th nzWidth="15%">Type</th>
             </tr>
           </thead>
-          <tbody style="background: #ECECEC;padding:30px;">
+          <tbody style="background: #ececec; padding: 30px">
             <tr *ngFor="let transaction of paginatedTransactions">
-              <td>{{transaction.description}}</td>
-              <td>{{transaction.amount}}</td>
-              <td>{{transaction.date | date:'shortDate'}}</td>
-              <td>{{transaction.categoryName}}</td>
+              <td>{{ transaction.description }}</td>
+              <td>{{ transaction.amount }}</td>
+              <td>{{ transaction.date | date : "shortDate" }}</td>
+              <td>{{ transaction.categoryName }}</td>
               <td>
-                <nz-tag [nzColor]="transaction.type === 'INCOME' ? 'green' : 'red'">
-                  {{transaction.type}}
+                <nz-tag
+                  [nzColor]="transaction.type === 'INCOME' ? 'green' : 'red'"
+                >
+                  {{ transaction.type }}
                 </nz-tag>
-              </td>             
+              </td>
             </tr>
           </tbody>
         </nz-table>
-  
+
         <!-- Pagination inside table -->
-        <div style="align-content: center; text-align: center;">
-        <nz-pagination 
-          [nzPageIndex]="pageIndex" 
-          [nzPageSize]="pageSize" 
-          [nzTotal]="transactions.length" 
-          (nzPageIndexChange)="onPageChange($event)">
-        </nz-pagination> 
+        <div style="align-content: center; text-align: center">
+          <nz-pagination
+            [nzPageIndex]="pageIndex"
+            [nzPageSize]="pageSize"
+            [nzTotal]="transactions.length"
+            (nzPageIndexChange)="onPageChange($event)"
+          >
+          </nz-pagination>
         </div>
         <!-- Adjustable Pagination -->
-        <div style="width:150px; justify-content: center; align-content: center; text-align: center;">
-        <select class="form-control mb-3" [(ngModel)]="pageSize" (change)="onPageChange(1)">
-          <option value="5">5/pages</option>
-          <option value="10">10/pages</option>
-          <option value="20">20/pages</option>
-          <option value="50">50/pages</option>
-        </select>
+        <div
+          style="
+            width: 150px;
+            justify-content: center;
+            align-content: center;
+            text-align: center;
+          "
+        >
+          <select
+            class="form-control mb-3"
+            [(ngModel)]="pageSize"
+            (change)="onPageChange(1)"
+          >
+            <option value="5">5/pages</option>
+            <option value="10">10/pages</option>
+            <option value="20">20/pages</option>
+            <option value="50">50/pages</option>
+          </select>
         </div>
       </nz-card>
     </div>
   </div>
 </div>
-
-
-<!-- <div nz-row>
-  <h2>Category Polar Chart</h2>
-  <canvas baseChart
-          [datasets]="polarChartData"
-          [labels]="polarChartLabels"
-          [options]="polarChartOptions"
-          [legend]="polarChartLegend"
-          [type]="polarChartType">
-  </canvas>
-  </div>
-
-
-  <div style="width: 100%; height: 60vh; position: relative;">
-    <h2>Category Polar Chart</h2>
-    <canvas baseChart
-            [datasets]="polarChartData"
-            [labels]="polarChartLabels"
-            [options]="polarChartOptions"
-            [legend]="polarChartLegend"
-            [type]="polarChartType">
-    </canvas>
-  </div> -->
-
-  
-
-  <!-- <div style="background: #ECECEC; padding: 30px;">
-    <nz-row [nzGutter]="16">
-      <nz-col [nzSpan]="12">
-        <nz-card>
-          <nz-statistic
-            [nzValue]="incomePercentage"
-            [nzTitle]="'Income Change'"
-            [nzPrefix]="prefixTplOne"
-            [nzSuffix]="'%'"
-            [nzValueStyle]="{ color: incomePercentage > 0 ? '#3F8600' : '#CF1322' }"
-          ></nz-statistic>
-          <ng-template #prefixTplOne>
-            <span nz-icon [nzType]="incomePercentage > 0 ? 'arrow-up' : 'arrow-down'"></span>
-          </ng-template>
-        </nz-card>
-      </nz-col>
-      <nz-col [nzSpan]="12">
-        <nz-card>
-          <nz-statistic
-            [nzValue]="expensePercentage"
-            [nzTitle]="'Expense Change'"
-            [nzPrefix]="prefixTplTwo"
-            [nzSuffix]="'%'"
-            [nzValueStyle]="{ color: expensePercentage > 0 ? '#CF1322' : '#3F8600' }"
-          ></nz-statistic>
-          <ng-template #prefixTplTwo>
-            <span nz-icon [nzType]="expensePercentage > 0 ? 'arrow-up' : 'arrow-down'"></span>
-          </ng-template>
-        </nz-card>
-      </nz-col>
-    </nz-row>
-    <nz-row [nzGutter]="16" style="margin-top: 16px;">
-      <nz-col [nzSpan]="24">
-        <nz-card>
-          <nz-statistic
-            [nzValue]="balancePercentage"
-            [nzTitle]="'Balance Change'"
-            [nzPrefix]="prefixTplThree"
-            [nzSuffix]="'%'"
-            [nzValueStyle]="{ color: balancePercentage > 0 ? '#3F8600' : '#CF1322' }"
-          ></nz-statistic>
-          <ng-template #prefixTplThree>
-            <span nz-icon [nzType]="balancePercentage > 0 ? 'arrow-up' : 'arrow-down'"></span>
-          </ng-template>
-        </nz-card>
-      </nz-col>
-    </nz-row>
-  </div> -->
-  

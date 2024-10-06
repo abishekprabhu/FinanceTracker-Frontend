@@ -1,30 +1,30 @@
 import { Injectable } from '@angular/core';
 
-const USER = "user";
+const USER = 'user';
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class StorageService {
+  constructor() {}
 
-  constructor() { }
-
-    // // Helper function to check if sessionStorage is available
+  // // Helper function to check if sessionStorage is available
   private static isSessionStorageAvailable(): boolean {
-    return typeof window !== 'undefined' && typeof window.sessionStorage !== 'undefined';
+    return (
+      typeof window !== 'undefined' &&
+      typeof window.sessionStorage !== 'undefined'
+    );
   }
 
-    // Save user data in sessionStorage
-    static saveUser(user: any): void {
-      // if (this.isSessionStorageAvailable()) {
-        // console.log("Storing user in sessionStorage", user); // Debugging line
-        // window.sessionStorage.removeItem(USER);
-        window.sessionStorage.setItem(USER, JSON.stringify(user));
-      // } else {
-      //   console.log("SessionStorage not available");
-      // }
-    }
-    
-
+  // Save user data in sessionStorage
+  static saveUser(user: any): void {
+    // if (this.isSessionStorageAvailable()) {
+    // console.log("Storing user in sessionStorage", user); // Debugging line
+    // window.sessionStorage.removeItem(USER);
+    window.sessionStorage.setItem(USER, JSON.stringify(user));
+    // } else {
+    //   console.log("SessionStorage not available");
+    // }
+  }
 
   // Retrieve the user data from sessionStorage
   static getUser(): any {
@@ -41,19 +41,17 @@ export class StorageService {
     return user.role; // Return the user's role (e.g., ADMIN or CUSTOMER)
   }
 
-
   // Check if the logged-in user is a customer
   static isCustomerLoggedIn(): boolean {
     const user = this.getUser();
     // console.log("User in sessionStorage:", user); // Debugging line
     return user && user.id != null;
   }
-  
 
   // Get the user ID from the stored user data
   static getUserId(): string {
     const user = this.getUser();
-    if (user == null) return "";
+    if (user == null) return '';
     return user.id;
   }
 

@@ -1,46 +1,55 @@
 .bg-gradient-success {
-    background-color: #1cc88a;
-    background-image: linear-gradient(180deg, #1cc88a 10%, #13855c 100%);
-    background-size: cover;
+  background-color: #1cc88a;
+  background-image: linear-gradient(180deg, #1cc88a 10%, #13855c 100%);
+  background-size: cover;
 }
 
 .bg-gradient-info {
-    background-color: #36b9cc;
-    background-image: linear-gradient(180deg, #36b9cc 10%, #258391 100%);
-    background-size: cover;
+  background-color: #36b9cc;
+  background-image: linear-gradient(180deg, #36b9cc 10%, #258391 100%);
+  background-size: cover;
 }
 
 .bg-gradient-danger {
-    /* background-color: #e74a3b; */
-    background: rgb(2,0,36);
-    background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(231,74,59,1) 0%, rgba(194,154,151,1) 100%);
-    background-size: cover;
+  /* background-color: #e74a3b; */
+  background: rgb(2, 0, 36);
+  background: linear-gradient(
+    90deg,
+    rgba(2, 0, 36, 1) 0%,
+    rgba(231, 74, 59, 1) 0%,
+    rgba(194, 154, 151, 1) 100%
+  );
+  background-size: cover;
 }
 
 .bg-gradient-secondary {
-    /* background-color: #858796;
+  /* background-color: #858796;
     background-image: linear-gradient(180deg, #858796 10%, #60616f 100%);
     background-size: cover; */
-    background: rgb(2,0,36);
-    background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(33,33,125,1) 20%, rgba(0,212,255,1) 100%);
-    background-size: cover; 
-    color:#ffffff;
+  background: rgb(2, 0, 36);
+  background: linear-gradient(
+    90deg,
+    rgba(2, 0, 36, 1) 0%,
+    rgba(33, 33, 125, 1) 20%,
+    rgba(0, 212, 255, 1) 100%
+  );
+  background-size: cover;
+  color: #ffffff;
 }
 
-
 .polarArea {
-    max-width: 100%;
-    max-height: 400px;
-  }
-  
-  .border-left-success {
-    border-left: .25rem solid #1cc88a !important;
+  max-width: 100%;
+  max-height: 400px;
+}
+
+.border-left-success {
+  border-left: 0.25rem solid #1cc88a !important;
 }
 
 .border-left-danger {
-    border-left: .25rem solid #e74a3b !important;
+  border-left: 0.25rem solid #e74a3b !important;
 }
 
 .border-bottom-primary {
-    border-bottom: .25rem solid #5a5c69 !important;
+  border-bottom: 0.25rem solid #5a5c69 !important;
 }

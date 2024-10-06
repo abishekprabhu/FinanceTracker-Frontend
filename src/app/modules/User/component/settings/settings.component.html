@@ -1,21 +1,32 @@
 <div class="profile-container">
-    <h2>Profile Picture</h2>
-  
-    <!-- Display the profile picture or a message if no picture is available -->
-    <div class="preview-container" *ngIf="previewUrl; else noPicture">
-      <img [src]="previewUrl" alt="Profile Picture" class="profile-preview"/>
-    </div>
-  
-    <ng-template #noPicture>
-      <p>No profile picture available.</p>
-    </ng-template>
-  
-    <!-- File input for uploading a new profile picture -->
-    <input class="btn btn-info" type="file" (change)="onFileSelected($event)" accept="image/*"/>
-    <button nz-button nzType="primary" [nzSize]="'large'" nzShape="round" (click)="uploadProfilePicture()">
-      <span nz-icon nzType="download"></span>
-      Upload
-    </button>
+  <h2>Profile Picture</h2>
+
+  <!-- Display the profile picture or a message if no picture is available -->
+  <div class="preview-container" *ngIf="previewUrl; else noPicture">
+    <img [src]="previewUrl" alt="Profile Picture" class="profile-preview" />
   </div>
 
-  <h3 style="text-align: center; ">Email : {{user.email}}</h3>
+  <ng-template #noPicture>
+    <p>No profile picture available.</p>
+  </ng-template>
+
+  <!-- File input for uploading a new profile picture -->
+  <input
+    class="btn btn-info"
+    type="file"
+    (change)="onFileSelected($event)"
+    accept="image/*"
+  />
+  <button
+    nz-button
+    nzType="primary"
+    [nzSize]="'large'"
+    nzShape="round"
+    (click)="uploadProfilePicture()"
+  >
+    <span nz-icon nzType="download"></span>
+    Upload
+  </button>
+</div>
+
+<h3 style="text-align: center">Email : {{ user.email }}</h3>

@@ -3,11 +3,10 @@ import { CanActivateFn, Router } from '@angular/router';
 import { StorageService } from '../storage/storage.service';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class AuthGuardService {
-
-  constructor(private router: Router) { }
+  constructor(private router: Router) {}
 
   canActivate: CanActivateFn = () => {
     const userSession = StorageService.isCustomerLoggedIn();

@@ -7,20 +7,20 @@ import { NavigationEnd, Router } from '@angular/router';
 @Component({
   selector: 'app-settings',
   templateUrl: './settings.component.html',
-  styleUrl: './settings.component.css'
+  styleUrl: './settings.component.css',
 })
-export class SettingsComponent implements OnInit{
+export class SettingsComponent implements OnInit {
   selectedFile: File | null = null;
-  user = StorageService.getUser(); 
+  user = StorageService.getUser();
   previewUrl: string | ArrayBuffer | null = null;
 
   constructor(
     private authService: AuthService,
-    private message:NzMessageService,
-    private router: Router,
-  ) { }
+    private message: NzMessageService,
+    private router: Router
+  ) {}
 
- ngOnInit(): void {
+  ngOnInit(): void {
     // Fetch and display the profile picture on component initialization
     this.getProfilePicture();
     this.router.events.subscribe((event) => {
@@ -36,7 +36,7 @@ export class SettingsComponent implements OnInit{
     if (file) {
       this.selectedFile = file;
       const reader = new FileReader();
-      reader.onload = () => this.previewUrl = reader.result;
+      reader.onload = () => (this.previewUrl = reader.result);
       reader.readAsDataURL(file);
     }
   }
@@ -44,7 +44,8 @@ export class SettingsComponent implements OnInit{
   // Upload the profile picture
   uploadProfilePicture(): void {
     if (this.selectedFile) {
-      this.authService.uploadProfilePicture(this.user.id, this.selectedFile)
+      this.authService
+        .uploadProfilePicture(this.user.id, this.selectedFile)
         .subscribe({
           next: (response) => {
             console.log(response);
@@ -52,25 +53,26 @@ export class SettingsComponent implements OnInit{
           },
           error: (error) => {
             console.error('Error uploading profile picture:', error);
-            this.message.error(`Error uploading profile picture ${error.message}`);
-          }
+            this.message.error(
+              `Error uploading profile picture ${error.message}`
+            );
+          },
         });
     }
   }
 
   // Fetch and display the profile picture
   getProfilePicture(): void {
-    this.authService.getProfilePicture(this.user.id)
-      .subscribe({
-        next: (blob) => {
-          const reader = new FileReader();
-          reader.onload = () => this.previewUrl = reader.result;
-          reader.readAsDataURL(blob);
-        },
-        error: (error) => {
-          // console.error('Error fetching profile picture:', error);
-          this.message.error(`Error fetching profile picture ${error.message}`);
-        }
-      });
+    this.authService.getProfilePicture(this.user.id).subscribe({
+      next: (blob) => {
+        const reader = new FileReader();
+        reader.onload = () => (this.previewUrl = reader.result);
+        reader.readAsDataURL(blob);
+      },
+      error: (error) => {
+        // console.error('Error fetching profile picture:', error);
+        this.message.error(`Error fetching profile picture ${error.message}`);
+      },
+    });
   }
 }

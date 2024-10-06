@@ -1,5 +1,11 @@
 <nz-layout>
-  <nz-sider class="bg-gradient-dark" nzCollapsible [(nzCollapsed)]="isCollapsed" [nzTrigger]="null">
+  <!-- sider -->
+  <nz-sider
+    class="bg-gradient-dark"
+    nzCollapsible
+    [(nzCollapsed)]="isCollapsed"
+    [nzTrigger]="null"
+  >
     <ul nz-menu class="bg-gradient-dark" nzMode="inline">
       <!-- Show Login and Signup if user is not logged in -->
       <li *ngIf="!isLoggedIn" nz-menu-item routerLink="/login">
@@ -41,116 +47,180 @@
         <span>Analytics</span>
       </li> -->
       <!-- user options -->
-      <li nz-submenu nzPlacement="topLeft" nzIcon="user"nzTitle="User" *ngIf="isLoggedIn"
-       >     
-        <ul>  
+      <li
+        nz-submenu
+        nzPlacement="topLeft"
+        nzIcon="user"
+        nzTitle="User"
+        *ngIf="isLoggedIn"
+      >
+        <ul>
           <!-- image url  -->
-          <li nz-menu-item *ngIf="isLoggedIn && previewUrl ; else noPicture" class="logo"routerLink="/user/settings" >
-            <img [src]="previewUrl" alt="Profile Picture" class="avatar"/>
+          <li
+            nz-menu-item
+            *ngIf="isLoggedIn && previewUrl; else noPicture"
+            class="logo"
+            routerLink="/user/settings"
+          >
+            <img [src]="previewUrl" alt="Profile Picture" class="avatar" />
           </li>
           <ng-template #noPicture>
-              <li nz-menu-item *ngIf="isLoggedIn"
-          class="logo" routerLink="/user/settings">
-              <img src="../assets/img/image.png" alt="Avatar" class="avatar">
+            <li
+              nz-menu-item
+              *ngIf="isLoggedIn"
+              class="logo"
+              routerLink="/user/settings"
+            >
+              <img src="../assets/img/image.png" alt="Avatar" class="avatar" />
             </li>
-        </ng-template>
-        <!-- reset password module -->
+          </ng-template>
+          <!-- reset password module -->
           <li nz-menu-item (click)="showModalMiddle()">Reset Password</li>
-                <nz-modal
-                class="bg-primary modal"
-                [(nzVisible)]="isVisibleMiddle"
-                nzCentered
-                (nzOnCancel)="handleCancelMiddle()"
-                (nzOnOk)="handleOkMiddle()"
-              >
-                <ng-container *nzModalContent>
-                   <div nzSpan="8" class="form" nzOffset="8">
-                  <form nz-form class="form-inner" [formGroup]="resetPasswordForm" (ngSubmit)="onSubmit()">
-
-                    <!-- email field -->
-                    <nz-form-item>
-                      <nz-form-control class="form-control" nzHasFeedback>
-                      <nz-input-group  [nzPrefix]="prefixTemplateEmail">
+          <nz-modal
+            class="bg-primary modal"
+            [(nzVisible)]="isVisibleMiddle"
+            nzCentered
+            (nzOnCancel)="handleCancelMiddle()"
+            (nzOnOk)="handleOkMiddle()"
+          >
+            <ng-container *nzModalContent>
+              <div nzSpan="8" class="form" nzOffset="8">
+                <form
+                  nz-form
+                  class="form-inner"
+                  [formGroup]="resetPasswordForm"
+                  (ngSubmit)="onSubmit()"
+                >
+                  <!-- email field -->
+                  <nz-form-item>
+                    <nz-form-control class="form-control" nzHasFeedback>
+                      <nz-input-group [nzPrefix]="prefixTemplateEmail">
                         <input
-                        class="form-input"
-                        class="text-danger"
+                          class="form-input"
+                          class="text-danger"
                           nz-input
                           placeholder="E-mail"
                           id="email"
                           formControlName="email"
                         />
-                        </nz-input-group>
-                        <ng-container *ngIf="resetPasswordForm.get('email')?.invalid && (resetPasswordForm.get('email')?.dirty || resetPasswordForm.get('email')?.touched)">
-                          <div *ngIf="resetPasswordForm.get('email')?.errors?.['required']">
-                              <span nz-typography nzType="danger">E-mail is required!</span>
-                          </div>
-                          <div *ngIf="resetPasswordForm.get('email')?.errors?.['email']">
-                              <span nz-typography nzType="danger">Invalid e-mail format!</span>
-                          </div>
-                        </ng-container>
-                        <ng-template #prefixTemplateEmail>
-                          <span class="text-danger" nz-icon nzType="mail" style="margin-right: 10px;"></span>
-                        </ng-template>
-                      </nz-form-control>
-                    </nz-form-item>
-            
-                    <!-- old password -->
-                    <nz-form-item>
-                      <nz-form-control class="form-control" nzHasFeedback>
-                        <nz-input-group  [nzSuffix]="suffixTemplate">
-                          <input
-                             class="form-input"
-                            [type]="passwordVisible ? 'text' : 'password'"
-                            nz-input
-                            placeholder="old password"
-                            formControlName="oldPassword"
-                          />
-                        </nz-input-group>
-                        <ng-container *ngIf="resetPasswordForm.get('oldPassword')?.invalid && (resetPasswordForm.get('oldPassword')?.dirty || resetPasswordForm.get('oldPassword')?.touched)">
-                          <div *ngIf="resetPasswordForm.get('oldPassword')?.errors?.['required']">
-                              <span nz-typography nzType="danger">Password is required!</span>
-                          </div>
-                        </ng-container>
-                        <ng-template #suffixTemplate>
-                          <span
-                            nz-icon style="margin-left: 10px;"
-                            [nzType]="passwordVisible ? 'eye-invisible' : 'eye'"
-                            (click)="passwordVisible = !passwordVisible"
-                          ></span>
-                        </ng-template>
-                      </nz-form-control>
-                    </nz-form-item>
-                    <!-- new password -->
-                    <nz-form-item>
-                      <nz-form-control class="form-control" nzHasFeedback>
-                        <nz-input-group [nzSuffix]="suffixTemplate">
-                          <input
-                            class="form-input"
-                            [type]="passwordVisible ? 'text' : 'password'"
-                            nz-input
-                            placeholder="new password"
-                            formControlName="newPassword"
-                          />
-                        </nz-input-group>
-                        <ng-container  *ngIf="resetPasswordForm.get('newPassword')?.invalid && (resetPasswordForm.get('newPassword')?.dirty || resetPasswordForm.get('newPassword')?.touched)">
-                          <div *ngIf="resetPasswordForm.get('newPassword')?.errors?.['required']">
-                              <span nz-typography nzType="danger">New Password is required!</span>
-                          </div>
-                          <div *ngIf="resetPasswordForm.get('newPassword')?.errors?.['pattern']">
-                              <span nz-typography nzType="danger">Password must contain 8 characters, 1 lowercase, 1 uppercase, 1 number, and 1 special character.</span>
-                          </div>
-                        </ng-container>
-                        <ng-template #suffixTemplate>
-                          <span
-                            nz-icon style="margin-left: 10px;"
-                            [nzType]="passwordVisible ? 'eye-invisible' : 'eye'"
-                            (click)="passwordVisible = !passwordVisible"
-                          ></span>
-                        </ng-template>
-                      </nz-form-control>
-                    </nz-form-item>
+                      </nz-input-group>
+                      <ng-container
+                        *ngIf="
+                          resetPasswordForm.get('email')?.invalid &&
+                          (resetPasswordForm.get('email')?.dirty ||
+                            resetPasswordForm.get('email')?.touched)
+                        "
+                      >
+                        <div
+                          *ngIf="resetPasswordForm.get('email')?.errors?.['required']"
+                        >
+                          <span nz-typography nzType="danger"
+                            >E-mail is required!</span
+                          >
+                        </div>
+                        <div
+                          *ngIf="resetPasswordForm.get('email')?.errors?.['email']"
+                        >
+                          <span nz-typography nzType="danger"
+                            >Invalid e-mail format!</span
+                          >
+                        </div>
+                      </ng-container>
+                      <ng-template #prefixTemplateEmail>
+                        <span
+                          class="text-danger"
+                          nz-icon
+                          nzType="mail"
+                          style="margin-right: 10px"
+                        ></span>
+                      </ng-template>
+                    </nz-form-control>
+                  </nz-form-item>
 
-                    <button
+                  <!-- old password -->
+                  <nz-form-item>
+                    <nz-form-control class="form-control" nzHasFeedback>
+                      <nz-input-group [nzSuffix]="suffixTemplate">
+                        <input
+                          class="form-input"
+                          [type]="passwordVisible ? 'text' : 'password'"
+                          nz-input
+                          placeholder="old password"
+                          formControlName="oldPassword"
+                        />
+                      </nz-input-group>
+                      <ng-container
+                        *ngIf="
+                          resetPasswordForm.get('oldPassword')?.invalid &&
+                          (resetPasswordForm.get('oldPassword')?.dirty ||
+                            resetPasswordForm.get('oldPassword')?.touched)
+                        "
+                      >
+                        <div
+                          *ngIf="resetPasswordForm.get('oldPassword')?.errors?.['required']"
+                        >
+                          <span nz-typography nzType="danger"
+                            >Password is required!</span
+                          >
+                        </div>
+                      </ng-container>
+                      <ng-template #suffixTemplate>
+                        <span
+                          nz-icon
+                          style="margin-left: 10px"
+                          [nzType]="passwordVisible ? 'eye-invisible' : 'eye'"
+                          (click)="passwordVisible = !passwordVisible"
+                        ></span>
+                      </ng-template>
+                    </nz-form-control>
+                  </nz-form-item>
+                  <!-- new password -->
+                  <nz-form-item>
+                    <nz-form-control class="form-control" nzHasFeedback>
+                      <nz-input-group [nzSuffix]="suffixTemplate">
+                        <input
+                          class="form-input"
+                          [type]="passwordVisible ? 'text' : 'password'"
+                          nz-input
+                          placeholder="new password"
+                          formControlName="newPassword"
+                        />
+                      </nz-input-group>
+                      <ng-container
+                        *ngIf="
+                          resetPasswordForm.get('newPassword')?.invalid &&
+                          (resetPasswordForm.get('newPassword')?.dirty ||
+                            resetPasswordForm.get('newPassword')?.touched)
+                        "
+                      >
+                        <div
+                          *ngIf="resetPasswordForm.get('newPassword')?.errors?.['required']"
+                        >
+                          <span nz-typography nzType="danger"
+                            >New Password is required!</span
+                          >
+                        </div>
+                        <div
+                          *ngIf="resetPasswordForm.get('newPassword')?.errors?.['pattern']"
+                        >
+                          <span nz-typography nzType="danger"
+                            >Password must contain 8 characters, 1 lowercase, 1
+                            uppercase, 1 number, and 1 special character.</span
+                          >
+                        </div>
+                      </ng-container>
+                      <ng-template #suffixTemplate>
+                        <span
+                          nz-icon
+                          style="margin-left: 10px"
+                          [nzType]="passwordVisible ? 'eye-invisible' : 'eye'"
+                          (click)="passwordVisible = !passwordVisible"
+                        ></span>
+                      </ng-template>
+                    </nz-form-control>
+                  </nz-form-item>
+
+                  <button
                     nz-button
                     class="login-form-button login-form-margin"
                     [nzType]="'primary'"
@@ -159,22 +229,19 @@
                   >
                     Reset Password
                   </button>
-                  
                 </form>
-              </div> 
+              </div>
+            </ng-container>
+          </nz-modal>
 
-                </ng-container>
-              </nz-modal>
-              
-          <li ></li>
+          <li></li>
         </ul>
       </li>
       <!-- Logout button when user is logged in -->
-      <li *ngIf="isLoggedIn" nz-menu-item   (click)="showModalTop()" >
+      <li *ngIf="isLoggedIn" nz-menu-item (click)="showModalTop()">
         <span nz-icon nzType="logout"></span>
         <span>Logout</span>
       </li>
-      
     </ul>
     <nz-modal
       [nzStyle]="{ top: '20px' }"
@@ -182,169 +249,145 @@
       (nzOnCancel)="handleCancelTop()"
       (nzOnOk)="handleOkTop()"
     >
-        <!-- Logout Modal-->
-        <ng-container *nzModalContent>
+      <!-- Logout Modal-->
+      <ng-container *nzModalContent>
         <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
-                </div>
-                <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
-                <div class="modal-footer">
-                    <a class="btn btn-primary"(click)="signout()" >Logout</a>
-                </div>
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">
+                Ready to Leave?
+              </h5>
             </div>
+            <div class="modal-body">
+              Select "Logout" below if you are ready to end your current
+              session.
+            </div>
+            <div class="modal-footer">
+              <a class="btn btn-primary" (click)="signout()">Logout</a>
+            </div>
+          </div>
         </div>
-        </ng-container>
+      </ng-container>
     </nz-modal>
   </nz-sider>
 
   <nz-layout>
     <!-- header -->
     <nz-header>
-      <!-- <div class="header" style="display: flex; flex-direction: row;">
-      <span
-        class="trigger"
-        nz-icon
-        [nzType]="isCollapsed ? 'menu-unfold' : 'menu-fold'"
-        (click)="isCollapsed = !isCollapsed"
-      ></span>
-      <span>
-      <img src="https://cdn-icons-png.flaticon.com/128/781/781760.png"
-               alt="img" style="width: 60px;"
-               class="logo">
-        </span>
-        <div class="user-info link--kale d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search" style="margin-right: 400px;" routerLink="/home">
-          <strong>FINANCE TRACKER</strong>
-        </div> 
-
-    <div class="navbar-nav ml-auto ms-auto mb-2 mb-lg-0 mx-1 mr-1" style="margin-left: 20rem;">
-        <div *ngIf="isLoggedIn" class="notification-container ">
-          <div class="notification-icon" (click)="toggleNotifications()">
-            <span class="material-icons">notifications</span>
-            <span class="badge badge-danger badge-counter" *ngIf="unreadNotifications > 0">{{ unreadNotifications }}</span>
+      <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="trigger">
+          <span
+            nz-icon
+            [nzType]="isCollapsed ? 'menu-unfold' : 'menu-fold'"
+            (click)="isCollapsed = !isCollapsed"
+          ></span>
+        </div>
+        <a class="navbar" routerLink="/home" style="display: flex">
+          <span>
+            <img
+              src="https://cdn-icons-png.flaticon.com/128/781/781760.png"
+              alt="img"
+              style="width: 60px"
+              class="logo"
+            />
+          </span>
+          <div class="user-info link--kale">
+            <strong>FINANCE TRACKER</strong>
           </div>
-        
+        </a>
+        <div class="corner-nav" style="margin-left: 30rem; padding-left: 22rem">
+          <div class="form-inline my-2 my-lg-0">
+            <div *ngIf="isLoggedIn" class="notification-container">
+              <div class="notification-icon" (click)="toggleNotifications()">
+                <span class="material-icons">notifications</span>
+                <span
+                  class="badge badge-danger badge-counter"
+                  *ngIf="unreadNotifications > 0"
+                  >{{ unreadNotifications }}</span
+                >
+              </div>
 
-  <div class="notification-dropdown dropdown-menu-right dropdown-list shadow animated--grow-in" *ngIf="showNotifications">
-    <h6 class="dropdown-header bg-primary">Alerts Center</h6>
+              <!-- Notification Dropdown -->
+              <div
+                class="notification-dropdown dropdown-menu-right dropdown-list shadow animated--grow-in"
+                *ngIf="showNotifications"
+              >
+                <h6 class="dropdown-header bg-primary">Alerts Center</h6>
 
+                <!-- Show nz-empty if no notifications are present -->
+                <nz-empty *ngIf="notifications.length === 0"></nz-empty>
 
-    <nz-empty *ngIf="notifications.length === 0"></nz-empty>
-
-    
-    <div *ngIf="notifications.length > 0" class="notification-list">
-      <div *ngFor="let notification of notifications" 
-           [class.unread]="!notification.read" 
-           (click)="markAsRead(notification)"
-           class="notification-item dropdown-item d-flex align-items-center">
-        <div class="mr-3">
-          <div [class.icon-circle]="true" 
-               [class.bg-primary]="notification.type === 'report'"
-               [class.bg-success]="notification.type === 'credit'"
-               [class.bg-warning]="notification.type === 'debit'">
-            <i class="fas fa-bell text-white"></i>
-          </div>
-        </div>
-        <div class="notification-message">
-          {{ notification.message }}
-          <span *ngIf="notification.type === 'credit'">💰 Credit amount: {{ notification.amount }} and New Balance: {{notification.balance}}</span>
-          <span *ngIf="notification.type === 'debit'">💰 Debited amount: {{ notification.amount }} and New Balance: {{notification.balance}}</span>
-        </div>
-      </div>
-    </div>
-  </div>
-        </div>
-    </div>
-    <div class="user-profile" >  
-
-      <div *ngIf="isLoggedIn && previewUrl ; else noPicture" class="logo"routerLink="/user/settings" >
-        <img [src]="previewUrl" alt="Profile Picture" class="avatar"/>
-      </div>
-      <ng-template #noPicture>
-          <div *ngIf="isLoggedIn"
-      class="logo" routerLink="/user/settings">
-          <img src="../assets/img/image.png" alt="Avatar" class="avatar">
-      </div>
-    </ng-template>
-  </div> 
-    </div> -->
-
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-      <div class="trigger">
-        <span        
-        nz-icon
-        [nzType]="isCollapsed ? 'menu-unfold' : 'menu-fold'"
-        (click)="isCollapsed = !isCollapsed"
-      ></span>
-      </div>
-      <a class="navbar" routerLink="/home" style="display: flex;">
-        <span>
-          <img src="https://cdn-icons-png.flaticon.com/128/781/781760.png"
-                   alt="img" style="width: 60px;"
-                   class="logo">
-        </span>
-        <div class="user-info link--kale " >
-          <strong>FINANCE TRACKER</strong>
-        </div> 
-      </a>
-      <div class="corner-nav" style="margin-left: 30rem; padding-left: 22rem;">
-        <div class="form-inline my-2 my-lg-0" >
-          <div *ngIf="isLoggedIn" class="notification-container " >
-            <div class="notification-icon" (click)="toggleNotifications()">
-              <span class="material-icons">notifications</span>
-              <span class="badge badge-danger badge-counter" *ngIf="unreadNotifications > 0">{{ unreadNotifications }}</span>
+                <!-- If there are notifications, display them in a scrollable list -->
+                <div *ngIf="notifications.length > 0" class="notification-list">
+                  <div
+                    *ngFor="let notification of notifications"
+                    [class.unread]="!notification.read"
+                    (click)="markAsRead(notification)"
+                    class="notification-item dropdown-item d-flex align-items-center"
+                  >
+                    <div class="mr-3">
+                      <div
+                        [class.icon-circle]="true"
+                        [class.bg-primary]="notification.type === 'report'"
+                        [class.bg-success]="notification.type === 'credit'"
+                        [class.bg-warning]="notification.type === 'debit'"
+                      >
+                        <i class="fas fa-bell text-white"></i>
+                      </div>
+                    </div>
+                    <div class="notification-message">
+                      {{ notification.message }}
+                      <span *ngIf="notification.type === 'credit'"
+                        >💰 Credit amount: {{ notification.amount }} and New
+                        Balance: {{ notification.balance }}</span
+                      >
+                      <span *ngIf="notification.type === 'debit'"
+                        >💰 Debited amount: {{ notification.amount }} and New
+                        Balance: {{ notification.balance }}</span
+                      >
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
-          
-    <!-- Notification Dropdown -->
-    <div class="notification-dropdown dropdown-menu-right dropdown-list shadow animated--grow-in" *ngIf="showNotifications">
-      <h6 class="dropdown-header bg-primary">Alerts Center</h6>
-  
-      <!-- Show nz-empty if no notifications are present -->
-      <nz-empty *ngIf="notifications.length === 0"></nz-empty>
-  
-      <!-- If there are notifications, display them in a scrollable list -->
-      <div *ngIf="notifications.length > 0" class="notification-list">
-        <div *ngFor="let notification of notifications" 
-             [class.unread]="!notification.read" 
-             (click)="markAsRead(notification)"
-             class="notification-item dropdown-item d-flex align-items-center">
-          <div class="mr-3">
-            <div [class.icon-circle]="true" 
-                 [class.bg-primary]="notification.type === 'report'"
-                 [class.bg-success]="notification.type === 'credit'"
-                 [class.bg-warning]="notification.type === 'debit'">
-              <i class="fas fa-bell text-white"></i>
+            <div *ngIf="isLoggedIn"></div>
+            <div class="user-profile">
+              <!-- image url  -->
+              <div
+                *ngIf="isLoggedIn && previewUrl; else noPicture"
+                class="logo"
+                routerLink="/user/settings"
+              >
+                <h4
+                  style="
+                    margin-top: 5px;
+                    margin-right: 10px;
+                    font-size: 14px;
+                    text-transform: uppercase;
+                  "
+                  class="text-primary"
+                >
+                  {{ user?.name }}
+                </h4>
+                <img [src]="previewUrl" alt="Profile Picture" class="avatar" />
+              </div>
+              <ng-template #noPicture>
+                <div
+                  *ngIf="isLoggedIn"
+                  class="logo"
+                  routerLink="/user/settings"
+                >
+                  <img
+                    src="../assets/img/image.png"
+                    alt="Avatar"
+                    class="avatar"
+                  />
+                </div>
+              </ng-template>
             </div>
           </div>
-          <div class="notification-message">
-            {{ notification.message }}
-            <span *ngIf="notification.type === 'credit'">💰 Credit amount: {{ notification.amount }} and New Balance: {{notification.balance}}</span>
-            <span *ngIf="notification.type === 'debit'">💰 Debited amount: {{ notification.amount }} and New Balance: {{notification.balance}}</span>
-          </div>
         </div>
-      </div>
-    </div>
-          </div>
-          <div *ngIf="isLoggedIn">
-          
-          </div>
-          <div class="user-profile" >  
-            <!-- image url  -->
-            <div *ngIf="isLoggedIn && previewUrl ; else noPicture" class="logo"routerLink="/user/settings" >
-              <h4 style="margin-top: 5px; margin-right: 10px; font-size: 14px; text-transform: uppercase;" class="text-primary">{{user?.name}}</h4>
-              <img [src]="previewUrl" alt="Profile Picture" class="avatar"/>
-            </div>
-            <ng-template #noPicture>
-                <div *ngIf="isLoggedIn"
-            class="logo" routerLink="/user/settings">
-                <img src="../assets/img/image.png" alt="Avatar" class="avatar">
-            </div>
-          </ng-template>
-        </div> 
-        </div>
-      </div>
-    </nav>
+      </nav>
     </nz-header>
     <!-- body -->
     <nz-content>
@@ -352,21 +395,22 @@
         <nz-breadcrumb-item>User</nz-breadcrumb-item>
       </nz-breadcrumb> -->
       <div class="inner-content">
-          <router-outlet></router-outlet>
+        <router-outlet></router-outlet>
       </div>
     </nz-content>
     <!-- footer -->
     <nz-footer class="bg-gradient-dark">
-        <div class="footer-container " style=" text-align: center; ">
-          <div class="footer-content" style="line-height: 0.6;">
-            <div class="footer-section about">
-              <h2 style="font-size: 20px; font-weight: 700;">PERSONAL FINANCE TRACKER</h2>
-              <p>Track your income, expenses, and budget efficiently.</p>
-              <p>©2024 All rights reserved.</p>
-            </div>
+      <div class="footer-container" style="text-align: center">
+        <div class="footer-content" style="line-height: 0.6">
+          <div class="footer-section about">
+            <h2 style="font-size: 20px; font-weight: 700">
+              PERSONAL FINANCE TRACKER
+            </h2>
+            <p>Track your income, expenses, and budget efficiently.</p>
+            <p>©2024 All rights reserved.</p>
           </div>
         </div>
-      
+      </div>
     </nz-footer>
   </nz-layout>
- </nz-layout>
+</nz-layout>

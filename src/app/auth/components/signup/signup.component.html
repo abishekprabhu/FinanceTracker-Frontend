@@ -1,160 +1,226 @@
-<div class="bg" style="background-color: #F8F8F8;">
+<div class="bg" style="background-color: #f8f8f8">
   <nz-spin [nzSpinning]="isSpinning" [nzSize]="'large'" nzTip="Working ... ">
-  <div class="parent">
-    <div class="child">
-      <div nz-row class="imgDiv">
-        <div nz-col nzSpan="24">
-          <h1 style="margin-left: 80px;">Sign Up</h1>
+    <div class="parent">
+      <div class="child">
+        <div nz-row class="imgDiv">
+          <div nz-col nzSpan="24">
+            <h1 style="margin-left: 80px">Sign Up</h1>
+          </div>
         </div>
-      </div>
-      <form nz-form [formGroup]="signupForm" (ngSubmit)="onSubmit()">
-        <!-- name field -->
-        <nz-form-item>
-          <nz-form-control nzHasFeedback>
-            <nz-input-group class="form-control" [nzPrefix]="prefixTemplateUser">
-              <input
-                type="text"
-                nz-input
-                placeholder="Enter your Name"
-                id="username"
-                formControlName="name"
-              />
-            </nz-input-group>
-            <ng-container *ngIf="signupForm.get('name')?.invalid && (signupForm.get('name')?.dirty || signupForm.get('name')?.touched)">
-              <div *ngIf="signupForm.get('name')?.errors?.['required']">
-                  <span nz-typography nzType="danger">Please input your username!</span>
-              </div>
-              <div *ngIf="signupForm.get('name')?.errors?.['maxlength']">
-                <span nz-typography nzType="danger">Username cannot be more than 15 characters!</span>
-              </div>
-              <div *ngIf="signupForm.get('name')?.errors?.['minlength']">
-                <span nz-typography nzType="danger">Username must be at least 6 characters!</span>
-              </div>
-              <div *ngIf="signupForm.get('name')?.errors?.['pattern']">Invalid name format!</div>
-            </ng-container>
-            <ng-template #prefixTemplateUser>
-              <span nz-icon nzType="user" style="margin-right: 10px;"></span>
-            </ng-template>
-          </nz-form-control>
-        </nz-form-item>
-        <!-- email field -->
-        <nz-form-item>
-          <nz-form-control nzHasFeedback>
-          <nz-input-group class="form-control" [nzPrefix]="prefixTemplateEmail">
-            <input
-              nz-input
-              placeholder="E-mail"
-              id="email"
-              formControlName="email"
-            />
-            </nz-input-group>
-            <ng-container *ngIf="signupForm.get('email')?.invalid && (signupForm.get('email')?.dirty || signupForm.get('email')?.touched)">
-              <div *ngIf="signupForm.get('email')?.errors?.['required']">
+        <form nz-form [formGroup]="signupForm" (ngSubmit)="onSubmit()">
+          <!-- name field -->
+          <nz-form-item>
+            <nz-form-control nzHasFeedback>
+              <nz-input-group
+                class="form-control"
+                [nzPrefix]="prefixTemplateUser"
+              >
+                <input
+                  type="text"
+                  nz-input
+                  placeholder="Enter your Name"
+                  id="username"
+                  formControlName="name"
+                />
+              </nz-input-group>
+              <ng-container
+                *ngIf="
+                  signupForm.get('name')?.invalid &&
+                  (signupForm.get('name')?.dirty ||
+                    signupForm.get('name')?.touched)
+                "
+              >
+                <div *ngIf="signupForm.get('name')?.errors?.['required']">
+                  <span nz-typography nzType="danger"
+                    >Please input your username!</span
+                  >
+                </div>
+                <div *ngIf="signupForm.get('name')?.errors?.['maxlength']">
+                  <span nz-typography nzType="danger"
+                    >Username cannot be more than 15 characters!</span
+                  >
+                </div>
+                <div *ngIf="signupForm.get('name')?.errors?.['minlength']">
+                  <span nz-typography nzType="danger"
+                    >Username must be at least 6 characters!</span
+                  >
+                </div>
+                <div *ngIf="signupForm.get('name')?.errors?.['pattern']">
+                  Invalid name format!
+                </div>
+              </ng-container>
+              <ng-template #prefixTemplateUser>
+                <span nz-icon nzType="user" style="margin-right: 10px"></span>
+              </ng-template>
+            </nz-form-control>
+          </nz-form-item>
+          <!-- email field -->
+          <nz-form-item>
+            <nz-form-control nzHasFeedback>
+              <nz-input-group
+                class="form-control"
+                [nzPrefix]="prefixTemplateEmail"
+              >
+                <input
+                  nz-input
+                  placeholder="E-mail"
+                  id="email"
+                  formControlName="email"
+                />
+              </nz-input-group>
+              <ng-container
+                *ngIf="
+                  signupForm.get('email')?.invalid &&
+                  (signupForm.get('email')?.dirty ||
+                    signupForm.get('email')?.touched)
+                "
+              >
+                <div *ngIf="signupForm.get('email')?.errors?.['required']">
                   <span nz-typography nzType="danger">E-mail is required!</span>
-              </div>
-              <div *ngIf="signupForm.get('email')?.errors?.['email']">
-                  <span nz-typography nzType="danger">Invalid e-mail format!</span>
-              </div>
-            </ng-container>
-            <ng-template #prefixTemplateEmail>
-              <span nz-icon nzType="mail" style="margin-right: 10px;"></span>
-            </ng-template>
-          </nz-form-control>
-        </nz-form-item>
-        <!-- phone field -->
-        <nz-form-item>
-          <nz-form-control nzHasFeedback>
-            <nz-input-group class="form-control" [nzPrefix]="prefixTemplatePhone" >
-              <input
-                type="tel"
-                maxlength="10" 
-                (keypress)="validateNumber($event)"
-                nz-input
-                placeholder="Mobile Number"
-                id="mobile"
-                formControlName="mobile"
-              />
+                </div>
+                <div *ngIf="signupForm.get('email')?.errors?.['email']">
+                  <span nz-typography nzType="danger"
+                    >Invalid e-mail format!</span
+                  >
+                </div>
+              </ng-container>
+              <ng-template #prefixTemplateEmail>
+                <span nz-icon nzType="mail" style="margin-right: 10px"></span>
+              </ng-template>
+            </nz-form-control>
+          </nz-form-item>
+          <!-- phone field -->
+          <nz-form-item>
+            <nz-form-control nzHasFeedback>
+              <nz-input-group
+                class="form-control"
+                [nzPrefix]="prefixTemplatePhone"
+              >
+                <input
+                  type="tel"
+                  maxlength="10"
+                  (keypress)="validateNumber($event)"
+                  nz-input
+                  placeholder="Mobile Number"
+                  id="mobile"
+                  formControlName="mobile"
+                />
+              </nz-input-group>
+              <ng-container
+                *ngIf="
+                  signupForm.get('mobile')?.invalid &&
+                  (signupForm.get('mobile')?.dirty ||
+                    signupForm.get('mobile')?.touched)
+                "
+              >
+                <div *ngIf="signupForm.get('mobile')?.errors?.['required']">
+                  <span nz-typography nzType="danger"
+                    >Mobile number is required!</span
+                  >
+                </div>
+                <div *ngIf="signupForm.get('mobile')?.errors?.['pattern']">
+                  <span nz-typography nzType="danger"
+                    >Please enter a valid 10-digit mobile number!</span
+                  >
+                </div>
+              </ng-container>
+              <ng-template #prefixTemplatePhone>
+                <span nz-icon nzType="phone" style="margin-right: 10px"></span>
+              </ng-template>
+            </nz-form-control>
+          </nz-form-item>
 
-            </nz-input-group>
-            <ng-container *ngIf="signupForm.get('mobile')?.invalid && (signupForm.get('mobile')?.dirty || signupForm.get('mobile')?.touched)">
-              <div *ngIf="signupForm.get('mobile')?.errors?.['required']">
-                <span nz-typography nzType="danger">Mobile number is required!</span>
-              </div>
-              <div *ngIf="signupForm.get('mobile')?.errors?.['pattern']">
-                <span nz-typography nzType="danger">Please enter a valid 10-digit mobile number!</span>
-              </div>
-            </ng-container>
-            <ng-template #prefixTemplatePhone>
-              <span nz-icon nzType="phone" style="margin-right: 10px;"></span>
-            </ng-template>
-          </nz-form-control>
-        </nz-form-item>
+          <!-- password field -->
+          <nz-form-item>
+            <nz-form-control nzHasFeedback>
+              <nz-input-group class="form-control" [nzSuffix]="suffixTemplate">
+                <input
+                  [type]="passwordVisible ? 'text' : 'password'"
+                  nz-input
+                  placeholder="password"
+                  formControlName="password"
+                />
+              </nz-input-group>
+              <ng-container
+                *ngIf="
+                  signupForm.get('password')?.invalid &&
+                  (signupForm.get('password')?.dirty ||
+                    signupForm.get('password')?.touched)
+                "
+              >
+                <div *ngIf="signupForm.get('password')?.errors?.['required']">
+                  <span nz-typography nzType="danger"
+                    >Password is required!</span
+                  >
+                </div>
+                <div *ngIf="signupForm.get('password')?.errors?.['pattern']">
+                  <span nz-typography nzType="danger"
+                    >Password must contain 8 characters, 1 lowercase, 1
+                    uppercase, 1 number, and 1 special character.</span
+                  >
+                </div>
+              </ng-container>
+              <ng-template #suffixTemplate>
+                <span
+                  nz-icon
+                  style="margin-left: 10px"
+                  [nzType]="passwordVisible ? 'eye-invisible' : 'eye'"
+                  (click)="passwordVisible = !passwordVisible"
+                ></span>
+              </ng-template>
+            </nz-form-control>
+          </nz-form-item>
 
+          <!-- confirm password -->
+          <nz-form-item>
+            <nz-form-control nzHasFeedback>
+              <nz-input-group class="form-control" [nzSuffix]="suffixTemplate">
+                <input
+                  nz-input
+                  placeholder="Confirm Password"
+                  [type]="passwordVisible ? 'text' : 'password'"
+                  id="checkPassword"
+                  formControlName="confirmPassword"
+                />
+              </nz-input-group>
+              <ng-container
+                *ngIf="
+                  signupForm.get('confirmPassword')?.invalid &&
+                  (signupForm.get('confirmPassword')?.dirty ||
+                    signupForm.get('confirmPassword')?.touched)
+                "
+              >
+                <div
+                  *ngIf="signupForm.get('confirmPassword')?.errors?.['required']"
+                >
+                  <span nz-typography nzType="danger"
+                    >Please confirm your password.</span
+                  >
+                </div>
+                <div
+                  *ngIf="signupForm.get('confirmPassword')?.errors?.['mismatch']"
+                >
+                  <span nz-typography nzType="danger"
+                    >Passwords do not match!</span
+                  >
+                </div>
+              </ng-container>
+              <ng-template #suffixTemplate> </ng-template>
+            </nz-form-control>
+          </nz-form-item>
 
-        <nz-form-item>
-          <nz-form-control nzHasFeedback>
-            <nz-input-group class="form-control" [nzSuffix]="suffixTemplate">
-              <input
-                [type]="passwordVisible ? 'text' : 'password'"
-                nz-input
-                placeholder="password"
-                formControlName="password"
-              />
-            </nz-input-group>
-            <ng-container *ngIf="signupForm.get('password')?.invalid && (signupForm.get('password')?.dirty || signupForm.get('password')?.touched)">
-              <div *ngIf="signupForm.get('password')?.errors?.['required']">
-                  <span nz-typography nzType="danger">Password is required!</span>
-              </div>
-              <div *ngIf="signupForm.get('password')?.errors?.['pattern']">
-                  <span nz-typography nzType="danger">Password must contain 8 characters, 1 lowercase, 1 uppercase, 1 number, and 1 special character.</span>
-              </div>
-            </ng-container>
-            <ng-template #suffixTemplate>
-              <span
-                nz-icon style="margin-left: 10px;"
-                [nzType]="passwordVisible ? 'eye-invisible' : 'eye'"
-                (click)="passwordVisible = !passwordVisible"
-              ></span>
-            </ng-template>
-          </nz-form-control>
-        </nz-form-item>
-
-        <nz-form-item>
-          <nz-form-control nzHasFeedback>
-          <nz-input-group class="form-control" [nzSuffix]="suffixTemplate">
-            <input
-              nz-input 
-              placeholder="Confirm Password"
-              [type]="passwordVisible ? 'text' : 'password'"                  
-              id="checkPassword"
-              formControlName="confirmPassword"
-            />
-          </nz-input-group>
-            <ng-container *ngIf="signupForm.get('confirmPassword')?.invalid && (signupForm.get('confirmPassword')?.dirty || signupForm.get('confirmPassword')?.touched)">
-              <div *ngIf="signupForm.get('confirmPassword')?.errors?.['required']">
-                  <span nz-typography nzType="danger">Please confirm your password.</span>
-              </div>
-              <div *ngIf="signupForm.get('confirmPassword')?.errors?.['mismatch']">
-                  <span nz-typography nzType="danger">Passwords do not match!</span>
-              </div>
-            </ng-container>
-            <ng-template #suffixTemplate>
-            </ng-template>            
-          </nz-form-control>
-        </nz-form-item>
-
-        <button
-          nz-button
-          class="login-form-button login-form-margin"
-          [nzType]="'primary'"
-          
-        >
-        <!-- [disabled]="signupForm.invalid" -->
-          Register
-        </button>
-        Or <a routerLink="/login">login now!</a>
-      </form>
+          <!-- submit button -->
+          <button
+            nz-button
+            class="login-form-button login-form-margin"
+            [nzType]="'primary'"
+          >
+            <!-- [disabled]="signupForm.invalid" -->
+            Register
+          </button>
+          Or <a routerLink="/login">login now!</a>
+        </form>
+      </div>
     </div>
-  </div>
-</nz-spin>
+  </nz-spin>
 </div>

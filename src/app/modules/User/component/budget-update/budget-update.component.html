@@ -1,47 +1,95 @@
 <div nz-row>
-    <div nz-col nzSpan="8" class="form" nzOffset="8">
+  <div
+    nz-col
+    nzSpan="8"
+    class="form"
+    nzOffset="8"
+    style="position: relative; margin-bottom: 27rem"
+  >
     <!-- <div style="margin-top: 16px;" class="title" nzTitle="Post new Budget"> -->
-        <form class="form-inner" nz-form [formGroup]="budgetForm" (ngSubmit)="onSubmit()">
-            <div style="margin-top: 16px;" class="title">Update Budget</div>
-            <nz-form-item>
-                <nz-form-control nzErrorTip="Please input the amount!">
-                    <input  type="text"  formControlName="amount" nz-input placeholder="Budget Amount">
-                </nz-form-control>
-            </nz-form-item>
-            <nz-form-item>
-                <nz-form-control nzErrorTip="Please input the Start date!">
-                    <nz-date-picker class="input" style="width: 100%;" formControlName="startDate" nzPlaceHolder="Start Date"></nz-date-picker>
-                </nz-form-control>
-            </nz-form-item>  
-        
-            <nz-form-item>
-                <nz-form-control nzErrorTip="Please input the End date!">
-                    <nz-date-picker class="input" style="width: 100%;" formControlName="endDate" nzPlaceHolder="End Date"></nz-date-picker>
-                </nz-form-control>
-            </nz-form-item>  
-        
-            <nz-form-item >
-                <nz-form-control nzErrorTip="Please input the category!">
-                    <nz-select nzAllowClear style="border-radius: 10px;" nzPlaceHolder="select the category" formControlName="categoryId">
-                        <nz-option *ngFor="let category of categories" 
-                        [nzLabel]="category.name"
-                        [nzValue]="category.id">
-                    </nz-option>
-                    </nz-select>
-                </nz-form-control>
-            </nz-form-item>
-            <div class="mx-auto pl-4 text-center" style="display: flex;" nzJustify="center">
-            <button type="submit" class="btn btn-success" style="margin-right: 10px;"> Update Budget
-                <span class="p-2" nz-icon nzType="send" nzTheme="outline"></span>
-            </button>
-            <button type="submit" class="btn btn-warning p-2" routerLink="/user/budget">
-                <span class="p-2" nz-icon nzType="close" nzTheme="outline"></span>Cancel</button>
-            </div>
-             
-            <!-- <button nz-button nz nzBlock [disabled]="budgetForm.invalid" class="w-100"> -->
-               
-            <!-- </button> -->
-          </form>
-    </div>
-        </div>
+    <form
+      class="form-inner"
+      nz-form
+      [formGroup]="budgetForm"
+      (ngSubmit)="onSubmit()"
+    >
+      <div style="margin-top: 16px" class="title">Update Budget</div>
+      <nz-form-item>
+        <nz-form-control nzErrorTip="Please input the amount!">
+          <input
+            type="text"
+            formControlName="amount"
+            nz-input
+            placeholder="Budget Amount"
+          />
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-control nzErrorTip="Please input the Start date!">
+          <nz-date-picker
+            class="input"
+            style="width: 100%"
+            formControlName="startDate"
+            nzPlaceHolder="Start Date"
+          ></nz-date-picker>
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item>
+        <nz-form-control nzErrorTip="Please input the End date!">
+          <nz-date-picker
+            class="input"
+            style="width: 100%"
+            formControlName="endDate"
+            nzPlaceHolder="End Date"
+          ></nz-date-picker>
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item>
+        <nz-form-control nzErrorTip="Please input the category!">
+          <nz-select
+            nzAllowClear
+            style="border-radius: 10px"
+            nzPlaceHolder="select the category"
+            formControlName="categoryId"
+          >
+            <nz-option
+              *ngFor="let category of categories"
+              [nzLabel]="category.name"
+              [nzValue]="category.id"
+            >
+            </nz-option>
+          </nz-select>
+        </nz-form-control>
+      </nz-form-item>
+      <div
+        class="mx-auto pl-4 text-center"
+        style="display: flex"
+        nzJustify="center"
+      >
+        <button
+          type="submit"
+          class="btn btn-success"
+          style="margin-right: 10px"
+        >
+          Update Budget
+          <span class="p-2" nz-icon nzType="send" nzTheme="outline"></span>
+        </button>
+        <button
+          type="submit"
+          class="btn btn-warning p-2"
+          routerLink="/user/budget"
+        >
+          <span class="p-2" nz-icon nzType="close" nzTheme="outline"></span
+          >Cancel
+        </button>
+      </div>
+
+      <!-- <button nz-button nz nzBlock [disabled]="budgetForm.invalid" class="w-100"> -->
+
+      <!-- </button> -->
+    </form>
+  </div>
+</div>
 <!-- </div> -->

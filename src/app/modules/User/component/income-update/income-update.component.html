@@ -1,29 +1,60 @@
 <!-- Display the income form fields -->
-<form nz-form [formGroup]="incomeUpdateForm" (ngSubmit)="updateIncome()">
-    <nz-form-item>
-      <nz-form-control nzErrorTip="Please input the amount!">
-        <input type="text" nz-input formControlName="amount" placeholder="Enter amount">
-      </nz-form-control>
-    </nz-form-item>
-    <nz-form-item>
-      <nz-form-control nzErrorTip="Please input the date!">
-        <nz-date-picker style="width: 100%;" formControlName="date"></nz-date-picker>
-      </nz-form-control>
-    </nz-form-item>
-    <nz-form-item>
-      <nz-form-control>
-        <textarea nz-input placeholder="Enter description" [nzAutosize]="{minRows: 2, maxRows: 6}" formControlName="description"></textarea>
-      </nz-form-control>
-    </nz-form-item>
-    <nz-form-item nzErrorTip="Please input the category!">
-      <nz-form-control>
-        <nz-select nzAllowClear nzPlaceHolder="Select the category" formControlName="categoryId">
-          <nz-option *ngFor="let category of categories" [nzLabel]="category.name" [nzValue]="category.id"></nz-option>
-        </nz-select>
-      </nz-form-control>
-    </nz-form-item>
-    <button nz-button nzType="primary" nzBlock [disabled]="incomeUpdateForm.invalid" class="w-100">
-      Update Income
-    </button>
-  </form>
-  
+<form
+  nz-form
+  [formGroup]="incomeUpdateForm"
+  (ngSubmit)="updateIncome()"
+  style="position: relative; margin-bottom: 10rem"
+>
+  <nz-form-item>
+    <nz-form-control nzErrorTip="Please input the amount!">
+      <input
+        type="text"
+        nz-input
+        formControlName="amount"
+        placeholder="Enter amount"
+      />
+    </nz-form-control>
+  </nz-form-item>
+  <nz-form-item>
+    <nz-form-control nzErrorTip="Please input the date!">
+      <nz-date-picker
+        style="width: 100%"
+        formControlName="date"
+      ></nz-date-picker>
+    </nz-form-control>
+  </nz-form-item>
+  <nz-form-item>
+    <nz-form-control>
+      <textarea
+        nz-input
+        placeholder="Enter description"
+        [nzAutosize]="{ minRows: 2, maxRows: 6 }"
+        formControlName="description"
+      ></textarea>
+    </nz-form-control>
+  </nz-form-item>
+  <nz-form-item nzErrorTip="Please input the category!">
+    <nz-form-control>
+      <nz-select
+        nzAllowClear
+        nzPlaceHolder="Select the category"
+        formControlName="categoryId"
+      >
+        <nz-option
+          *ngFor="let category of categories"
+          [nzLabel]="category.name"
+          [nzValue]="category.id"
+        ></nz-option>
+      </nz-select>
+    </nz-form-control>
+  </nz-form-item>
+  <button
+    nz-button
+    nzType="primary"
+    nzBlock
+    [disabled]="incomeUpdateForm.invalid"
+    class="w-100"
+  >
+    Update Income
+  </button>
+</form>

@@ -15,65 +15,63 @@ import { BudgetComponent } from '../component/budget/budget.component';
 import { BudgetUpdateComponent } from '../component/budget-update/budget-update.component';
 import { StatsComponent } from '../component/stats/stats.component';
 
-
 const routes: Routes = [
   {
-    path:"dashboard",
-    component:UserComponent
+    path: 'dashboard',
+    component: UserComponent,
   },
   {
-    path:"category",
-    component:CategoryComponent
+    path: 'category',
+    component: CategoryComponent,
   },
   {
-    path:"category/:categoryId/edit",
-    component:CategoryUpdateComponent
+    path: 'category/:categoryId/edit',
+    component: CategoryUpdateComponent,
   },
   {
-    path:"income",
-    component:IncomeComponent
+    path: 'income',
+    component: IncomeComponent,
   },
   {
-    path:"income/:id/edit",
-    component:IncomeUpdateComponent
+    path: 'income/:id/edit',
+    component: IncomeUpdateComponent,
   },
   {
-    path:"expense",
-    component:ExpenseComponent
+    path: 'expense',
+    component: ExpenseComponent,
   },
   {
-    path:"expense/:id/edit",
-    component:ExpenseUpdateComponent
+    path: 'expense/:id/edit',
+    component: ExpenseUpdateComponent,
   },
   {
-    path:"transaction",
-    component:TransactionComponent
+    path: 'transaction',
+    component: TransactionComponent,
   },
   {
-    path:"transaction/:id/edit",
-    component:TransactionUpdateComponent
+    path: 'transaction/:id/edit',
+    component: TransactionUpdateComponent,
   },
   {
-    path:"settings",
-    component:SettingsComponent
+    path: 'settings',
+    component: SettingsComponent,
   },
   {
-    path:"budget",
-    component:BudgetComponent
+    path: 'budget',
+    component: BudgetComponent,
   },
   {
-    path:"budget/:id/edit",
-    component:BudgetUpdateComponent
+    path: 'budget/:id/edit',
+    component: BudgetUpdateComponent,
   },
   {
-    path:"stats",
-    component:StatsComponent
+    path: 'stats',
+    component: StatsComponent,
   },
-  
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class UserRoutingModule { }
+export class UserRoutingModule {}

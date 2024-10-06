@@ -1,87 +1,89 @@
 [nz-form] {
-    max-width: 600px;
+  max-width: 600px;
 }
 .register-are {
-    margin-bottom: 8px;
+  margin-bottom: 8px;
 }
-.bg{
-    /* background-image: url(../img/layered-waves-haikei.png);
+.bg {
+  /* background-image: url(../img/layered-waves-haikei.png);
     
     background-position: center; */
-    background: rgb(2,0,36);
-    background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(33,33,125,1) 20%, rgba(0,212,255,1) 100%);
-    background-size: cover; 
-    width: 100%;
-    height: 100vh;
-    overflow: auto;
-    position: relative;
-    padding: 0;
-    margin: 0;
+  background: rgb(2, 0, 36);
+  background: linear-gradient(
+    90deg,
+    rgba(2, 0, 36, 1) 0%,
+    rgba(33, 33, 125, 1) 20%,
+    rgba(0, 212, 255, 1) 100%
+  );
+  background-size: cover;
+  width: 100%;
+  height: 100vh;
+  overflow: auto;
+  position: relative;
+  padding: 0;
+  margin: 0;
 }
-
 
 .child {
-    padding: 50px;
-    position: absolute;
-    width: 380px;
-    background-color:white;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%) ;
-    box-shadow: 5px 5px 25px 5px rgba(0, 0, 0, 0.5);
-    border-radius: 5px;
-    margin-bottom: 22px;
+  padding: 50px;
+  position: absolute;
+  width: 380px;
+  background-color: white;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  box-shadow: 5px 5px 25px 5px rgba(0, 0, 0, 0.5);
+  border-radius: 5px;
+  margin-bottom: 22px;
 }
-nz-form-control {   
-    min-width: 280px;
-}
-
-.parent{
-    width: 100%;
-    height: 91vh;
-    position: relative;
-
+nz-form-control {
+  min-width: 280px;
 }
 
-.login-form-margin{
-    margin-bottom: 16px;
+.parent {
+  width: 100%;
+  height: 91vh;
+  position: relative;
 }
 
-.login-form-forgot{
-    float: right;
+.login-form-margin {
+  margin-bottom: 16px;
 }
 
-.login-form-button{
-    width: 100%;
+.login-form-forgot {
+  float: right;
 }
 
-button{
-    /* background-color: #C62368; */
-    border-radius: 20px;
-    
+.login-form-button {
+  width: 100%;
+}
+
+button {
+  /* background-color: #C62368; */
+  border-radius: 20px;
 }
 span[nz-typography] {
-    display: block;
-  }
-  span[nz-typography] + span[nz-typography] {
-    margin-top: 8px;
-  }
+  display: block;
+}
+span[nz-typography] + span[nz-typography] {
+  margin-top: 8px;
+}
 
 .imgDiv {
-    width: 100%;
-    vertical-align: middle;
-    align-items: center;
-    align-content: center;
-    margin-bottom: 40px;
+  width: 100%;
+  vertical-align: middle;
+  align-items: center;
+  align-content: center;
+  margin-bottom: 40px;
 }
 
 ::placeholder {
-    padding-left: 15px;
-    color: black;
-    opacity: 0.7; 
-  }
+  padding-left: 15px;
+  color: black;
+  opacity: 0.7;
+}
 
 .form-control {
-    box-shadow: 0px 0px 0px 0.5px rgba(0, 0, 0, 0.2);     
-    /* border-style: solid; */
+  box-shadow: 0px 0px 0px 0.5px rgba(0, 0, 0, 0.2);
+  /* border-style: solid; */
 }

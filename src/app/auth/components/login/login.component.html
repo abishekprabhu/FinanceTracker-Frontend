@@ -1,38 +1,49 @@
-<div class="bg" style="background-color: #F8F8F8;">
+<div class="bg" style="background-color: #f8f8f8">
   <nz-spin [nzSpinning]="isSpinning" [nzSize]="'large'" nzTip="Working ... ">
     <div class="parent">
       <div class="child">
         <div nz-row class="imgDiv">
           <div nz-col nzSpan="24">
-            <h1 style="margin-left: 100px;">Login</h1>
+            <h1 style="margin-left: 100px">Login</h1>
           </div>
         </div>
         <form nz-form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
           <!-- email field -->
           <nz-form-item>
-            <nz-form-control  nzHasFeedback>
-            <nz-input-group class="form-control" [nzPrefix]="prefixTemplateEmail">
-              <input
-                nz-input
-                placeholder="E-mail"
-                id="email"
-                formControlName="email"               
-              />
-            </nz-input-group>
-              <ng-container *ngIf="loginForm.get('email')?.invalid && (loginForm.get('email')?.dirty || loginForm.get('email')?.touched)">
+            <nz-form-control nzHasFeedback>
+              <nz-input-group
+                class="form-control"
+                [nzPrefix]="prefixTemplateEmail"
+              >
+                <input
+                  nz-input
+                  placeholder="E-mail"
+                  id="email"
+                  formControlName="email"
+                />
+              </nz-input-group>
+              <ng-container
+                *ngIf="
+                  loginForm.get('email')?.invalid &&
+                  (loginForm.get('email')?.dirty ||
+                    loginForm.get('email')?.touched)
+                "
+              >
                 <div *ngIf="loginForm.get('email')?.errors?.['required']">
-                    <span nz-typography nzType="danger">E-mail is required!</span>
+                  <span nz-typography nzType="danger">E-mail is required!</span>
                 </div>
                 <div *ngIf="loginForm.get('email')?.errors?.['email']">
-                    <span nz-typography nzType="danger">Invalid e-mail format!</span>
+                  <span nz-typography nzType="danger"
+                    >Invalid e-mail format!</span
+                  >
                 </div>
               </ng-container>
               <ng-template #prefixTemplateEmail>
-                <span nz-icon nzType="mail" style="margin-right: 10px;"></span>
+                <span nz-icon nzType="mail" style="margin-right: 10px"></span>
               </ng-template>
             </nz-form-control>
           </nz-form-item>
-            
+
           <!-- password -->
           <nz-form-item>
             <nz-form-control nzHasFeedback>
@@ -44,27 +55,34 @@
                   formControlName="password"
                 />
               </nz-input-group>
-              <ng-container *ngIf="loginForm.get('password')?.invalid && (loginForm.get('password')?.dirty || loginForm.get('password')?.touched)">
+              <ng-container
+                *ngIf="
+                  loginForm.get('password')?.invalid &&
+                  (loginForm.get('password')?.dirty ||
+                    loginForm.get('password')?.touched)
+                "
+              >
                 <div *ngIf="loginForm.get('password')?.errors?.['required']">
-                    <span nz-typography nzType="danger">Password is required!</span>
+                  <span nz-typography nzType="danger"
+                    >Password is required!</span
+                  >
                 </div>
               </ng-container>
               <ng-template #suffixTemplate>
                 <span
-                  nz-icon style="margin-left: 10px;"
+                  nz-icon
+                  style="margin-left: 10px"
                   [nzType]="passwordVisible ? 'eye-invisible' : 'eye'"
                   (click)="passwordVisible = !passwordVisible"
                 ></span>
               </ng-template>
             </nz-form-control>
           </nz-form-item>
-  
-  
+
           <button
             nz-button
             class="login-form-button login-form-margin"
             [nzType]="'primary'"
-            
           >
             Login
           </button>
@@ -73,4 +91,4 @@
       </div>
     </div>
   </nz-spin>
-  </div>
+</div>

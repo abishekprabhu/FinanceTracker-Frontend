@@ -1,16 +1,15 @@
 .profile-container {
-    text-align: center;
-    margin: 20px;
-  }
-  
-  .preview-container {
-    margin: 10px 0;
-  }
-  
-  .profile-preview {
-    width: 150px;
-    height: 150px;
-    border-radius: 50%;
-    object-fit: cover;
-  }
-  
+  text-align: center;
+  margin: 20px;
+}
+
+.preview-container {
+  margin: 10px 0;
+}
+
+.profile-preview {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  object-fit: cover;
+}

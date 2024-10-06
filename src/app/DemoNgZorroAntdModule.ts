@@ -19,7 +19,11 @@ import { NzNoAnimationModule } from 'ng-zorro-antd/core/no-animation';
 import { NzTransButtonModule } from 'ng-zorro-antd/core/trans-button';
 import { NzWaveModule } from 'ng-zorro-antd/core/wave';
 import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
-import { DashboardOutline, FundOutline, FallOutline } from '@ant-design/icons-angular/icons';
+import {
+  DashboardOutline,
+  FundOutline,
+  FallOutline,
+} from '@ant-design/icons-angular/icons';
 import { NzDescriptionsModule } from 'ng-zorro-antd/descriptions';
 import { NzDividerModule } from 'ng-zorro-antd/divider';
 import { NzDrawerModule } from 'ng-zorro-antd/drawer';
@@ -69,10 +73,15 @@ import { NzUploadModule } from 'ng-zorro-antd/upload';
 import { NzResizableModule } from 'ng-zorro-antd/resizable';
 import { NzPipesModule } from 'ng-zorro-antd/pipes';
 import { IconDefinition } from '@ant-design/icons-angular';
-import { MessageOutline, DollarOutline, EditFill, DeleteFill } from '@ant-design/icons-angular/icons';
+import {
+  MessageOutline,
+  DollarOutline,
+  EditFill,
+  DeleteFill,
+} from '@ant-design/icons-angular/icons';
 import { NzSegmentedModule } from 'ng-zorro-antd/segmented';
 import { NzSpaceModule } from 'ng-zorro-antd/space';
-// import { MenuService } from 'ng-zorro-antd/menu'; 
+// import { MenuService } from 'ng-zorro-antd/menu';
 // import { IconDefinition } from '@ant-design/icons-angular';
 import * as AllIcons from '@ant-design/icons-angular/icons';
 
@@ -82,7 +91,7 @@ const antDesignIcons = AllIcons as {
   [key: string]: IconDefinition;
 };
 
-const icons: IconDefinition[] = Object.keys(antDesignIcons).map(key => {
+const icons: IconDefinition[] = Object.keys(antDesignIcons).map((key) => {
   const i = antDesignIcons[key];
   return i;
 });
@@ -159,15 +168,15 @@ const icons: IconDefinition[] = Object.keys(antDesignIcons).map(key => {
     NzPipesModule,
     NzIconModule,
     NzSegmentedModule,
-    NzSpaceModule
+    NzSpaceModule,
   ],
   providers: [
     {
       provide: NZ_ICONS,
-      useValue: icons
-    }
+      useValue: icons,
+    },
     // { provide: NZ_ICONS, useValue: [DashboardOutline, FundOutline, FallOutline] },
     // { provide: NZ_ICONS, useValue: [MessageOutline, DollarOutline, EditFill, DeleteFill]}
-  ]
+  ],
 })
-export class DemoNgZorroAntdModule { }
+export class DemoNgZorroAntdModule {}

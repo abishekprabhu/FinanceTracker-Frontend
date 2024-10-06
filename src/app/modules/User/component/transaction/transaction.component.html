@@ -1,4 +1,11 @@
-<h1 class="bg-info text-bold" style="text-align: center; font-weight: 900;"><img style="padding: 10px 5px; width:100px" src="https://cdn-icons-png.flaticon.com/128/11094/11094649.png" alt="expense"> TRANSACTION SECTION</h1>
+<h1 class="bg-info text-bold" style="text-align: center; font-weight: 900">
+  <img
+    style="padding: 10px 5px; width: 100px"
+    src="https://cdn-icons-png.flaticon.com/128/11094/11094649.png"
+    alt="expense"
+  />
+  TRANSACTION SECTION
+</h1>
 
 <!-- <form [formGroup]="dateForm" (ngSubmit)="downloadPdf()">
     <div>
@@ -13,151 +20,265 @@
     
     <button type="submit">Download PDF</button>
   </form> -->
-  <div style="width: 100%; height: 60vh; position: relative; margin-bottom: 40px;">
-    <h2>TRANSACTION MONTHLY DATA</h2>
-    <canvas baseChart
-            [datasets]="barChartData"
-            [labels]="barChartLabels"
-            [options]="barChartOptions"
-            [legend]="barChartLegend"
-            [type]="barChartType">
-    </canvas>
-  </div>
-
-  <button style="position: relative; margin: 20px; align-content: end; justify-content: end;" nz-button nzType="primary" [nzSize]="size" nzShape="round" (click)="downloadMonthlyReport()">
-    <span nz-icon nzType="download"></span>
-    Download Last 30 Days Transaction Details
-  </button>
-<div style="position: relative; margin-top: 50px;">
-<div nz-row nzJustify="space-between">
-    <div nz-col nzSpan="8" class="child">
-        <nz-card nzType="inner" style="margin-top: 16px;" nzTitle="Post new transaction">
-            <form nz-form  [formGroup]="transactionForm" (ngSubmit)="submitForm()" class="custom-form">
-                <nz-form-item>
-                    <nz-form-control class="form-control ">
-                        <textarea nz-input placeholder="Enter description" [nzAutosize]="{minRows: 2 , maxRows: 6}"
-                        formControlName="description" ></textarea>
-                    </nz-form-control>
-                </nz-form-item>
-                <nz-form-item>
-                    <nz-form-control class="form-control " nzErrorTip="Please input the amount!">
-                        <input type="number" nz-input formControlName="amount" placeholder="Enter amount">
-                    </nz-form-control>
-                </nz-form-item>
-                <nz-form-item>
-                    <nz-form-control class="form-control " nzErrorTip="Please input the date!">
-                        <nz-date-picker style="width: 100%;" formControlName="date"></nz-date-picker>
-                    </nz-form-control>
-                </nz-form-item>
-                <nz-form-item nzErrorTip="Please input the category!">
-                        <nz-form-control class="form-control ">
-                            <nz-select nzAllowClear  nzPlaceHolder="select the category" formControlName="categoryId">
-                                <nz-option *ngFor="let category of categories" 
-                                [nzLabel]="category.name"
-                                [nzValue]="category.id">
-                            </nz-option>
-                            </nz-select>
-                        </nz-form-control>
-                </nz-form-item>
-                <nz-form-item nzErrorTip="Please input the Transaction Type 'transaction OR EXPENSE' !">
-                    <nz-form-control class="form-control ">
-                        <nz-select nzAllowClear  nzPlaceHolder="select the Transaction Type" formControlName="type">
-                            <nz-option *ngFor="let transaction of listOfTransaction" [nzLabel]="transaction"
-                            [nzValue]="transaction">
-                        </nz-option>
-                        </nz-select>
-                    </nz-form-control>
-            </nz-form-item>
-                    <button nz-button nzType="primary" nzBlock [disabled]="transactionForm.invalid" class="w-100">
-                        Post Transaction
-                    </button>
-            </form>
-        </nz-card>
-    </div>
-      <div nz-col nzSpan="15" class="table">
-        <nz-card nzType="inner" style="margin-top: 16px;" nzTitle="Past transactions">
-          
-          <!-- Search inputs -->
-          <div nz-row nzJustify="space-evenly">
-            <div nz-col nzSpan="7">
-              <input type="text" class="form-control mb-3" placeholder="Search by description" [(ngModel)]="searchTerm" (input)="applyFilters()">
-            </div>
-            <div nz-col nzSpan="7">
-              <input type="number" class="form-control mb-3" placeholder="Search by amount" [(ngModel)]="amountSearchTerm" (input)="applyFilters()">
-            </div>
-            <div nz-col nzSpan="7">
-              <select class="form-control mb-3" [(ngModel)]="selectedType" (change)="applyFilters()">
-                <option value="">All Types</option>
-                <option value="INCOME">INCOME</option>
-                <option value="EXPENSE">EXPENSE</option>
-              </select>
-            </div>
-          </div>
-          
-          <!-- Category filter -->
-          <select class="form-control mb-3" [(ngModel)]="selectedCategory" (change)="applyFilters()">
-            <option value="">All Categories</option>
-            <option *ngFor="let category of categories" [value]="category.name">{{category.name}}</option>
-          </select>
-    
-          <!-- Date Sorting -->
-          <select class="form-control mb-3" [(ngModel)]="dateOrder" (change)="applyFilters()">
-            <option value="">Sort by Date</option>
-            <option value="asc">Date Ascending</option>
-            <option value="desc">Date Descending</option>
-          </select>
-    
-          <!-- Adjustable Pagination -->
-          <select class="form-control mb-3" [(ngModel)]="pageSize" (change)="onPageChange(1)">
-            <option value="5">5/pages</option>
-            <option value="10">10/pages</option>
-            <option value="20">20/pages</option>
-            <option value="50">50/pages</option>
-          </select>
-    
-          <!-- Transactions Table with Single Pagination -->
-          <nz-table [nzData]="paginatedTransactions" [nzBordered]="true"  [nzFrontPagination]="false" >
-            <thead>
-              <tr>
-                <th nzWidth="30%">Description</th>
-                <th nzWidth="15%">Amount</th>
-                <th nzWidth="15%">Date</th>
-                <th nzWidth="15%">Category</th>
-                <th nzWidth="15%">Type</th>
-                <th nzWidth="10%">Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr *ngFor="let transaction of paginatedTransactions">
-                <td>{{transaction.description}}</td>
-                <td>{{transaction.amount}}</td>
-                <td>{{transaction.date | date:'shortDate'}}</td>
-                <td>{{transaction.categoryName}}</td>
-                <td>
-                  <nz-tag [nzColor]="transaction.type === 'INCOME' ? 'green' : 'red'">
-                    {{transaction.type}}
-                  </nz-tag>
-                </td>      
-                <td>
-                  <span nz-icon nzType="edit" nzTheme="fill" style="color: blue;" routerLink="/user/transaction/{{transaction.id}}/edit"></span>
-                  <span nz-icon nzType="delete" nzTheme="fill" style="color: red; margin-left: 10px;" (click)="deleteTransaction(transaction.id)"></span>
-                </td>
-              </tr>
-            </tbody>
-          </nz-table>
-    
-          <!-- Pagination inside table -->
-          <div style="align-content: center; text-align: center;">
-          <nz-pagination 
-            [nzPageIndex]="pageIndex" 
-            [nzPageSize]="pageSize" 
-            [nzTotal]="transactions.length" 
-            (nzPageIndexChange)="onPageChange($event)">
-          </nz-pagination>
-        </div>
-        </nz-card>
-      </div>
+<div style="width: 100%; height: 60vh; position: relative; margin-bottom: 40px">
+  <h2 style="font-weight: 700; text-transform: uppercase">
+    TRANSACTION MONTHLY DATA
+  </h2>
+  <canvas
+    baseChart
+    [datasets]="barChartData"
+    [labels]="barChartLabels"
+    [options]="barChartOptions"
+    [legend]="barChartLegend"
+    [type]="barChartType"
+  >
+  </canvas>
 </div>
 
+<button
+  style="
+    position: relative;
+    margin: 20px;
+    align-content: end;
+    justify-content: end;
+  "
+  nz-button
+  nzType="primary"
+  [nzSize]="size"
+  nzShape="round"
+  (click)="downloadMonthlyReport()"
+>
+  <span nz-icon nzType="download"></span>
+  Download Last 30 Days Transaction Details
+</button>
+<div style="position: relative; margin-top: 50px">
+  <div nz-row nzJustify="space-between">
+    <div nz-col nzSpan="8" class="child">
+      <nz-card
+        nzType="inner"
+        style="margin-top: 16px"
+        nzTitle="Post new transaction"
+      >
+        <form
+          nz-form
+          [formGroup]="transactionForm"
+          (ngSubmit)="submitForm()"
+          class="custom-form"
+        >
+          <nz-form-item>
+            <nz-form-control class="form-control">
+              <textarea
+                nz-input
+                placeholder="Enter description"
+                [nzAutosize]="{ minRows: 2, maxRows: 6 }"
+                formControlName="description"
+              ></textarea>
+            </nz-form-control>
+          </nz-form-item>
+          <nz-form-item>
+            <nz-form-control
+              class="form-control"
+              nzErrorTip="Please input the amount!"
+            >
+              <input
+                type="number"
+                nz-input
+                formControlName="amount"
+                placeholder="Enter amount"
+              />
+            </nz-form-control>
+          </nz-form-item>
+          <nz-form-item>
+            <nz-form-control
+              class="form-control"
+              nzErrorTip="Please input the date!"
+            >
+              <nz-date-picker
+                style="width: 100%"
+                formControlName="date"
+              ></nz-date-picker>
+            </nz-form-control>
+          </nz-form-item>
+          <nz-form-item nzErrorTip="Please input the category!">
+            <nz-form-control class="form-control">
+              <nz-select
+                nzAllowClear
+                nzPlaceHolder="select the category"
+                formControlName="categoryId"
+              >
+                <nz-option
+                  *ngFor="let category of categories"
+                  [nzLabel]="category.name"
+                  [nzValue]="category.id"
+                >
+                </nz-option>
+              </nz-select>
+            </nz-form-control>
+          </nz-form-item>
+          <nz-form-item
+            nzErrorTip="Please input the Transaction Type 'transaction OR EXPENSE' !"
+          >
+            <nz-form-control class="form-control">
+              <nz-select
+                nzAllowClear
+                nzPlaceHolder="select the Transaction Type"
+                formControlName="type"
+              >
+                <nz-option
+                  *ngFor="let transaction of listOfTransaction"
+                  [nzLabel]="transaction"
+                  [nzValue]="transaction"
+                >
+                </nz-option>
+              </nz-select>
+            </nz-form-control>
+          </nz-form-item>
+          <button
+            nz-button
+            nzType="primary"
+            nzBlock
+            [disabled]="transactionForm.invalid"
+            class="w-100"
+          >
+            Post Transaction
+          </button>
+        </form>
+      </nz-card>
+    </div>
+    <div nz-col nzSpan="15" class="table">
+      <nz-card
+        nzType="inner"
+        style="margin-top: 16px"
+        nzTitle="Past transactions"
+      >
+        <!-- Search inputs -->
+        <div nz-row nzJustify="space-evenly">
+          <div nz-col nzSpan="7">
+            <input
+              type="text"
+              class="form-control mb-3"
+              placeholder="Search by description"
+              [(ngModel)]="searchTerm"
+              (input)="applyFilters()"
+            />
+          </div>
+          <div nz-col nzSpan="7">
+            <input
+              type="number"
+              class="form-control mb-3"
+              placeholder="Search by amount"
+              [(ngModel)]="amountSearchTerm"
+              (input)="applyFilters()"
+            />
+          </div>
+          <div nz-col nzSpan="7">
+            <select
+              class="form-control mb-3"
+              [(ngModel)]="selectedType"
+              (change)="applyFilters()"
+            >
+              <option value="">All Types</option>
+              <option value="INCOME">INCOME</option>
+              <option value="EXPENSE">EXPENSE</option>
+            </select>
+          </div>
+        </div>
 
+        <!-- Category filter -->
+        <select
+          class="form-control mb-3"
+          [(ngModel)]="selectedCategory"
+          (change)="applyFilters()"
+        >
+          <option value="">All Categories</option>
+          <option *ngFor="let category of categories" [value]="category.name">
+            {{ category.name }}
+          </option>
+        </select>
+
+        <!-- Date Sorting -->
+        <select
+          class="form-control mb-3"
+          [(ngModel)]="dateOrder"
+          (change)="applyFilters()"
+        >
+          <option value="">Sort by Date</option>
+          <option value="asc">Date Ascending</option>
+          <option value="desc">Date Descending</option>
+        </select>
+
+        <!-- Adjustable Pagination -->
+        <select
+          class="form-control mb-3"
+          [(ngModel)]="pageSize"
+          (change)="onPageChange(1)"
+        >
+          <option value="5">5/pages</option>
+          <option value="10">10/pages</option>
+          <option value="20">20/pages</option>
+          <option value="50">50/pages</option>
+        </select>
+
+        <!-- Transactions Table with Single Pagination -->
+        <nz-table
+          [nzData]="paginatedTransactions"
+          [nzBordered]="true"
+          [nzFrontPagination]="false"
+        >
+          <thead>
+            <tr>
+              <th nzWidth="30%">Description</th>
+              <th nzWidth="15%">Amount</th>
+              <th nzWidth="15%">Date</th>
+              <th nzWidth="15%">Category</th>
+              <th nzWidth="15%">Type</th>
+              <th nzWidth="10%">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let transaction of paginatedTransactions">
+              <td>{{ transaction.description }}</td>
+              <td>{{ transaction.amount }}</td>
+              <td>{{ transaction.date | date : "shortDate" }}</td>
+              <td>{{ transaction.categoryName }}</td>
+              <td>
+                <nz-tag
+                  [nzColor]="transaction.type === 'INCOME' ? 'green' : 'red'"
+                >
+                  {{ transaction.type }}
+                </nz-tag>
+              </td>
+              <td>
+                <span
+                  nz-icon
+                  nzType="edit"
+                  nzTheme="fill"
+                  style="color: blue"
+                  routerLink="/user/transaction/{{ transaction.id }}/edit"
+                ></span>
+                <span
+                  nz-icon
+                  nzType="delete"
+                  nzTheme="fill"
+                  style="color: red; margin-left: 10px"
+                  (click)="deleteTransaction(transaction.id)"
+                ></span>
+              </td>
+            </tr>
+          </tbody>
+        </nz-table>
+
+        <!-- Pagination inside table -->
+        <div style="align-content: center; text-align: center">
+          <nz-pagination
+            [nzPageIndex]="pageIndex"
+            [nzPageSize]="pageSize"
+            [nzTotal]="transactions.length"
+            (nzPageIndexChange)="onPageChange($event)"
+          >
+          </nz-pagination>
+        </div>
+      </nz-card>
+    </div>
+  </div>
 </div>

@@ -1,40 +1,41 @@
 form {
-    display: flex;
-    flex-direction: column;
-    width: 300px;
-    margin: auto;
-  }
-
-.btn {
-    margin-right: 8px;
-    margin-bottom: 12px;
-  }
-
-.add-budget{
-  background: rgb(255,99,132);
-  background: linear-gradient(90deg, rgba(255,99,132,1) 39%, rgba(54,162,235,1) 100%);
-  color: #ffffff;
-  
+  display: flex;
+  flex-direction: column;
+  width: 300px;
+  margin: auto;
 }
 
-  [nz-button] {
-    width: 200px;
-    height: 190px;
+.btn {
+  margin-right: 8px;
+  margin-bottom: 12px;
+}
 
-  }
+.add-budget {
+  background: rgb(255, 99, 132);
+  background: linear-gradient(
+    90deg,
+    rgba(255, 99, 132, 1) 39%,
+    rgba(54, 162, 235, 1) 100%
+  );
+  color: #ffffff;
+}
 
-  ::placeholder {
-    color: black;
-    opacity: 1; 
-  }
+[nz-button] {
+  width: 200px;
+  height: 190px;
+}
+
+::placeholder {
+  color: black;
+  opacity: 1;
+}
 
 .form-control {
-    box-shadow: 0px 0px 0px 0.5px rgba(0, 0, 0, 0.2);     
-    /* border-style: solid; */
+  box-shadow: 0px 0px 0px 0.5px rgba(0, 0, 0, 0.2);
+  /* border-style: solid; */
 }
 
 .child {
-
   position: relative;
   width: 380px;
   top: 50%;
