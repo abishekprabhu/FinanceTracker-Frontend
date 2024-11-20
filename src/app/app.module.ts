@@ -35,6 +35,9 @@ import { BaseChartDirective } from 'ng2-charts';
 import { provideCharts, withDefaultRegisterables } from 'ng2-charts';
 import { BudgetUpdateComponent } from './modules/User/component/budget-update/budget-update.component';
 import { StatsComponent } from './modules/User/component/stats/stats.component';
+import { BillComponent } from './modules/User/component/bill/bill.component';
+import { BillUpdateComponent } from './modules/User/component/bill-update/bill-update.component';
+import { WalletComponent } from './modules/User/component/wallet/wallet.component';
 
 registerLocaleData(en);
 
@@ -59,6 +62,9 @@ registerLocaleData(en);
     BudgetComponent,
     BudgetUpdateComponent,
     StatsComponent,
+    BillComponent,
+    BillUpdateComponent,
+    WalletComponent,
   ],
   imports: [
     BrowserModule,

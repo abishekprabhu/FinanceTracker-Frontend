@@ -42,6 +42,14 @@
         <span nz-icon nzType="reconciliation" nzTheme="outline"></span>
         <span>Budget</span>
       </li>
+      <li *ngIf="isLoggedIn" nz-menu-item routerLink="/user/bills">
+        <span nz-icon nzType="schedule" nzTheme="outline"></span>
+        <span>Bills</span>
+      </li>
+      <li *ngIf="isLoggedIn" nz-menu-item routerLink="/user/wallet">
+        <span nz-icon nzType="wallet" nzTheme="outline"></span>
+        <span>Wallet</span>
+      </li>
       <!-- <li *ngIf="isLoggedIn" nz-menu-item routerLink="/user/stats">
         <span nz-icon nzType="area-chart" nzTheme="outline"></span>
         <span>Analytics</span>
