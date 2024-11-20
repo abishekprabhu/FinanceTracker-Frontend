@@ -1,0 +1,60 @@
+.bill-form-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh; /* Full screen height */
+  position: relative;
+  margin-bottom: auto;
+}
+
+.bill-form {
+  max-width: 500px;
+  width: 100%;
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.invalid-feedback {
+  color: red;
+}
+
+.invoice-container {
+  padding: 20px;
+  font-family: Arial, sans-serif;
+  background: #f5f5f5;
+  border: 1px solid #ccc;
+}
+
+.invoice-container h1 {
+  text-align: center;
+  color: #333;
+}
+
+.invoice-container table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+.invoice-container table,
+th,
+td {
+  border: 1px solid #ccc;
+}
+
+.invoice-container th {
+  background: #007bff;
+  color: white;
+  padding: 10px;
+}
+
+.invoice-container td {
+  padding: 10px;
+  text-align: left;
+}
+
+.invoice-container footer {
+  text-align: center;
+  margin-top: 20px;
+}

@@ -14,6 +14,9 @@ import { SettingsComponent } from '../component/settings/settings.component';
 import { BudgetComponent } from '../component/budget/budget.component';
 import { BudgetUpdateComponent } from '../component/budget-update/budget-update.component';
 import { StatsComponent } from '../component/stats/stats.component';
+import { BillComponent } from '../component/bill/bill.component';
+import { BillUpdateComponent } from '../component/bill-update/bill-update.component';
+import { WalletComponent } from '../component/wallet/wallet.component';
 
 const routes: Routes = [
   {
@@ -67,6 +70,18 @@ const routes: Routes = [
   {
     path: 'stats',
     component: StatsComponent,
+  },
+  {
+    path: 'bills',
+    component: BillComponent,
+  },
+  {
+    path: 'bills/:id/edit',
+    component: BillUpdateComponent,
+  },
+  {
+    path: 'wallet',
+    component: WalletComponent,
   },
 ];
 

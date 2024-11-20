@@ -22,7 +22,11 @@
       >
         <div class="d-flex justify-content-between align-items-center mb-2">
           <div class="me-2">
-            <h4 class="display-5 text-white">₹{{ stats?.balance }}</h4>
+            <h4 class="display-5 text-white">
+              {{
+                stats?.balance | currency : "INR" : "symbol-narrow" : "2.2-2"
+              }}
+            </h4>
             <p class="card-text"><strong>Account Balance</strong></p>
           </div>
           <h1>
@@ -60,7 +64,12 @@
         <div class="d-flex justify-content-between align-items-center mb-2">
           <div class="me-2">
             <!-- <h4 class="display-5 text-success">${{stats?.income}}</h4> -->
-            <h4 class="display-5 text-white">₹{{ currentMonthIncome }}</h4>
+            <h4 class="display-5 text-white">
+              {{
+                currentMonthIncome
+                  | currency : "INR" : "symbol-narrow" : "2.2-2"
+              }}
+            </h4>
             <p class="card-text"><strong>Current Month Income </strong></p>
           </div>
           <span class="material-symbols-outlined"> payments </span>
@@ -95,7 +104,12 @@
         <div class="d-flex justify-content-between align-items-center mb-2">
           <div class="me-2">
             <!-- <h4 class="display-5 text-success">${{stats?.expense}}</h4> -->
-            <h4 class="display-5 text-white">₹{{ currentMonthExpense }}</h4>
+            <h4 class="display-5 text-white">
+              {{
+                currentMonthExpense
+                  | currency : "INR" : "symbol-narrow" : "2.2-2"
+              }}
+            </h4>
             <p class="card-text text-dark">
               <strong>Current Month Expense </strong>
             </p>
@@ -164,13 +178,19 @@
       >
         <div nz-card-grid style="width: 100%" class="border-left-success">
           <span style="color: green"
-            >+{{ stats?.latestIncome?.amount }}
+            >+{{
+              stats?.latestIncome?.amount
+                | currency : "INR" : "symbol-narrow" : "2.2-2"
+            }}
             {{ stats?.latestIncome?.description }}</span
           >
         </div>
         <div nz-card-grid style="width: 100%" class="border-left-danger">
           <span style="color: red"
-            >-{{ stats?.latestExpense?.amount }}
+            >-{{
+              stats?.latestExpense?.amount
+                | currency : "INR" : "symbol-narrow" : "2.2-2"
+            }}
             {{ stats?.latestExpense?.description }}</span
           >
         </div>
@@ -186,11 +206,17 @@
       >
         <div nz-row>
           <div nz-col nz-card-grid nzSpan="12" class="bg-info text-white">
-            Minimum: {{ stats?.minIncome }}
+            Minimum:
+            {{
+              stats?.minIncome | currency : "INR" : "symbol-narrow" : "2.2-2"
+            }}
           </div>
 
           <div nz-col nz-card-grid nzSpan="12" class="bg-info text-white">
-            Maximum: {{ stats?.maxIncome }}
+            Maximum:
+            {{
+              stats?.maxIncome | currency : "INR" : "symbol-narrow" : "2.2-2"
+            }}
           </div>
         </div>
       </nz-card>
@@ -202,11 +228,17 @@
       >
         <div nz-row>
           <div nz-col nz-card-grid nzSpan="12" class="bg-info text-white">
-            Minimum: {{ stats?.minExpense }}
+            Minimum:
+            {{
+              stats?.minExpense | currency : "INR" : "symbol-narrow" : "2.2-2"
+            }}
           </div>
 
           <div nz-col nz-card-grid nzSpan="12" class="bg-info text-white">
-            Maximum: {{ stats?.maxExpense }}
+            Maximum:
+            {{
+              stats?.maxExpense | currency : "INR" : "symbol-narrow" : "2.2-2"
+            }}
           </div>
         </div>
       </nz-card>
@@ -383,7 +415,12 @@
           <tbody style="background: #ececec; padding: 30px">
             <tr *ngFor="let transaction of paginatedTransactions">
               <td>{{ transaction.description }}</td>
-              <td>{{ transaction.amount }}</td>
+              <td>
+                {{
+                  transaction.amount
+                    | currency : "INR" : "symbol-narrow" : "2.2-2"
+                }}
+              </td>
               <td>{{ transaction.date | date : "shortDate" }}</td>
               <td>{{ transaction.categoryName }}</td>
               <td>

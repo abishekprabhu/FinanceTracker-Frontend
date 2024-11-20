@@ -1,0 +1,140 @@
+<div class="bill-container" style="position: relative">
+  <h2>UPDATE BILL</h2>
+
+  <div
+    nz-row
+    class="bill-form-container d-flex justify-content-center align-items-center vh-100"
+  >
+    <div
+      nz-col
+      nzSpan="13"
+      nzOffset="1"
+      class="bill-form card p-4"
+      style="
+        margin-top: 24px;
+        margin-right: 16px;
+        box-shadow: 5px 5px 25px 5px rgba(0, 0, 0, 0.5);
+      "
+    >
+      <!-- <h3 class="text-center mb-4">Create New Bill</h3> -->
+      <form [formGroup]="billForm" (ngSubmit)="onSubmit()">
+        <div class="mb-3">
+          <label for="description" class="form-label">Description:</label>
+          <input
+            formControlName="description"
+            id="description"
+            name="description"
+            class="form-control"
+            [ngClass]="{
+              'is-invalid': submitted && billForm.controls.description.errors
+            }"
+            placeholder="Enter description"
+            required
+          />
+          <div
+            *ngIf="submitted && billForm.controls.description.errors"
+            class="invalid-feedback"
+          >
+            Description is required.
+          </div>
+        </div>
+        <div class="mb-3">
+          <label for="amountDue" class="form-label">Amount Due:</label>
+          <input
+            type="number"
+            formControlName="amountDue"
+            id="amountDue"
+            name="amountDue"
+            class="form-control"
+            [ngClass]="{
+              'is-invalid': submitted && billForm.controls.amountDue.errors
+            }"
+            placeholder="Enter amount"
+            required
+          />
+          <div
+            *ngIf="submitted && billForm.controls.amountDue.errors"
+            class="invalid-feedback"
+          >
+            Valid amount is required.
+          </div>
+        </div>
+        <div class="mb-3">
+          <label for="dueDate" class="form-label">Due Date:</label>
+          <input
+            type="date"
+            formControlName="dueDate"
+            id="dueDate"
+            name="dueDate"
+            class="form-control"
+            [ngClass]="{
+              'is-invalid': submitted && billForm.controls.dueDate.errors
+            }"
+            required
+          />
+          <div
+            *ngIf="submitted && billForm.controls.dueDate.errors"
+            class="invalid-feedback"
+          >
+            Due date is required.
+          </div>
+        </div>
+        <div class="mb-3">
+          <label for="categoryId" class="form-label">Category:</label>
+          <nz-form-item nzErrorTip="Please select the category!">
+            <nz-form-control class="form-control">
+              <nz-select
+                nzAllowClear
+                nzPlaceHolder="Select the category"
+                formControlName="categoryId"
+                id="categoryId"
+                class="w-100"
+                [ngClass]="{
+                  'is-invalid': submitted && billForm.controls.categoryId.errors
+                }"
+              >
+                <nz-select
+                  nzAllowClear
+                  nzPlaceHolder="Select the category"
+                  formControlName="categoryId"
+                  id="categoryId"
+                  class="w-100"
+                >
+                  <nz-option
+                    *ngFor="let category of categories"
+                    [nzLabel]="category.name"
+                    [nzValue]="category.id.toString()"
+                  ></nz-option>
+                </nz-select>
+              </nz-select>
+            </nz-form-control>
+          </nz-form-item>
+          <div
+            *ngIf="submitted && billForm.controls.categoryId.errors"
+            class="invalid-feedback"
+          >
+            Category is required.
+          </div>
+        </div>
+        <div class="text-center">
+          <button
+            type="submit"
+            class="btn btn-success p-2"
+            style="margin-right: 10px"
+          >
+            Update
+            <span class="p-2" nz-icon nzType="send" nzTheme="outline"></span>
+          </button>
+          <button
+            type="submit"
+            class="btn btn-warning p-2"
+            routerLink="/user/bills"
+          >
+            <span class="p-2" nz-icon nzType="close" nzTheme="outline"></span
+            >Cancel
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
