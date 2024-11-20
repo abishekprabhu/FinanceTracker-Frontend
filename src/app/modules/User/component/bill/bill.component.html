@@ -1,0 +1,314 @@
+<h1
+  class="text-bold"
+  style="
+    text-align: center;
+    font-weight: 900;
+    background-image: linear-gradient(
+      -225deg,
+      #2cd8d5 0%,
+      #c5c1ff 56%,
+      #ffbac3 100%
+    );
+  "
+>
+  <img
+    style="padding: 10px 5px; width: 100px"
+    src="https://cdn-icons-png.flaticon.com/128/4862/4862191.png"
+    alt="bill"
+  />
+  BILLS
+</h1>
+<div class="bill-container" style="position: relative">
+  <div
+    nz-row
+    class="bill-form-container d-flex justify-content-center align-items-center vh-100"
+  >
+    <div
+      nz-col
+      nzSpan="8"
+      class="bill-form card p-4"
+      style="
+        margin-top: 24px;
+        margin-right: 16px;
+        box-shadow: 5px 5px 25px 5px rgba(0, 0, 0, 0.5);
+      "
+    >
+      <h3
+        class="text-center mb-4"
+        style="font-weight: 900; color: lightskyblue"
+      >
+        Create New Bill
+      </h3>
+      <form [formGroup]="billForm" (ngSubmit)="createBill()">
+        <div class="mb-3">
+          <label for="description" class="form-label">Description:</label>
+          <input
+            formControlName="description"
+            id="description"
+            name="description"
+            class="form-control"
+            [ngClass]="{
+              'is-invalid': submitted && billForm.controls.description.errors
+            }"
+            placeholder="Enter description"
+            required
+          />
+          <div
+            *ngIf="submitted && billForm.controls.description.errors"
+            class="invalid-feedback"
+          >
+            Description is required.
+          </div>
+        </div>
+        <div class="mb-3">
+          <label for="amountDue" class="form-label">Amount Due:</label>
+          <input
+            type="number"
+            formControlName="amountDue"
+            id="amountDue"
+            name="amountDue"
+            class="form-control"
+            [ngClass]="{
+              'is-invalid': submitted && billForm.controls.amountDue.errors
+            }"
+            placeholder="Enter amount"
+            required
+          />
+          <div
+            *ngIf="submitted && billForm.controls.amountDue.errors"
+            class="invalid-feedback"
+          >
+            Valid amount is required.
+          </div>
+        </div>
+        <div class="mb-3">
+          <label for="dueDate" class="form-label">Due Date:</label>
+          <input
+            type="date"
+            formControlName="dueDate"
+            id="dueDate"
+            name="dueDate"
+            class="form-control"
+            [ngClass]="{
+              'is-invalid': submitted && billForm.controls.dueDate.errors
+            }"
+            required
+          />
+          <div
+            *ngIf="submitted && billForm.controls.dueDate.errors"
+            class="invalid-feedback"
+          >
+            Due date is required.
+          </div>
+        </div>
+        <div class="mb-3">
+          <label for="categoryId" class="form-label">Category:</label>
+          <nz-form-item nzErrorTip="Please select the category!">
+            <nz-form-control class="form-control">
+              <nz-select
+                nzAllowClear
+                nzPlaceHolder="Select the category"
+                formControlName="categoryId"
+                id="categoryId"
+                class="w-100"
+                [ngClass]="{
+                  'is-invalid': submitted && billForm.controls.categoryId.errors
+                }"
+              >
+                <nz-option
+                  *ngFor="let category of categories"
+                  [nzLabel]="category.name"
+                  [nzValue]="category.id"
+                ></nz-option>
+              </nz-select>
+            </nz-form-control>
+          </nz-form-item>
+          <div
+            *ngIf="submitted && billForm.controls.categoryId.errors"
+            class="invalid-feedback"
+          >
+            Category is required.
+          </div>
+        </div>
+        <div class="text-center">
+          <button type="submit" class="btn btn-primary">Create Bill</button>
+        </div>
+      </form>
+    </div>
+
+    <div nz-col nzSpan="14" class="Bill-history">
+      <nz-card
+        nzType="inner"
+        style="
+          margin-top: 16px;
+          box-shadow: 5px 5px 25px 5px rgba(0, 0, 0, 0.5);
+        "
+        nzTitle="BILL HISTORY"
+      >
+        <!-- Bills Table with Single Pagination -->
+        <nz-table
+          [nzData]="paginatedBills"
+          [nzBordered]="true"
+          [nzFrontPagination]="false"
+          nzTableLayout="fixed"
+        >
+          <thead>
+            <tr>
+              <th nzWidth="20%">Description</th>
+              <th nzWidth="15%">Amount Due</th>
+              <!-- Sort by Date -->
+              <th
+                nzWidth="15%"
+                [nzSortFn]="sortByDate"
+                nzSortOrder="ascend"
+                (nzSortOrderChange)="onSortChange('date', $event)"
+              >
+                Due Date
+              </th>
+              <!-- Sort by paymentMethod -->
+              <th
+                nzWidth="20%"
+                [nzSortFn]="sortByCategory"
+                nzSortOrder="ascend"
+                (nzSortOrderChange)="onSortChange('categoryName', $event)"
+              >
+                Category
+              </th>
+              <th nzWidth="15%">Payment Status</th>
+              <th nzWidth="15%">Actions</th>
+            </tr>
+          </thead>
+          <tbody style="background: #ececec; padding: 30px">
+            <tr *ngFor="let bill of paginatedBills">
+              <td>{{ bill.description }}</td>
+              <td>
+                {{
+                  bill.amountDue | currency : "INR" : "symbol-narrow" : "2.2-2"
+                }}
+              </td>
+              <td>{{ bill.dueDate | date : "mediumDate" }}</td>
+              <td>{{ bill.categoryName }}</td>
+              <td>
+                <nz-tag [nzColor]="bill.paid ? 'green' : 'red'">
+                  {{ bill.paid ? "SUCCESS" : "PENDING" }}
+                </nz-tag>
+              </td>
+              <td>
+                <span
+                  nz-icon
+                  nzType="edit"
+                  nzTheme="fill"
+                  style="color: blue"
+                  routerLink="/user/bills/{{ bill.id }}/edit"
+                ></span>
+                <span
+                  nz-icon
+                  nzType="delete"
+                  nzTheme="fill"
+                  style="color: red; margin-left: 10px"
+                  (click)="deleteBill(bill.id)"
+                ></span>
+                <span
+                  nz-icon
+                  nzType="cloud-download"
+                  nzTheme="outline"
+                  (click)="generateBillPDF(bill)"
+                  style="color: green; margin-left: 10px"
+                ></span>
+                <!-- <button
+                nz-button
+                nzType="primary"
+                (click)="generateBillPDF(bill)"
+                style="margin-left: 10px;"
+              >
+                Generate PDF
+              </button> -->
+              </td>
+            </tr>
+          </tbody>
+        </nz-table>
+
+        <!-- Pagination inside table -->
+        <div style="align-content: center; text-align: center">
+          <nz-pagination
+            [nzPageIndex]="pageIndex"
+            [nzPageSize]="pageSize"
+            [nzTotal]="bills.length"
+            (nzPageIndexChange)="onPageChange($event)"
+          >
+          </nz-pagination>
+        </div>
+        <!-- Adjustable Pagination -->
+        <div
+          style="
+            width: 150px;
+            justify-content: center;
+            align-content: center;
+            text-align: center;
+          "
+        >
+          <select
+            class="form-control mb-3"
+            [(ngModel)]="pageSize"
+            (change)="onPageChange(1)"
+          >
+            <option value="5">5/pages</option>
+            <option value="10">10/pages</option>
+            <option value="20">20/pages</option>
+            <option value="50">50/pages</option>
+          </select>
+        </div>
+      </nz-card>
+    </div>
+  </div>
+</div>
+
+<div
+  #invoiceTemplate
+  id="invoiceTemplate"
+  class="invoice-container"
+  style="display: none"
+>
+  <h1>Invoice</h1>
+  <h2>Bill To:</h2>
+  <p>{{ bill.customerName }}</p>
+  <p>{{ bill.customerAddress }}</p>
+  <p>{{ bill.customerEmail }}</p>
+
+  <h3>Invoice Details:</h3>
+  <table>
+    <thead>
+      <tr>
+        <th>Description</th>
+        <th>Amount Due</th>
+        <th>Due Date</th>
+        <th>Category</th>
+        <th>Payment Status</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>{{ selectedBill?.description }}</td>
+        <td>
+          {{
+            selectedBill?.amountDue
+              | currency : "INR" : "symbol-narrow" : "2.2-2"
+          }}
+        </td>
+        <td>{{ selectedBill?.dueDate | date : "mediumDate" }}</td>
+        <td>{{ selectedBill?.categoryName }}</td>
+        <td>{{ selectedBill?.paid ? "SUCCESS" : "PENDING" }}</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3>
+    Total Amount:
+    {{ selectedBill?.amountDue | currency : "INR" : "symbol-narrow" : "2.2-2" }}
+  </h3>
+
+  <footer>
+    <p>Thank you for your business!</p>
+    <p>Contact us: info.com</p>
+  </footer>
+</div>

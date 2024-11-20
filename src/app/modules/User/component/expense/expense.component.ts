@@ -95,21 +95,21 @@ export class ExpenseComponent {
     this.expenseService.getAllExpenseByUserId(this.user.id).subscribe({
       next: (expenses) => {
         // Map expenses to include category name instead of categoryId
-        this.expenses = expenses.map((income: IncomeDTO) => {
+        this.expenses = expenses.map((expense: ExpenseDTO) => {
           const category = this.categories.find(
-            (cat) => cat.id === income.categoryId
+            (cat) => cat.id === expense.categoryId
           );
           return {
-            ...income,
+            ...expense,
             categoryName: category ? category.name : 'Unknown',
           };
         });
         this.applyFilters();
-        console.log(this.expenses); // Check the modified income objects
+        console.log(this.expenses);
         this.updatePaginatedExpenses();
       },
       error: (e) =>
-        this.message.error('Error Fetching income.' + e, { nzDuration: 5000 }),
+        this.message.error('Error Fetching expense.' + e, { nzDuration: 5000 }),
     });
   }
 
@@ -120,7 +120,7 @@ export class ExpenseComponent {
           nzDuration: 5000,
         }),
       error: () =>
-        this.message.error('Error while deleteing income.', {
+        this.message.error('Error while deleteing expense.', {
           nzDuration: 5000,
         }),
       complete: () => this.getAllExpense(),

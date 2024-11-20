@@ -1,0 +1,200 @@
+.wallet-container {
+  margin: 20px;
+}
+
+h2,
+h3 {
+  color: #3399cc;
+}
+
+form {
+  margin-bottom: 20px;
+}
+
+input {
+  margin-right: 10px;
+}
+
+button {
+  background-color: #3399cc;
+  color: white;
+  padding: 5px 10px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #287a9e;
+}
+
+.unpaid-bills {
+  margin: 20px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+thead {
+  background-color: #f0f0f0;
+}
+
+th,
+td {
+  padding: 10px;
+  border: 1px solid #ddd;
+  text-align: center;
+}
+
+.pay-button {
+  background-color: #28a745;
+  color: white;
+  padding: 8px 12px;
+  border: none;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.pay-button:hover {
+  background-color: #218838;
+}
+
+.wallet-card-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.wallet-card {
+  width: 300px;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  background-color: #fff;
+}
+
+.wallet-balance h3 {
+  font-size: 1.8rem;
+  color: #28a745;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.wallet-category p,
+.wallet-user p {
+  font-size: 1.2rem;
+  color: #6c757d;
+  margin: 5px 0;
+}
+
+.wallet-category p {
+  font-weight: 500;
+}
+
+.wallet-user p {
+  font-weight: 300;
+}
+
+.four {
+  width: 250px;
+  height: 80px;
+  margin: 10px;
+  background: linear-gradient(90deg, #0700b8 0%, #00ff88 100%);
+  background-size: 100%;
+  font-size: 1em;
+  font-weight: 600;
+  border-radius: 100px;
+  color: white;
+  border: none;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  padding: 1em 2em;
+  cursor: pointer;
+  transition: all 500ms ease;
+  box-shadow: 0 4px 6px -1px hsla(0, 0%, 0%, 0.1),
+    0 2px 4px -2px hsla(0, 0%, 0%, 0.1);
+}
+
+.four {
+  background: linear-gradient(to right, #00d2ff 0%, #3a47d5 50%, #c67700 100%);
+  background-size: 400%;
+  transition: all 0.4s ease-in-out;
+}
+
+@keyframes flow {
+  0% {
+    background-position: 0% 50%;
+  }
+  100% {
+    background-position: 100% 50%;
+  }
+}
+
+.four:hover {
+  animation-name: flow;
+  animation-duration: 500ms;
+  animation-timing-function: linear;
+  background-position: 100% 50%;
+}
+
+.four:hover {
+  background-position: 100% 50%;
+  transition: all 0.4s ease-in-out;
+}
+
+.body {
+  /* background: #000405; */
+  /* min-height: 100vh; */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #000405;
+  font-family: "Work Sans", sans-serif;
+  font-weight: 800;
+}
+
+.body p {
+  font-size: 2vw;
+  text-transform: uppercase;
+  text-align: center;
+  line-height: 1;
+}
+
+.fancy {
+  @supports (background-clip: text) or (-webkit-background-clip: text) {
+    background-image: url("data:image/svg+xml,%3Csvg width='2250' height='900' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cg%3E%3Cpath fill='%2300A080' d='M0 0h2255v899H0z'/%3E%3Ccircle cx='366' cy='207' r='366' fill='%2300FDCF'/%3E%3Ccircle cx='1777.5' cy='318.5' r='477.5' fill='%2300FDCF'/%3E%3Ccircle cx='1215' cy='737' r='366' fill='%23008060'/%3E%3C/g%3E%3C/svg%3E%0A");
+    background-size: 110% auto;
+    background-position: center;
+    color: transparent;
+    -webkit-background-clip: text;
+    background-clip: text;
+  }
+}
+.form-control {
+  box-shadow: 0px 0px 0px 0.8px rgba(0, 0, 0, 0.2);
+  /* border-style: solid; */
+}
+
+.select {
+  position: relative;
+  display: flex;
+  border-radius: 0.25em;
+  overflow: hidden;
+}
+/* Arrow */
+.select::after {
+  content: "\25BC";
+  position: absolute;
+  top: 0;
+  right: 0;
+  padding: 1em;
+  background-color: #34495e;
+  transition: 0.25s all ease;
+  pointer-events: none;
+}
+/* Transition */
+.select:hover::after {
+  color: #f39c12;
+}
