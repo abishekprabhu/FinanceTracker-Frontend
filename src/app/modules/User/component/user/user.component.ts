@@ -48,10 +48,10 @@ export class UserComponent implements AfterViewInit {
   ngAfterViewInit(): void {
     if (this.isBrowser) {
       // Perform browser-specific operations
-      this.loadCategoryData(); // Load data for categories
       this.getCategories(); // Fetch all categories
       this.loadBudgets(); // Load budgets data
       this.getAllTransaction(); // Fetch all transactions
+      this.loadCategoryData(); // Load data for categories
     }
     this.getlineData(); // Load data for the line chart
     this.percentageCal(); // Calculate percentages for income, expenses, and balance
@@ -59,7 +59,7 @@ export class UserComponent implements AfterViewInit {
 
   // Fetch all statistical data
   getAllStats(): void {
-    this.statsService.getStats().subscribe({
+    this.statsService.getUserStats(this.user.id).subscribe({
       next: (v) => (this.stats = v),
       error: (e) => console.error('Error fetching stats:', e),
     });
@@ -216,22 +216,29 @@ export class UserComponent implements AfterViewInit {
   // Load data for categories to populate the polar area chart
   loadCategoryData(): void {
     // Fetch income category data
-    this.categoryService.getIncomeCategoryData().subscribe((incomeData) => {
-      const incomeLabels = incomeData.map((item: any) => item.name);
-      const incomeValues = incomeData.map((item: any) => item.incomes.length);
+    this.categoryService.getIncomeCategoryData().subscribe({
+      next: (incomeData) => {
+        const incomeLabels = incomeData.map((item: any) => item.name);
+        const incomeValues = incomeData.map((item: any) => item.incomes.length);
+        console.log('Income Labels:', incomeLabels);
+        console.log('Income Values:', incomeValues);
+        this.polarChartLabels = [...incomeLabels];
+        this.polarChartData[0].data = [...incomeValues];
 
-      this.polarChartLabels = [...incomeLabels];
-      this.polarChartData[0].data = [...incomeValues];
-
-      // Fetch expense category data
-      this.categoryService.getExpenseCategoryData().subscribe((expenseData) => {
-        // const expenseLabels = expenseData.map((item: any) => item.name);
-        const expenseValues = expenseData.map(
-          (item: any) => item.expenses.length
-        );
-        // this.polarChartLabels = [...expenseLabels];
-        this.polarChartData[1].data = [...expenseValues];
-      });
+        // Fetch expense category data
+        this.categoryService
+          .getExpenseCategoryData()
+          .subscribe((expenseData) => {
+            // const expenseLabels = expenseData.map((item: any) => item.name);
+            const expenseValues = expenseData.map(
+              (item: any) => item.expenses.length
+            );
+            console.log('Expense Values:', expenseValues);
+            // this.polarChartLabels = [...expenseLabels];
+            this.polarChartData[1].data = [...expenseValues];
+          });
+      },
+      error: (err) => console.error('Error fetching category data:', err),
     });
   }
 
@@ -245,6 +252,7 @@ export class UserComponent implements AfterViewInit {
     this.categoryService.getAllCategories().subscribe({
       next: (categories) => {
         this.categories = categories;
+        console.log('Categories:', categories);
       },
       error: (err) =>
         this.message.error(`Error Fetching Categories ${err.message}`, {

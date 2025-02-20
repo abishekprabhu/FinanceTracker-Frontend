@@ -3,14 +3,14 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { CategoryDTO } from '../../../../model/Category/category-dto';
-
+import { StorageService } from '../../../../auth/services/storage/storage.service';
 const BASE_URL = 'http://localhost:8080/api/categories';
 @Injectable({
   providedIn: 'root',
 })
 export class CategoryService {
   constructor(private http: HttpClient) {}
-
+  USER = StorageService.getUser();
   createCategory(categoryDTO: any): Observable<any> {
     return this.http
       .post(BASE_URL, categoryDTO)
@@ -24,15 +24,21 @@ export class CategoryService {
   }
 
   getIncomeCategoryData(): Observable<any> {
-    return this.http.get(BASE_URL + `/income`);
+    return this.http
+      .get(BASE_URL + `/income/user/${this.USER.id}`)
+      .pipe(catchError(this.handleError));
   }
 
   getExpenseCategoryData(): Observable<any> {
-    return this.http.get(BASE_URL + `/expense`);
+    return this.http
+      .get(BASE_URL + `/expense/user/${this.USER.id}`)
+      .pipe(catchError(this.handleError));
   }
 
   getAllCategories(): Observable<any> {
-    return this.http.get(BASE_URL + '/all');
+    return this.http
+      .get(BASE_URL + `/all/user/${this.USER.id}`)
+      .pipe(catchError(this.handleError));
   }
 
   DeleteCategory(id: number): Observable<string> {

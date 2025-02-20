@@ -3,6 +3,7 @@ import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { CategoryService } from '../../Service/Category/category.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NzMessageService } from 'ng-zorro-antd/message';
+import { StorageService } from '../../../../auth/services/storage/storage.service';
 
 @Component({
   selector: 'app-category-update',
@@ -10,8 +11,10 @@ import { NzMessageService } from 'ng-zorro-antd/message';
   styleUrl: './category-update.component.css',
 })
 export class CategoryUpdateComponent implements OnInit {
+  user = StorageService.getUser();
   updateForm = this.fb.group({
     name: new FormControl('', [Validators.required]),
+    userId: this.user.id,
   });
 
   id!: number;
@@ -26,6 +29,7 @@ export class CategoryUpdateComponent implements OnInit {
 
   ngOnInit(): void {
     // First set the id from the route
+    this.user;
     this.id = +this.activateRoute.snapshot.paramMap.get('categoryId')!;
     console.log('Extracted ID from URL: ', this.id);
     if (this.id) {
@@ -38,7 +42,10 @@ export class CategoryUpdateComponent implements OnInit {
   getCategoryById() {
     console.log('id' + this.id);
     this.categoryService.getCategoryById(this.id).subscribe({
-      next: (v) => this.updateForm.patchValue(v),
+      next: (v) => {
+        this.updateForm.patchValue(v);
+        console.log(v);
+      },
       error: (err) =>
         this.message.error(`Something Went Wrong ${err.message}`, {
           nzDuration: 5000,
@@ -47,11 +54,13 @@ export class CategoryUpdateComponent implements OnInit {
   }
 
   onSubmit() {
+    console.log('update form :', this.updateForm.value, 'id', this.id);
     this.categoryService
       .updateCategory(this.id, this.updateForm.value)
       .subscribe({
         next: (v) => {
-          this.message.success('Expense Updated Successfull.', {
+          console.log(v);
+          this.message.success('Category Updated Successfull.', {
             nzDuration: 5000,
           });
           this.router.navigateByUrl('/user/category');
