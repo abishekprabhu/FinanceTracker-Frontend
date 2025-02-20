@@ -5,6 +5,7 @@ import { CategoryDTO } from '../../../../model/Category/category-dto';
 import { FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ChartData, ChartOptions, ChartType } from 'chart.js';
+import { StorageService } from '../../../../auth/services/storage/storage.service';
 
 @Component({
   selector: 'app-category',
@@ -13,7 +14,7 @@ import { ChartData, ChartOptions, ChartType } from 'chart.js';
 })
 export class CategoryComponent implements OnInit {
   categories: CategoryDTO[] = [];
-
+  user = StorageService.getUser();
   constructor(
     private categoryService: CategoryService,
     private message: NzMessageService,
@@ -31,6 +32,7 @@ export class CategoryComponent implements OnInit {
         Validators.pattern(/^[a-zA-Z ]*$/),
       ],
     ],
+    userId: this.user.id,
   });
 
   ngOnInit(): void {

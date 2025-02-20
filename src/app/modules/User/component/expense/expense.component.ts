@@ -226,7 +226,7 @@ export class ExpenseComponent {
     textAlign: 'center',
   };
   getAllStats(): void {
-    this.statsService.getStats().subscribe({
+    this.statsService.getUserStats(this.user.id).subscribe({
       next: (v) => {
         this.stats = v;
         console.log(v.expenses);

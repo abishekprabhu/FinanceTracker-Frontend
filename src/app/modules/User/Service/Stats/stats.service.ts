@@ -2,7 +2,8 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, pipe, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
-
+import { StorageService } from '../../../../auth/services/storage/storage.service';
+const USER = StorageService.getUser();
 const BASE_URL = 'http://localhost:8080/';
 
 const apiUrl = 'http://localhost:8080/api/transaction/summary';
@@ -12,15 +13,21 @@ const apiUrl = 'http://localhost:8080/api/transaction/summary';
 export class StatsService {
   constructor(private http: HttpClient) {}
 
-  getStats(): Observable<any> {
+  // getStats(): Observable<any> {
+  //   return this.http
+  //     .get(BASE_URL + 'api/stats')
+  //     .pipe(catchError(this.handleError));
+  // }
+
+  getUserStats(id: number): Observable<any> {
     return this.http
-      .get(BASE_URL + 'api/stats')
+      .get(BASE_URL + `api/stats/user/${id}`)
       .pipe(catchError(this.handleError));
   }
 
   getChartMonthly(): Observable<any> {
     return this.http
-      .get(BASE_URL + 'api/stats/chart/monthly')
+      .get(BASE_URL + `api/stats/chart/monthly/user/${USER.id}`)
       .pipe(catchError(this.handleError));
   }
 
@@ -44,7 +51,7 @@ export class StatsService {
   //bar chart
   getMonthlyData(): Observable<any> {
     return this.http
-      .get(BASE_URL + `api/stats/monthly-data`)
+      .get(BASE_URL + `api/stats/monthly-data/user/${USER.id}`)
       .pipe(catchError(this.handleError));
   }
 

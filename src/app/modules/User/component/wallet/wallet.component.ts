@@ -147,7 +147,7 @@ export class WalletComponent implements OnInit {
 
   stats: any;
   getAllStats(): void {
-    this.statsService.getStats().subscribe({
+    this.statsService.getUserStats(this.user.id).subscribe({
       next: (v) => (this.stats = v),
       error: (e) => console.error('Error fetching stats:', e),
     });
