@@ -22,6 +22,7 @@
     "@angular/router": "^17.2.0",
     "@angular/ssr": "^17.2.0",
     "@stomp/stompjs": "^7.0.0",
+    "canvg": "^4.0.2",
     "chart.js": "^4.4.4",
     "express": "^4.18.2",
     "file-saver": "^2.0.5",
