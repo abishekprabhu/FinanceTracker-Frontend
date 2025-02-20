@@ -8,8 +8,8 @@ import {
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
-const BASE_URL = 'http://localhost:8080/api/transaction';
-const PDF_URL = 'http://localhost:8080/api/pdf';
+const BASE_URL = 'https://dcff881aae7c.onrender.com/api/transaction';
+const PDF_URL = 'https://dcff881aae7c.onrender.com/api/pdf';
 @Injectable({
   providedIn: 'root',
 })

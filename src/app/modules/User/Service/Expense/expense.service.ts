@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable, catchError, throwError } from 'rxjs';
 import { ExpenseDTO } from '../../../../model/Expense/expense-dto';
 
-const BASE_URL = 'http://localhost:8080/api/expense';
+const BASE_URL = 'https://dcff881aae7c.onrender.com/api/expense';
 
 @Injectable({
   providedIn: 'root',

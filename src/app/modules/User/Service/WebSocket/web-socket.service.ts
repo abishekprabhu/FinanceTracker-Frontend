@@ -16,7 +16,9 @@ export class WebSocketService {
   }
 
   private connect(): void {
-    const socket = new SockJS('http://localhost:8080/ws-notifications'); // Update with your backend URL
+    const socket = new SockJS(
+      'https://dcff881aae7c.onrender.com/ws-notifications'
+    ); // Update with your backend URL
     this.stompClient = new Client({
       webSocketFactory: () => socket,
       reconnectDelay: 5000,

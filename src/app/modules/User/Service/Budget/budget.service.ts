@@ -4,7 +4,7 @@ import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { BudgetDTO } from '../../../../model/Budget/budget-dto';
 
-const BASE_URL = 'http://localhost:8080/api/budgets';
+const BASE_URL = 'https://dcff881aae7c.onrender.com/api/budgets';
 
 @Injectable({
   providedIn: 'root',

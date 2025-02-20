@@ -13,7 +13,7 @@ import { BillService } from '../Bill/bill.service';
   providedIn: 'root',
 })
 export class WalletService {
-  private baseUrl = 'http://localhost:8080/api/wallet';
+  private baseUrl = 'https://dcff881aae7c.onrender.com/api/wallet';
 
   user = StorageService.getUser();
 

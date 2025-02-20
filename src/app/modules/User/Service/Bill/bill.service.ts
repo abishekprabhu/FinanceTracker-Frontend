@@ -8,7 +8,7 @@ import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { BillDTO } from '../../../../model/Bill/bill-dto';
 
-const BASE_URL = 'http://localhost:8080/api/bills';
+const BASE_URL = 'https://dcff881aae7c.onrender.com/api/bills';
 @Injectable({
   providedIn: 'root',
 })

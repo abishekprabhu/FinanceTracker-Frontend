@@ -58,6 +58,8 @@ export class WalletComponent implements OnInit {
     });
   }
 
+  checkWalletCategoryIDisPresentElseCreateIt(): void {}
+
   getCategories(): void {
     this.categoryService.getAllCategories().subscribe({
       next: (categories) => {

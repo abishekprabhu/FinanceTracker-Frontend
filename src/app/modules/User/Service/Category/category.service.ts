@@ -4,7 +4,7 @@ import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { CategoryDTO } from '../../../../model/Category/category-dto';
 import { StorageService } from '../../../../auth/services/storage/storage.service';
-const BASE_URL = 'http://localhost:8080/api/categories';
+const BASE_URL = 'https://dcff881aae7c.onrender.com/api/categories';
 @Injectable({
   providedIn: 'root',
 })

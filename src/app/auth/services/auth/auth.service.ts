@@ -4,7 +4,7 @@ import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { UserDTO } from '../../../model/User-Model/user-dto';
 
-const BASE_URL = 'http://localhost:8080/api/user';
+const BASE_URL = 'https://dcff881aae7c.onrender.com/api/user';
 @Injectable({
   providedIn: 'root',
 })

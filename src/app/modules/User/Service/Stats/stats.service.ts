@@ -4,9 +4,9 @@ import { Observable, pipe, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { StorageService } from '../../../../auth/services/storage/storage.service';
 const USER = StorageService.getUser();
-const BASE_URL = 'http://localhost:8080/';
+const BASE_URL = 'https://dcff881aae7c.onrender.com/';
 
-const apiUrl = 'http://localhost:8080/api/transaction/summary';
+const apiUrl = 'https://dcff881aae7c.onrender.com/api/transaction/summary';
 @Injectable({
   providedIn: 'root',
 })
