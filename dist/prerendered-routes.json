@@ -1,0 +1,20 @@
+{
+  "routes": [
+    "/",
+    "/home",
+    "/login",
+    "/signup",
+    "/unauthorized",
+    "/user",
+    "/user/bills",
+    "/user/budget",
+    "/user/category",
+    "/user/dashboard",
+    "/user/expense",
+    "/user/income",
+    "/user/settings",
+    "/user/stats",
+    "/user/transaction",
+    "/user/wallet"
+  ]
+}
