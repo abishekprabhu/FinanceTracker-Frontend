@@ -23,6 +23,16 @@
         "build": {
           "builder": "@angular-devkit/build-angular:application",
           "options": {
+            "allowedCommonJsDependencies": [
+              "core-js",
+              "canvg",
+              "jspdf",
+              "file-saver",
+              "sockjs-client",
+              "rgbcolor",
+              "raf",
+              "@babel/runtime"
+            ],
             "outputPath": "dist/",
             "index": "src/index.html",
             "browser": "src/main.ts",
@@ -84,6 +94,19 @@
           },
           "defaultConfiguration": "development"
         },
+        "server": {
+          "builder": "@angular-devkit/build-angular:server",
+          "options": {
+            "outputPath": "dist/server",
+            "main": "src/main.server.ts",
+            "tsConfig": "tsconfig.server.json"
+          },
+          "configurations": {
+            "production": {
+              "outputHashing": "all"
+            }
+          }
+        },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
@@ -101,6 +124,13 @@
               "src/styles.css"
             ],
             "scripts": []
+          }
+        },
+        "prerender": {
+          "builder": "@angular-devkit/build-angular:prerender",
+          "options": {
+            "browserTarget": "FinanceTracker-Frontend:build:production",
+            "serverTarget": "FinanceTracker-Frontend:server:production"
           }
         }
       }
